@@ -1,4 +1,4 @@
-(logos\wickedflame injectionmap - black.png)
+![wickedflame injectionmap](assets/wickedflame injectionmap - black.png)
 InjectionMap
 --------------------------------
 This is the repository for InjectionMap. 
