@@ -43,12 +43,15 @@
     <Compile Include="Composition\CompositionContainer.cs" />
     <Compile Include="Composition\ConstructorInformation.cs" />
     <Compile Include="Enums\InjectionFlags.cs" />
+    <Compile Include="IBindingExpression.cs" />
     <Compile Include="IComponentContainer.cs" />
     <Compile Include="IInjectionExpression.cs" />
     <Compile Include="IInjectionMapping.cs" />
     <Compile Include="IMappingContainer.cs" />
     <Compile Include="IMappingComponent.cs" />
     <Compile Include="IMappingOption.cs" />
+    <Compile Include="Mapping\BindableComponent.cs" />
+    <Compile Include="Mapping\BindingExpression.cs" />
     <Compile Include="Mapping\InjectionExpression.cs" />
     <Compile Include="InjectionMapper.cs" />
     <Compile Include="InjectionResolver.cs" />

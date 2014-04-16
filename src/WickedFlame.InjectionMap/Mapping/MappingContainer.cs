@@ -63,8 +63,8 @@ namespace WickedFlame.InjectionMap.Mapping
 
             var expression = MappingContainer.MapInternal<TSvc>(this);
 
-            if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
-                expression = expression.For(CompositionService.Compose(expression.Component));
+            //if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
+            //    expression = expression.For(CompositionService.Compose(expression.Component));
 
             return expression;
         }
@@ -90,10 +90,11 @@ namespace WickedFlame.InjectionMap.Mapping
             if (!typeof(TSvc).IsInterface)
                 throw new NotSupportedException("Key Type has to be an interface");
 
-            var expression = MappingContainer.MapInternal<TSvc>(this).For<TImpl>();
+            var expression = MappingContainer.MapInternal<TSvc>(this);
+            expression.For<TImpl>();
 
-            if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
-                expression = expression.For(CompositionService.Compose(expression.Component));
+            //if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
+            //    expression = expression.For(CompositionService.Compose(expression.Component));
 
             return expression;
         }
@@ -127,7 +128,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
             container.AddOrReplace(component);
 
-            return new InjectionExpression(container, component);
+            return new InjectionExpression<T>(container, component);
         }
 
         #endregion

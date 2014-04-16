@@ -33,7 +33,13 @@ namespace WickedFlame.InjectionMap.Mapping
             }
         }
 
-        public Type ValueType { get; internal set; }
+        public Type ValueType
+        {
+            get
+            {
+                return typeof(T);
+            }
+        }
 
         public IMappingOption MappingOption { get; internal set; }
     }

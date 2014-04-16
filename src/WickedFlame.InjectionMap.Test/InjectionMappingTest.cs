@@ -57,8 +57,8 @@ namespace WickedFlame.InjectionMap.Test
             InjectionResolver.Clean<ICustomMock>();
 
             //InjectionMapper.Map<ITestMock1, TestMock1>(m => m.For(new TestMock1(), o => o.WithOptions(InjectionOption.WithoutOverwrite)));
-            InjectionMapper.Map<ICustomMock, CustomMock>().For(new CustomMock(), o => o.WithOptions(InjectionFlags.WithOverwrite));
-            InjectionMapper.Map<ICustomMock, CustomMock>().For(new CustomMock(), o => o.WithOptions(InjectionFlags.WithOverwrite));
+            InjectionMapper.Map<ICustomMock>().For(() => new CustomMock());
+            InjectionMapper.Map<ICustomMock>().For(() => new CustomMock()).WithOptions(InjectionFlags.WithOverwrite);
 
             // resolve
             var map1 = InjectionResolver.ResolveMultiple<ICustomMock>();
@@ -87,7 +87,7 @@ namespace WickedFlame.InjectionMap.Test
             InjectionResolver.Clean<ICustomMock>();
 
             //InjectionMapper.Map<ITestMock1>().For(() => new TestMock1(), o => o.WithOptions(InjectionOption.WithOverwrite).WithOptions(InjectionOption.ResolveInstanceOnMapping));
-            InjectionMapper.Map<ICustomMock>().For(() => new CustomMock(), o => o.WithOptions(InjectionFlags.WithOverwrite | InjectionFlags.ResolveInstanceOnMapping));
+            InjectionMapper.Map<ICustomMock>().For(() => new CustomMock()).WithOptions(InjectionFlags.WithOverwrite | InjectionFlags.ResolveInstanceOnMapping);
 
             // resolve
             var map1 = InjectionResolver.ResolveMultiple<ICustomMock>();
