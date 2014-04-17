@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WickedFlame.InjectionMap
 {
@@ -13,6 +14,8 @@ namespace WickedFlame.InjectionMap
         object Value { get; set; }
 
         IMappingOption MappingOption { get; }
+
+        IList<IArgument> Arguments { get; }
 
         //IMappingComponent For<T>() where T : new();
 

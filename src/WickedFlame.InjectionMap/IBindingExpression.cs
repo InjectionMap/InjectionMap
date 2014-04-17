@@ -13,8 +13,8 @@ namespace WickedFlame.InjectionMap
 
         IBindingExpression<T> WithArgument(string name, object value);
 
-        IBindingExpression<T> WithArgument(string name, Expression<Func<object>> argument);
+        IBindingExpression<T> WithArgument(string name, Expression<Func<object>> callback);
 
-        IOptionExpression WithOptions(InjectionFlags option);
+        IBoundExpression WithOptions(InjectionFlags option);
     }
 }

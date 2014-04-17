@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
@@ -15,17 +11,29 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IBindingExpression<T> WithArgument(object value)
         {
-            throw new NotImplementedException();
+            return AddArgument(null, value, null);
         }
 
         public IBindingExpression<T> WithArgument(string name, object value)
         {
-            throw new NotImplementedException();
+            return AddArgument(name, value, null);
         }
 
         public IBindingExpression<T> WithArgument(string name, System.Linq.Expressions.Expression<Func<object>> argument)
         {
-            throw new NotImplementedException();
+            return AddArgument(name, null, argument);
+        }
+
+        private IBindingExpression<T> AddArgument(string name, object value, System.Linq.Expressions.Expression<Func<object>> callback)
+        {
+            Component.Arguments.Add(new ConstructorArgument
+            {
+                Name = name,
+                Value = value,
+                Callback = callback
+            });
+
+            return new BindingExpression<T>(ComponentContainer, Component);
         }
 
         //public IOptionExpression WithOption(InjectionFlags options)
@@ -40,7 +48,7 @@ namespace WickedFlame.InjectionMap.Mapping
         //        expression = expression.For(CompositionService.Compose(expression.Component));
         //}
 
-        public IOptionExpression WithOptions(InjectionFlags option)
+        public IBoundExpression WithOptions(InjectionFlags option)
         {
             var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
             var keepInstance = (option & InjectionFlags.KeepInstance) == InjectionFlags.KeepInstance;
@@ -56,7 +64,7 @@ namespace WickedFlame.InjectionMap.Mapping
                 ComponentContainer.ReplaceAll(Component);
             }
 
-            return new OptionExpression(ComponentContainer, Component)
+            return new BoundExpression(ComponentContainer, Component)
             {
                 MappingOption = new MappingOption
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
@@ -42,5 +43,16 @@ namespace WickedFlame.InjectionMap.Mapping
         }
 
         public IMappingOption MappingOption { get; internal set; }
+
+        IList<IArgument> _arguments;
+        public IList<IArgument> Arguments
+        {
+            get
+            {
+                if (_arguments == null)
+                    _arguments = new List<IArgument>();
+                return _arguments;
+            }
+        }
     }
 }

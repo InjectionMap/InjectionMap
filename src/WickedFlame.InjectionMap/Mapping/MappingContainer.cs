@@ -56,7 +56,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
         #region IMappingContainer Implementation
 
-        public IInjectionExpression Map<TSvc>()
+        public IMappingExpression Map<TSvc>()
         {
             if (!typeof(TSvc).IsInterface)
                 throw new NotSupportedException("Key Type has to be an interface");
@@ -85,7 +85,7 @@ namespace WickedFlame.InjectionMap.Mapping
         //    return expression;
         //}
 
-        public IInjectionExpression Map<TSvc, TImpl>() where TImpl : TSvc, new()
+        public IMappingExpression Map<TSvc, TImpl>() where TImpl : TSvc, new()
         {
             if (!typeof(TSvc).IsInterface)
                 throw new NotSupportedException("Key Type has to be an interface");
@@ -119,7 +119,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
         #region Internal Implementation
 
-        internal static IInjectionExpression MapInternal<T>(IComponentContainer container)
+        internal static IMappingExpression MapInternal<T>(IComponentContainer container)
         {
             var component = new MappingComponent<T>
             {
@@ -128,7 +128,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
             container.AddOrReplace(component);
 
-            return new InjectionExpression<T>(container, component);
+            return new MappingExpression<T>(container, component);
         }
 
         #endregion

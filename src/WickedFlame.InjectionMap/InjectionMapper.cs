@@ -24,7 +24,7 @@ namespace WickedFlame.InjectionMap
         }
 
 
-        public static IInjectionExpression Map<TSvc>()
+        public static IMappingExpression Map<TSvc>()
         {
             return MappingManager.MappingContainer.Map<TSvc>();
         }
@@ -34,7 +34,7 @@ namespace WickedFlame.InjectionMap
         //    return MappingManager.MappingContainer.Map<TSvc>(action);
         //}
 
-        public static IInjectionExpression Map<TSvc, TImpl>() where TImpl : TSvc, new()
+        public static IMappingExpression Map<TSvc, TImpl>() where TImpl : TSvc, new()
         {
             return MappingManager.MappingContainer.Map<TSvc, TImpl>();
         }

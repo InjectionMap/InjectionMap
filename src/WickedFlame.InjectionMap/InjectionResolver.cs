@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WickedFlame.InjectionMap.Composition;
 using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap
