@@ -39,7 +39,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public void ReplaceAll(IMappingComponent component)
         {
-            var lst = Components.Where(c => c.Key == component.Key).ToList();
+            var lst = Components.Where(c => c.KeyType == component.KeyType).ToList();
             foreach (var comp in lst)
                 Components.Remove(comp);
 
@@ -63,57 +63,18 @@ namespace WickedFlame.InjectionMap.Mapping
 
             var expression = MappingContainer.MapInternal<TSvc>(this);
 
-            //if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
-            //    expression = expression.For(CompositionService.Compose(expression.Component));
-
             return expression;
         }
 
-        //public IInjectionExpression Map<TSvc>(Expression<Func<IInjectionExpression, IInjectionExpression>> action)
-        //{
-        //    if (!typeof(TSvc).IsInterface)
-        //        throw new NotSupportedException("Key Type has to be an interface");
-
-        //    var expression = MappingContainer.MapInternal<TSvc>(this);
-
-        //    if (action != null)
-        //        expression = action.Compile().Invoke(expression);
-
-        //    if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
-        //        expression = expression.For(Resolver.Resolve(expression.Component));
-
-        //    return expression;
-        //}
-
-        public IMappingExpression Map<TSvc, TImpl>() where TImpl : TSvc, new()
+        public IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc//, new()
         {
             if (!typeof(TSvc).IsInterface)
                 throw new NotSupportedException("Key Type has to be an interface");
 
             var expression = MappingContainer.MapInternal<TSvc>(this);
-            expression.For<TImpl>();
 
-            //if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
-            //    expression = expression.For(CompositionService.Compose(expression.Component));
-
-            return expression;
+            return expression.For<TImpl>();
         }
-
-        //public IInjectionExpression Map<TSvc, TImpl>(Expression<Func<IInjectionExpression, IInjectionExpression>> action) where TImpl : TSvc, new()
-        //{
-        //    if (!typeof(TSvc).IsInterface)
-        //        throw new NotSupportedException("Key Type has to be an interface");
-
-        //    var expression = MappingContainer.MapInternal<TSvc>(this).For<TImpl>();
-
-        //    if (action != null)
-        //        expression = action.Compile().Invoke(expression);
-
-        //    if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
-        //        expression = expression.For(Resolver.Resolve(expression.Component));
-
-        //    return expression;
-        //}
 
         #endregion
 
@@ -123,7 +84,7 @@ namespace WickedFlame.InjectionMap.Mapping
         {
             var component = new MappingComponent<T>
             {
-                Key = typeof(T)
+                KeyType = typeof(T)
             };
 
             container.AddOrReplace(component);

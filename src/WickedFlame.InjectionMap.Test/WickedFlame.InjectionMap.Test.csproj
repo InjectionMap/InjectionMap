@@ -69,11 +69,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ConstructorWithParametersTest.cs" />
+    <Compile Include="ConstructorWithArgumentsTest.cs" />
     <Compile Include="CustomMappingContainerTest.cs" />
     <Compile Include="CustomMappingContextTest.cs" />
     <Compile Include="InjectionConstructorTest.cs" />
     <Compile Include="InjectionMappingTest.cs" />
+    <Compile Include="Mock\ConstructorArgumentMock.cs" />
     <Compile Include="Mock\ConstructorInjectionMock.cs" />
     <Compile Include="Mock\CustomMock.cs" />
     <Compile Include="Mock\InjectionMapperMock.cs" />

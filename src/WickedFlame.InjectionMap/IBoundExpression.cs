@@ -3,7 +3,7 @@ namespace WickedFlame.InjectionMap
 {
     public interface IBoundExpression
     {
-        IComponentContainer ComponentContainer { get; }
+        IComponentContainer Container { get; }
 
         IMappingComponent Component { get; }
 

@@ -40,10 +40,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
+    <Compile Include="Composition\ArgumentFactory.cs" />
     <Compile Include="Composition\CompositionContainer.cs" />
-    <Compile Include="Composition\ConstructorInformation.cs" />
+    <Compile Include="Composition\ComposedArgument.cs" />
+    <Compile Include="Composition\ArgumentContainer.cs" />
     <Compile Include="Enums\InjectionFlags.cs" />
+    <Compile Include="Exceptions\InjectionArgumentNotDefinedException.cs" />
     <Compile Include="IArgument.cs" />
+    <Compile Include="IBindingArgument.cs" />
     <Compile Include="IBindingExpression.cs" />
     <Compile Include="IComponentContainer.cs" />
     <Compile Include="IMappingExpression.cs" />
@@ -53,7 +57,7 @@
     <Compile Include="IMappingOption.cs" />
     <Compile Include="Mapping\BindableComponent.cs" />
     <Compile Include="Mapping\BindingExpression.cs" />
-    <Compile Include="Mapping\ConstructorArgument.cs" />
+    <Compile Include="Mapping\BindingArgument.cs" />
     <Compile Include="Mapping\MappingExpression.cs" />
     <Compile Include="InjectionMapper.cs" />
     <Compile Include="InjectionResolver.cs" />

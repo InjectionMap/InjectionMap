@@ -5,16 +5,16 @@ namespace WickedFlame.InjectionMap.Mapping
     {
         public BindableComponent(IComponentContainer container, IMappingComponent component)
         {
-            _componentContainer = container;
+            _container = container;
             _component = component;
         }
 
-        readonly IComponentContainer _componentContainer;
-        public IComponentContainer ComponentContainer
+        readonly IComponentContainer _container;
+        public IComponentContainer Container
         {
             get
             {
-                return _componentContainer;
+                return _container;
             }
         }
 

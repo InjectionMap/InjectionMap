@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
@@ -9,44 +10,30 @@ namespace WickedFlame.InjectionMap.Mapping
         {
         }
 
-        public IBindingExpression<T> WithArgument(object value)
+        public IBindingExpression<T> WithArgument<TArg>(TArg value)
         {
-            return AddArgument(null, value, null);
+            return AddArgument<TArg>(null, value, null);
         }
 
-        public IBindingExpression<T> WithArgument(string name, object value)
+        public IBindingExpression<T> WithArgument<TArg>(string name, TArg value)
         {
-            return AddArgument(name, value, null);
+            return AddArgument<TArg>(name, value, null);
         }
 
-        public IBindingExpression<T> WithArgument(string name, System.Linq.Expressions.Expression<Func<object>> argument)
+        public IBindingExpression<T> WithArgument<TArg>(Expression<Func<TArg>> argument)
         {
-            return AddArgument(name, null, argument);
+            return AddArgument<TArg>(null, default(TArg), argument);
         }
 
-        private IBindingExpression<T> AddArgument(string name, object value, System.Linq.Expressions.Expression<Func<object>> callback)
+        public IBindingExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> argument)
         {
-            Component.Arguments.Add(new ConstructorArgument
-            {
-                Name = name,
-                Value = value,
-                Callback = callback
-            });
-
-            return new BindingExpression<T>(ComponentContainer, Component);
+            return AddArgument<TArg>(name, default(TArg), argument);
         }
 
-        //public IOptionExpression WithOption(InjectionFlags options)
-        //{
-        //    if (options != null)
-        //    {
-        //        var expr = options.Compile().Invoke(CompileOptionExpression(component));
-        //        component.MappingOption = expr != null && expr.MappingOption != null ? expr.MappingOption : new MappingOption();
-        //    }
-
-        //    if (expression.Component.MappingOption != null && expression.Component.MappingOption.ResolveInstanceOnMapping)
-        //        expression = expression.For(CompositionService.Compose(expression.Component));
-        //}
+        public IBindingExpression<T> As<T>(Expression<Func<T>> callback)
+        {
+            return new MappingExpression<T>(Container, Component).For<T>(callback);
+        }
 
         public IBoundExpression WithOptions(InjectionFlags option)
         {
@@ -58,13 +45,13 @@ namespace WickedFlame.InjectionMap.Mapping
                 keepInstance = true;
 
             // remove previous instances...
-            ComponentContainer.AddOrReplace(Component);
+            Container.AddOrReplace(Component);
             if (withOverwrite)
             {
-                ComponentContainer.ReplaceAll(Component);
+                Container.ReplaceAll(Component);
             }
 
-            return new BoundExpression(ComponentContainer, Component)
+            return new BoundExpression(Container, Component)
             {
                 MappingOption = new MappingOption
                 {
@@ -74,5 +61,21 @@ namespace WickedFlame.InjectionMap.Mapping
                 }
             };
         }
+
+        #region Private Implementation
+
+        private IBindingExpression<T> AddArgument<TArg>(string name, TArg value, Expression<Func<TArg>> callback)
+        {
+            Component.Arguments.Add(new BindingArgument<TArg>
+            {
+                Name = name,
+                Value = value,
+                Callback = callback
+            });
+
+            return new BindingExpression<T>(Container, Component);
+        }
+
+        #endregion
     }
 }

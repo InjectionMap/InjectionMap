@@ -7,7 +7,7 @@ namespace WickedFlame.InjectionMap
     {
         Guid ID { get; }
 
-        Type Key { get; }
+        Type KeyType { get; }
 
         Type ValueType { get; }
 
@@ -15,31 +15,19 @@ namespace WickedFlame.InjectionMap
 
         IMappingOption MappingOption { get; }
 
-        IList<IArgument> Arguments { get; }
-
-        //IMappingComponent For<T>() where T : new();
-
-        //IMappingComponent For<T>(T value);
-
-        //IMappingComponent Options(InjectionOption option);
+        IList<IBindingArgument> Arguments { get; }
     }
 
     //public interface IMappingComponent<T>
     //{
     //    Guid ID { get; }
 
-    //    Type Key { get; }
+    //    Type KeyType { get; }
 
     //    Type ValueType { get; }
 
     //    T Value { get; set; }
 
     //    IMappingOption MappingOption { get; }
-
-    //    //IMappingComponent For<T>() where T : new();
-
-    //    //IMappingComponent For<T>(T value);
-
-    //    //IMappingComponent Options(InjectionOption option);
     //}
 }

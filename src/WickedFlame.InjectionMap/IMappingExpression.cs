@@ -5,17 +5,17 @@ namespace WickedFlame.InjectionMap
 {
     public interface IMappingExpression
     {
-        IComponentContainer ComponentContainer { get; }
+        IComponentContainer Container { get; }
 
         IMappingComponent Component { get; }
 
-        IBindingExpression<T> For<T>() where T : new();
+        IBindingExpression<T> For<T>();// where T : new();
 
         //IInjectionExpression For<T>(Expression<Func<IOptionExpression, IOptionExpression>> options) where T : new();
 
         IBindingExpression<T> For<T>(T value);
 
-        IBindingExpression<T> For<T>(Expression<Func<T>> valueCallback);
+        IBindingExpression<T> For<T>(Expression<Func<T>> callback);
 
         //IInjectionExpression For<T>(T value, Expression<Func<IOptionExpression, IOptionExpression>> options);
 

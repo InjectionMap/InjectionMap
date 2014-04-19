@@ -4,44 +4,50 @@ namespace WickedFlame.InjectionMap.Composition
 {
     static class CompositionService
     {
-        internal static T Compose<T>()
+        //internal static T Compose<T>()
+        //{
+        //    using (var composition = new CompositionContainer())
+        //    {
+        //        return composition.ComposePart<T>();
+        //    }
+        //}
+
+        internal static T Compose<T>(IMappingComponent component)
         {
+            if (component.Value != null)
+                return (T)component.Value;
+
             using (var composition = new CompositionContainer())
             {
-                return composition.ComposePart<T>();
+                var value = composition.ComposePart<T>(component);
+                if (component.MappingOption.KeepInstance)
+                    component.Value = value;
+
+                return value;
             }
         }
 
-        internal static T Compose<T>(IMappingComponent c)
+        //internal static object Compose(Type type)
+        //{
+        //    using (var composition = new CompositionContainer())
+        //    {
+        //        return composition.ComposePart(type);
+        //    }
+        //}
+
+        internal static object Compose(IMappingComponent component)
         {
-            if (c.Value != null)
-                return (T)c.Value;
+            if (component.Value != null)
+                return component.Value;
 
-            var value = Compose<T>();
-            if (c.MappingOption.KeepInstance)
-                c.Value = value;
-
-            return (T)value;
-        }
-
-        internal static object Compose(Type type)
-        {
             using (var composition = new CompositionContainer())
             {
-                return composition.ComposePart(type);
+                var value = composition.ComposePart(component);
+                if (component.MappingOption.KeepInstance)
+                    component.Value = value;
+
+                return value;
             }
-        }
-
-        internal static object Compose(IMappingComponent c)
-        {
-            if (c.Value != null)
-                return c.Value;
-
-            var value = Compose(c.ValueType);
-            if (c.MappingOption.KeepInstance)
-                c.Value = value;
-
-            return value;
         }
     }
 }

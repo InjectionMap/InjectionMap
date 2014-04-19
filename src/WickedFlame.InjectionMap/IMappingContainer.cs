@@ -7,10 +7,6 @@ namespace WickedFlame.InjectionMap
     {
         IMappingExpression Map<TSvc>();
 
-        //IInjectionExpression Map<TSvc>(Expression<Func<IInjectionExpression, IInjectionExpression>> action);
-
-        IMappingExpression Map<TSvc, TImpl>() where TImpl : TSvc, new();
-
-        //IInjectionExpression Map<TSvc, TImpl>(Expression<Func<IInjectionExpression, IInjectionExpression>> action) where TImpl : TSvc, new();
+        IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc;//, new();
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-
+﻿
 namespace WickedFlame.InjectionMap
 {
     public interface IArgument
@@ -8,7 +6,5 @@ namespace WickedFlame.InjectionMap
         string Name { get; }
 
         object Value { get; }
-
-        Expression<Func<object>> Callback { get; }
     }
 }

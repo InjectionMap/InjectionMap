@@ -18,7 +18,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public Guid ID { get; private set; }
 
-        public Type Key { get; internal set; }
+        public Type KeyType { get; internal set; }
 
         public T Value { get; set; }
 
@@ -44,13 +44,13 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IMappingOption MappingOption { get; internal set; }
 
-        IList<IArgument> _arguments;
-        public IList<IArgument> Arguments
+        IList<IBindingArgument> _arguments;
+        public IList<IBindingArgument> Arguments
         {
             get
             {
                 if (_arguments == null)
-                    _arguments = new List<IArgument>();
+                    _arguments = new List<IBindingArgument>();
                 return _arguments;
             }
         }

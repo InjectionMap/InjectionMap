@@ -28,7 +28,7 @@ namespace WickedFlame.InjectionMap.Test
             InjectionResolver.Clean<ICustomMock>();
 
             //InjectionMapper.Map<ITestMock1, TestMock1>(m => m.For(new TestMock1()));
-            InjectionMapper.Map<ICustomMock, CustomMock>().For(new CustomMock());
+            InjectionMapper.Map<ICustomMock, CustomMock>().As(() => new CustomMock());
             var map1 = InjectionResolver.Resolve<ICustomMock>();
 
             Assert.AreEqual(map1.ID, 1);
@@ -41,8 +41,8 @@ namespace WickedFlame.InjectionMap.Test
             InjectionResolver.Clean<ICustomMock>();
 
             //InjectionMapper.Map<ITestMock1, TestMock1>(m => m.For(new TestMock1(), o => o.WithOptions(InjectionOption.WithoutOverwrite)));
-            InjectionMapper.Map<ICustomMock, CustomMock>().For(new CustomMock());
-            InjectionMapper.Map<ICustomMock, CustomMock>().For(new CustomMock());
+            InjectionMapper.Map<ICustomMock, CustomMock>().As(() => new CustomMock());
+            InjectionMapper.Map<ICustomMock, CustomMock>().As(() => new CustomMock());
 
             // resolve
             var map1 = InjectionResolver.ResolveMultiple<ICustomMock>();

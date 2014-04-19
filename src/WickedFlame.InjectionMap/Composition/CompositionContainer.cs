@@ -2,74 +2,89 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap.Composition
 {
     internal class CompositionContainer : IDisposable
     {
-        public T ComposePart<T>()
+        public T ComposePart<T>(IMappingComponent component)
         {
             // 1. Search for InjectionConstructor
             // 2. Create Instances of all parameters in constructor
             // 3. pass objects to constructor
             // 4. if no InjectionConstructor use default constructor
 
-            return (T)ComposePart(typeof(T));
+            return (T)ComposePart(component);
         }
 
-        public T ComposePart<T>(params object[] parameters)
+        //public T ComposePart<T>(params object[] parameters)
+        //{
+        //    // 1. Search for InjectionConstructor
+        //    // 2. Create Instances of all parameters in constructor
+        //    // 3. pass objects to constructor
+        //    // 4. if no InjectionConstructor use default constructor
+
+        //    return (T)ComposePart(typeof(T), parameters);
+        //}
+
+        public object ComposePart(IMappingComponent component)
         {
-            // 1. Search for InjectionConstructor
-            // 2. Create Instances of all parameters in constructor
-            // 3. pass objects to constructor
-            // 4. if no InjectionConstructor use default constructor
-
-            return (T)ComposePart(typeof(T), parameters);
-        }
-
-        public object ComposePart(Type type)
-        {
-            var ctors = type.GetConstructors().Where(c => c.GetCustomAttributes(typeof(InjectionConstructorAttribute), false).Any());
-
             // check if there is a constructor marked as InjectionConstructor
-            var ctor = GetComposeableConstructor(ctors);
+            var ctor = GetComposeableConstructor(component);
             if (ctor != null)
             {
-                return ctor.ConstructorInfo.Invoke(ctor.Parameters.ToArray());
+                return ctor.ConstructorInfo.Invoke(ctor.Parameters.Select(p => p.Value).ToArray());
             }
 
             // default constructor
-            return Activator.CreateInstance(type);
+            return Activator.CreateInstance(component.ValueType);
         }
 
-        public object ComposePart(Type type, params object[] parameters)
+        public object ComposePart(IMappingComponent component, params object[] parameters)
         {
-            return Activator.CreateInstance(type, parameters);
+            return Activator.CreateInstance(component.ValueType, parameters);
         }
 
-        private ConstructorInformation GetComposeableConstructor(IEnumerable<ConstructorInfo> ctors)
+        private ArgumentContainer GetComposeableConstructor(IMappingComponent component)
         {
+            var ctors = component.ValueType.GetConstructors().Where(c => c.GetCustomAttributes(typeof(InjectionConstructorAttribute), false).Any());
+
+            if (ctors == null || !ctors.Any())
+            {
+                // if no InjectionConstructor, test if any arguments
+                ctors = component.ValueType.GetConstructors().Where(c => c.GetParameters().Count() == component.Arguments.Count);
+            }
+
             if (ctors == null || !ctors.Any())
                 return null;
 
-            var resolved = new List<ConstructorInformation>();
+            var resolved = new List<ArgumentContainer>();
             foreach (var ctor in ctors)
             {
                 bool ok = true;
-                var info = new ConstructorInformation(ctor);
+                var info = new ArgumentContainer(ctor);
 
                 foreach (var param in ctor.GetParameters())
                 {
-                    var composed = InjectionResolver.Resolve(param.ParameterType);
-                    //var composed = Compose(param.ParameterType);
-                    if (composed != null)
+                    using (var factory = new ArgumentFactory(param))
                     {
-                        info.Parameters.Add(composed);
-                    }
-                    else
-                    {
-                        ok = false;
-                        break;
+                        var composed = factory.CreateArgument(component, info);
+
+                        //var composed = InjectionResolver.Resolve(param.ParameterType);
+                        //var composed = Compose(param.ParameterType);
+                        if (composed != null)
+                        {
+                            //info.Parameters.Add(composed);
+                            if (!info.PushArgument(composed))
+                                throw new InjectionArgumentNotDefinedException(param.ParameterType, component.KeyType);
+
+                        }
+                        else
+                        {
+                            ok = false;
+                            break;
+                        }
                     }
                 }
 
