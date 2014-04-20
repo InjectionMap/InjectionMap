@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
@@ -20,17 +21,20 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public Type KeyType { get; internal set; }
 
-        public T Value { get; set; }
+        public Expression<Func<T>> ValueCallback { get; set; }
 
-        object IMappingComponent.Value
+        Expression<Func<object>> IMappingComponent.ValueCallback
         {
             get
             {
-                return Value;
+                if (ValueCallback == null)
+                    return null;
+
+                return () => ValueCallback.Compile().Invoke();
             }
             set
             {
-                Value = (T)value;
+                ValueCallback = () => (T)value.Compile().Invoke();
             }
         }
 

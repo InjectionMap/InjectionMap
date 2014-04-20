@@ -65,11 +65,11 @@ namespace WickedFlame.InjectionMap.Composition
                 bool ok = true;
                 var info = new ArgumentContainer(ctor);
 
-                foreach (var param in ctor.GetParameters())
+                using (var factory = new ArgumentFactory(component, info))
                 {
-                    using (var factory = new ArgumentFactory(param))
+                    foreach (var param in ctor.GetParameters())
                     {
-                        var composed = factory.CreateArgument(component, info);
+                        var composed = factory.CreateArgument(param);
 
                         //var composed = InjectionResolver.Resolve(param.ParameterType);
                         //var composed = Compose(param.ParameterType);

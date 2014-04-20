@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace WickedFlame.InjectionMap
 {
@@ -11,7 +12,8 @@ namespace WickedFlame.InjectionMap
 
         Type ValueType { get; }
 
-        object Value { get; set; }
+        //object Value { get; set; }
+        Expression<Func<object>> ValueCallback { get; set; }
 
         IMappingOption MappingOption { get; }
 

@@ -1,46 +1,38 @@
 ﻿using System;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap.Composition
 {
     internal class ArgumentFactory : IDisposable
     {
-        ParameterInfo _parameterInfo;
+        ArgumentContainer _argumentContainer;
+        IMappingComponent _component;
 
-        public ArgumentFactory(ParameterInfo param)
+        public ArgumentFactory(IMappingComponent component, ArgumentContainer ctx)
         {
-            _parameterInfo = param;
+            _argumentContainer = ctx;
+            _component = component;
         }
 
         public void Dispose()
         {
-            _parameterInfo = null;
+            _argumentContainer = null;
+            _component = null;
         }
 
-        public IArgument CreateArgument()
-        {
-            var composed = MappingManager.Get(_parameterInfo.ParameterType);
-
-            return new ComposedArgument
-            {
-                Name = _parameterInfo.Name,
-                Value = composed
-            };
-        }
-
-        public IArgument CreateArgument(IMappingComponent component, ArgumentContainer ctx)
+        public IArgument CreateArgument(ParameterInfo param)
         {
             var argument = new ComposedArgument
             {
-                Name = _parameterInfo.Name
+                Name = param.Name
             };
 
-            if (component.Arguments.Any())
+            if (_component.Arguments.Any())
             {
                 // compile arguments to list
-                var arguments = component.Arguments.Select(
+                var arguments = _component.Arguments.Select(
                     a => new
                     {
                         Name = a.Name,
@@ -49,14 +41,14 @@ namespace WickedFlame.InjectionMap.Composition
                     .Where(a => a.Value != null);
 
                 // 1. check if argument is defined in arguments by name
-                var arg = arguments.FirstOrDefault(a => a.Name == _parameterInfo.Name);
+                var arg = arguments.FirstOrDefault(a => a.Name == param.Name);
                 if (arg != null)
                     argument.Value = arg.Value;
 
                 // 2. check if an argument matches the type and is not used jet
                 if (argument.Value == null)
                 {
-                    arg = arguments.FirstOrDefault(a => string.IsNullOrEmpty(a.Name) && !ctx.IsArgumentInUse(a.Value) && a.Value.GetType() == _parameterInfo.ParameterType);
+                    arg = arguments.FirstOrDefault(a => string.IsNullOrEmpty(a.Name) && !_argumentContainer.IsArgumentInUse(a.Value) && a.Value.GetType() == param.ParameterType);
                     if (arg != null)
                         argument.Value = arg.Value;
                 }
@@ -65,7 +57,7 @@ namespace WickedFlame.InjectionMap.Composition
             // 3. try use injecitonresolver to resolve parameter
             if (argument.Value == null)
             {
-                var composed = MappingManager.Get(_parameterInfo.ParameterType);
+                var composed = MappingManager.Get(param.ParameterType);
                 if (composed != null)
                     argument.Value = composed;
             }

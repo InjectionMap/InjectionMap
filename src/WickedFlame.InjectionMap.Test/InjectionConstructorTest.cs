@@ -52,6 +52,10 @@ namespace WickedFlame.InjectionMap.Test
             var map = InjectionResolver.Resolve<ISecondConstructorInjectionMock>();
             
             Assert.IsTrue(map.ID == 4);
+
+            map = InjectionResolver.Resolve<ISecondConstructorInjectionMock>();
+
+            Assert.IsTrue(map.ID == 4);
         }
 
         [Test]

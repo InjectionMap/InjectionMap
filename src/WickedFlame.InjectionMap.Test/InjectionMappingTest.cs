@@ -10,7 +10,7 @@ namespace WickedFlame.InjectionMap.Test
     public class InjectionMappingTest
     {
         [Test]
-        public void InjectionMapperTest()
+        public void IInjectionMapping_InitializeTest()
         {
             InjectionMapper.InitializeMappings(this.GetType().Assembly);
 
