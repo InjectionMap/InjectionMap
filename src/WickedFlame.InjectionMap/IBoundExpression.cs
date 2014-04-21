@@ -1,11 +1,8 @@
 ﻿
 namespace WickedFlame.InjectionMap
 {
-    public interface IBoundExpression
+    public interface IBoundExpression : IComponentExpression
     {
-        IComponentContainer Container { get; }
-
-        IMappingComponent Component { get; }
 
         IMappingOption MappingOption { get; }
 

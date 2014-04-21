@@ -58,6 +58,7 @@
     <Compile Include="Mapping\BindableComponent.cs" />
     <Compile Include="Mapping\BindingExpression.cs" />
     <Compile Include="Mapping\BindingArgument.cs" />
+    <Compile Include="IComponentExpression.cs" />
     <Compile Include="Mapping\MappingExpression.cs" />
     <Compile Include="InjectionMapper.cs" />
     <Compile Include="InjectionResolver.cs" />

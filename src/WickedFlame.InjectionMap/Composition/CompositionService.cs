@@ -4,14 +4,6 @@ namespace WickedFlame.InjectionMap.Composition
 {
     static class CompositionService
     {
-        //internal static T Compose<T>()
-        //{
-        //    using (var composition = new CompositionContainer())
-        //    {
-        //        return composition.ComposePart<T>();
-        //    }
-        //}
-
         internal static T Compose<T>(IMappingComponent component)
         {
             if (component.ValueCallback != null)
@@ -26,14 +18,6 @@ namespace WickedFlame.InjectionMap.Composition
                 return value;
             }
         }
-
-        //internal static object Compose(Type type)
-        //{
-        //    using (var composition = new CompositionContainer())
-        //    {
-        //        return composition.ComposePart(type);
-        //    }
-        //}
 
         internal static object Compose(IMappingComponent component)
         {

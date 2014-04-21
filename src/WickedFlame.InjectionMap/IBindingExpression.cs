@@ -3,12 +3,8 @@ using System.Linq.Expressions;
 
 namespace WickedFlame.InjectionMap
 {
-    public interface IBindingExpression<T>
+    public interface IBindingExpression<T> : IComponentExpression
     {
-        IComponentContainer Container { get; }
-
-        IMappingComponent Component { get; }
-
         IBindingExpression<T> WithArgument<TArg>(TArg value);
 
         IBindingExpression<T> WithArgument<TArg>(string name, TArg value);
