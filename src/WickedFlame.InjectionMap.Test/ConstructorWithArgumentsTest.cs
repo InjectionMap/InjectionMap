@@ -23,16 +23,22 @@ namespace WickedFlame.InjectionMap.Test
         [Description("Create a object that takes multiple arguments in the constructor and pass the argument using the injection with naming the arguments")]
         public void ConstructorWithMultipleArguments_WithName()
         {
-            // clean all previous mappings to ensure test
-            InjectionResolver.Clean<IConstructorArgumentMock>();
+            using (var mapper = new InjectionMapper())
+            {
+                // clean all previous mappings to ensure test
+                mapper.Clean<IConstructorArgumentMock>();
 
-            // mapping
-            InjectionMapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument("message", () => "Number").WithArgument("id", 1);
+                // mapping
+                mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument("message", () => "Number").WithArgument("id", 1);
+            }
 
-            // resolve
-            var map = InjectionResolver.Resolve<IConstructorArgumentMock>();
+            using (var resolver = new InjectionResolver())
+            {
+                // resolve
+                var map = resolver.Resolve<IConstructorArgumentMock>();
 
-            Assert.IsTrue(map.ID == "Number 1");
+                Assert.IsTrue(map.ID == "Number 1");
+            }
         }
 
 
@@ -40,16 +46,22 @@ namespace WickedFlame.InjectionMap.Test
         [Description("Create a object that takes multiple arguments in the constructor and pass the argument using the injection without naming the arguments")]
         public void ConstructorWithMultipleArguments_WithoutName()
         {
-            // clean all previous mappings to ensure test
-            InjectionResolver.Clean<IConstructorArgumentMock>();
+            using (var mapper = new InjectionMapper())
+            {
+                // clean all previous mappings to ensure test
+                mapper.Clean<IConstructorArgumentMock>();
 
-            // mapping
-            InjectionMapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument(2).WithArgument(() => "Number");
+                // mapping
+                mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument(2).WithArgument(() => "Number");
+            }
 
-            // resolve
-            var map = InjectionResolver.Resolve<IConstructorArgumentMock>();
+            using (var resolver = new InjectionResolver())
+            {
+                // resolve
+                var map = resolver.Resolve<IConstructorArgumentMock>();
 
-            Assert.IsTrue(map.ID == "Number 2");
+                Assert.IsTrue(map.ID == "Number 2");
+            }
         }
 
         [Test]

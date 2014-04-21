@@ -6,9 +6,9 @@ using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap
 {
-    public static class InjectionMapper
+    public class InjectionMapper : IDisposable
     {
-        public static void InitializeMappings(Assembly assembly)
+        public void InitializeMappings(Assembly assembly)
         {
             var type = typeof(IInjectionMapping);
             var types = assembly.GetTypes().Where(p => type.IsAssignableFrom(p) && !p.IsInterface);
@@ -24,24 +24,27 @@ namespace WickedFlame.InjectionMap
         }
 
 
-        public static IMappingExpression Map<TSvc>()
+        public IMappingExpression Map<TSvc>()
         {
             return MappingManager.MappingContainer.Map<TSvc>();
         }
 
-        //public static IInjectionExpression Map<TSvc>(Expression<Func<IInjectionExpression, IInjectionExpression>> action)
-        //{
-        //    return MappingManager.MappingContainer.Map<TSvc>(action);
-        //}
-
-        public static IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc//, new()
+        public IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc
         {
             return MappingManager.MappingContainer.Map<TSvc, TImpl>();
         }
 
-        //public static IInjectionExpression Map<TSvc, TImpl>(Expression<Func<IInjectionExpression, IInjectionExpression>> action) where TImpl : TSvc, new()
-        //{
-        //    return MappingManager.MappingContainer.Map<TSvc, TImpl>(action);
-        //}
+        /// <summary>
+        /// Removes all mappings of type T
+        /// </summary>
+        /// <typeparam name="T">The type of mappings to remove</typeparam>
+        public void Clean<T>()
+        {
+            MappingManager.Clean<T>();
+        }
+
+        public void Dispose()
+        {
+        }
     }
 }

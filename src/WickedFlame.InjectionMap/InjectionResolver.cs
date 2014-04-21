@@ -4,14 +4,14 @@ using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap
 {
-    public static class InjectionResolver
+    public class InjectionResolver : IDisposable
     {
         /// <summary>
         /// Resolves the first found occurance of T
         /// </summary>
         /// <typeparam name="T">Type to resolve</typeparam>
         /// <returns>First found mapping of T</returns>
-        public static T Resolve<T>()
+        public T Resolve<T>()
         {
             return MappingManager.Get<T>();
         }
@@ -21,7 +21,7 @@ namespace WickedFlame.InjectionMap
         /// </summary>
         /// <param name="type">the type to resolve</param>
         /// <returns>First found mappinf of type</returns>
-        public static object Resolve(Type type)
+        public object Resolve(Type type)
         {
             return MappingManager.Get(type);
         }
@@ -31,7 +31,7 @@ namespace WickedFlame.InjectionMap
         /// </summary>
         /// <typeparam name="T">Type to resolve</typeparam>
         /// <returns>All mappings of T</returns>
-        public static IEnumerable<T> ResolveMultiple<T>()
+        public IEnumerable<T> ResolveMultiple<T>()
         {
             return MappingManager.GetAll<T>();
         }
@@ -40,9 +40,13 @@ namespace WickedFlame.InjectionMap
         /// Removes all mappings of type T
         /// </summary>
         /// <typeparam name="T">The type of mappings to remove</typeparam>
-        public static void Clean<T>()
+        public void Clean<T>()
         {
             MappingManager.Clean<T>();
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

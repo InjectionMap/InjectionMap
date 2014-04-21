@@ -20,64 +20,82 @@ namespace WickedFlame.InjectionMap.Test
         [Description("Resolves a instance with a constructor marked as InjectionConstructor with one parameter")]
         public void ConstructorInjection_WithOneParameterTest()
         {
-            // clean all previous mappings to ensure test
-            InjectionResolver.Clean<IConstructorParameter>();
-            InjectionResolver.Clean<IConstructorInjectionMock>();
+            using (var mapper = new InjectionMapper())
+            {
+                // clean all previous mappings to ensure test
+                mapper.Clean<IConstructorParameter>();
+                mapper.Clean<IConstructorInjectionMock>();
 
-            // mapping
-            InjectionMapper.Map<IConstructorParameter, ConstructorParameter>();
-            InjectionMapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>();
+                // mapping
+                mapper.Map<IConstructorParameter, ConstructorParameter>();
+                mapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>();
+            }
 
-            // resolve
-            var map = InjectionResolver.Resolve<IConstructorInjectionMock>();
+            using (var resolver = new InjectionResolver())
+            {
+                // resolve
+                var map = resolver.Resolve<IConstructorInjectionMock>();
 
-            Assert.IsTrue(map.ID == 2);
+                Assert.IsTrue(map.ID == 2);
+            }
         }
 
         [Test]
         [Description("Resolves a instance with a constructor marked as InjectionConstructor with two parameters")]
         public void ConstructorInjection_WithTwoParametersTest()
         {
-            // clean all previous mappings to ensure test
-            InjectionResolver.Clean<IConstructorParameter>();
-            InjectionResolver.Clean<IConstructorInjectionMock>();
-            InjectionResolver.Clean<ISecondConstructorInjectionMock>();
+            using (var mapper = new InjectionMapper())
+            {
+                // clean all previous mappings to ensure test
+                mapper.Clean<IConstructorParameter>();
+                mapper.Clean<IConstructorInjectionMock>();
+                mapper.Clean<ISecondConstructorInjectionMock>();
 
-            // mapping
-            InjectionMapper.Map<IConstructorParameter, ConstructorParameter>();
-            InjectionMapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>();
-            InjectionMapper.Map<ISecondConstructorInjectionMock, SecondConstructorInjectionMock>();
+                // mapping
+                mapper.Map<IConstructorParameter, ConstructorParameter>();
+                mapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>();
+                mapper.Map<ISecondConstructorInjectionMock, SecondConstructorInjectionMock>();
+            }
 
-            // resolve
-            var map = InjectionResolver.Resolve<ISecondConstructorInjectionMock>();
-            
-            Assert.IsTrue(map.ID == 4);
+            using (var resolver = new InjectionResolver())
+            {
+                // resolve
+                var map = resolver.Resolve<ISecondConstructorInjectionMock>();
 
-            map = InjectionResolver.Resolve<ISecondConstructorInjectionMock>();
+                Assert.IsTrue(map.ID == 4);
 
-            Assert.IsTrue(map.ID == 4);
+                map = resolver.Resolve<ISecondConstructorInjectionMock>();
+
+                Assert.IsTrue(map.ID == 4);
+            }
         }
 
         [Test]
         [Description("Resolves a instance with a constructor marked as InjectionConstructor with three parameters")]
         public void ConstructorInjection_WithThreeParametersTest()
         {
-            // clean all previous mappings to ensure test
-            InjectionResolver.Clean<IConstructorParameter>();
-            InjectionResolver.Clean<IConstructorInjectionMock>();
-            InjectionResolver.Clean<ISecondConstructorInjectionMock>();
-            InjectionResolver.Clean<ThirdConstructorInjectionMock>();
+            using (var mapper = new InjectionMapper())
+            {
+                // clean all previous mappings to ensure test
+                mapper.Clean<IConstructorParameter>();
+                mapper.Clean<IConstructorInjectionMock>();
+                mapper.Clean<ISecondConstructorInjectionMock>();
+                mapper.Clean<ThirdConstructorInjectionMock>();
 
-            // mapping
-            InjectionMapper.Map<IConstructorParameter, ConstructorParameter>();
-            InjectionMapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>();
-            InjectionMapper.Map<ISecondConstructorInjectionMock, SecondConstructorInjectionMock>();
-            InjectionMapper.Map<IThirdConstructorInjectionMock, ThirdConstructorInjectionMock>();
+                // mapping
+                mapper.Map<IConstructorParameter, ConstructorParameter>();
+                mapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>();
+                mapper.Map<ISecondConstructorInjectionMock, SecondConstructorInjectionMock>();
+                mapper.Map<IThirdConstructorInjectionMock, ThirdConstructorInjectionMock>();
+            }
 
-            // resolve
-            var map = InjectionResolver.Resolve<IThirdConstructorInjectionMock>();
-            
-            Assert.IsTrue(map.ID == 8);
+            using (var resolver = new InjectionResolver())
+            {
+                // resolve
+                var map = resolver.Resolve<IThirdConstructorInjectionMock>();
+
+                Assert.IsTrue(map.ID == 8);
+            }
         }
 
         [Test]
