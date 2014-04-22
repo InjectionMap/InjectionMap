@@ -72,8 +72,8 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IMappingExpression Map<TSvc>()
         {
-            if (!typeof(TSvc).IsInterface)
-                throw new NotSupportedException("Key Type has to be an interface");
+            //if (!typeof(TSvc).IsInterface)
+            //    throw new NotSupportedException("Key Type has to be an interface");
 
             var expression = MappingContainer.MapInternal<TSvc>(this);
 
@@ -82,8 +82,8 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc//, new()
         {
-            if (!typeof(TSvc).IsInterface)
-                throw new NotSupportedException("Key Type has to be an interface");
+            //if (!typeof(TSvc).IsInterface)
+            //    throw new NotSupportedException("Key Type has to be an interface");
 
             var expression = MappingContainer.MapInternal<TSvc>(this);
 

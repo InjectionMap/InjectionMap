@@ -69,6 +69,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BindToSelfTest.cs" />
     <Compile Include="ConstructorWithArgumentsTest.cs" />
     <Compile Include="CustomMappingContainerTest.cs" />
     <Compile Include="CustomMappingContextTest.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Mock\CustomMock.cs" />
     <Compile Include="Mock\InjectionMapperMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WickedFlame.InjectionMap\WickedFlame.InjectionMap.csproj">

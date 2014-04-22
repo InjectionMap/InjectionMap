@@ -10,5 +10,7 @@ namespace WickedFlame.InjectionMap
         IBindingExpression<T> For<T>(T value);
 
         IBindingExpression<T> For<T>(Expression<Func<T>> callback);
+
+        IBindingExpression ToSelf();
     }
 }

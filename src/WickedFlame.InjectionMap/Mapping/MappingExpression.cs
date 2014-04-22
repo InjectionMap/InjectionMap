@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using WickedFlame.InjectionMap.Internals;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
@@ -27,6 +28,13 @@ namespace WickedFlame.InjectionMap.Mapping
             return CreateBinding<T>(callback);
         }
 
+        public IBindingExpression ToSelf()
+        {
+            //Ensure.ArgumentNotNull(Component.KeyType);
+
+            return CreateBinding(Component.KeyType);
+        }
+
         #endregion
 
         #region Implementation
@@ -50,6 +58,26 @@ namespace WickedFlame.InjectionMap.Mapping
             }
 
             return new BindingExpression<T>(Container, component);
+        }
+
+        private IBindingExpression CreateBinding(Type type)
+        {
+            if (!Component.KeyType.IsAssignableFrom(type))
+                throw new ArgumentException(string.Format("Type {0} has to implementen {1} to be assignable", typeof(T), Component.KeyType), "component");
+
+            var component = new MappingComponent<T>(Component.ID)
+            {
+                KeyType = Component.KeyType,
+                MappingOption = Component.MappingOption
+            };
+
+            Container.AddOrReplace(component);
+            if (component.MappingOption == null || !component.MappingOption.WithoutOverwrite)
+            {
+                Container.ReplaceAll(component);
+            }
+
+            return new BindingExpression(Container, component);
         }
 
         #endregion
