@@ -57,9 +57,12 @@ namespace WickedFlame.InjectionMap.Composition
             // 3. try use injecitonresolver to resolve parameter
             if (argument.Value == null)
             {
-                var composed = MappingManager.Get(param.ParameterType);
-                if (composed != null)
-                    argument.Value = composed;
+                using (var resolver = new ComponentResolver())
+                {
+                    var composed = resolver.Get(param.ParameterType);
+                    if (composed != null)
+                        argument.Value = composed;
+                }
             }
 
             return argument;

@@ -12,10 +12,7 @@ namespace WickedFlame.InjectionMap.Test
         [Test]
         public void IInjectionMapping_InitializeTest()
         {
-            using (var mapper = new InjectionMapper())
-            {
-                mapper.InitializeMappings(this.GetType().Assembly);
-            }
+            InjectionMapper.Initialize(this.GetType().Assembly);
 
             using (var resolver = new InjectionResolver())
             {
@@ -79,7 +76,7 @@ namespace WickedFlame.InjectionMap.Test
 
                 //InjectionMapper.Map<ITestMock1, TestMock1>(m => m.For(new TestMock1(), o => o.WithOptions(InjectionOption.WithoutOverwrite)));
                 mapper.Map<ICustomMock>().For(() => new CustomMock());
-                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithOptions(InjectionFlags.WithOverwrite);
+                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithOptions(InjectionFlags.AsSingleton);
             }
 
             using (var resolver = new InjectionResolver())
@@ -120,7 +117,7 @@ namespace WickedFlame.InjectionMap.Test
                 mapper.Clean<ICustomMock>();
 
                 //InjectionMapper.Map<ITestMock1>().For(() => new TestMock1(), o => o.WithOptions(InjectionOption.WithOverwrite).WithOptions(InjectionOption.ResolveInstanceOnMapping));
-                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithOptions(InjectionFlags.WithOverwrite | InjectionFlags.ResolveInstanceOnMapping);
+                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithOptions(InjectionFlags.AsSingleton | InjectionFlags.ResolveInstanceOnMapping);
             }
 
             using (var resolver = new InjectionResolver())

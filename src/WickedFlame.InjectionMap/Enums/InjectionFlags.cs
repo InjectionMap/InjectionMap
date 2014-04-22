@@ -7,7 +7,7 @@ namespace WickedFlame.InjectionMap
     {
         None = 0,
         ResolveInstanceOnMapping = 1,
-        KeepInstance = 2,
-        WithOverwrite = 4
+        KeepInstanceAlive = 2,
+        AsSingleton = 4
     }
 }

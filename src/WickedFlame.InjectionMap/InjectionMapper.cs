@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using WickedFlame.InjectionMap.Mapping;
 
@@ -8,7 +7,14 @@ namespace WickedFlame.InjectionMap
 {
     public class InjectionMapper : IDisposable
     {
-        public void InitializeMappings(Assembly assembly)
+        #region Static Implementation
+
+        public static void Initialize(IInjectionMapping mapper)
+        {
+            mapper.Register(MappingManager.MappingContainer);
+        }
+
+        public static void Initialize(Assembly assembly)
         {
             var type = typeof(IInjectionMapping);
             var types = assembly.GetTypes().Where(p => type.IsAssignableFrom(p) && !p.IsInterface);
@@ -23,15 +29,24 @@ namespace WickedFlame.InjectionMap
             }
         }
 
+        #endregion
+
+        #region Implementation
 
         public IMappingExpression Map<TSvc>()
         {
-            return MappingManager.MappingContainer.Map<TSvc>();
+            using (var provider = new MappingProvider())
+            {
+                return provider.Map<TSvc>();
+            }
         }
 
         public IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc
         {
-            return MappingManager.MappingContainer.Map<TSvc, TImpl>();
+            using (var provider = new MappingProvider())
+            {
+                return provider.Map<TSvc, TImpl>();
+            }
         }
 
         /// <summary>
@@ -40,11 +55,52 @@ namespace WickedFlame.InjectionMap
         /// <typeparam name="T">The type of mappings to remove</typeparam>
         public void Clean<T>()
         {
-            MappingManager.Clean<T>();
+            using (var provider = new MappingProvider())
+            {
+                provider.Clean<T>();
+            }
         }
 
+        #endregion
+
+        #region IDisposeable Implementation
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
+            Dispose(true);
         }
+
+        /// <summary>
+        /// Releases resources held by the object.
+        /// </summary>
+        public virtual void Dispose(bool disposing)
+        {
+            lock (this)
+            {
+                if (disposing && !IsDisposed)
+                {
+                    IsDisposed = true;
+                    GC.SuppressFinalize(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Releases resources before the object is reclaimed by garbage collection.
+        /// </summary>
+        ~InjectionMapper()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

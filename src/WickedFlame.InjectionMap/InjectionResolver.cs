@@ -13,7 +13,10 @@ namespace WickedFlame.InjectionMap
         /// <returns>First found mapping of T</returns>
         public T Resolve<T>()
         {
-            return MappingManager.Get<T>();
+            using (var resolver = new ComponentResolver())
+            {
+                return resolver.Get<T>();
+            }
         }
 
         /// <summary>
@@ -23,7 +26,10 @@ namespace WickedFlame.InjectionMap
         /// <returns>First found mappinf of type</returns>
         public object Resolve(Type type)
         {
-            return MappingManager.Get(type);
+            using (var resolver = new ComponentResolver())
+            {
+                return resolver.Get(type);
+            }
         }
 
         /// <summary>
@@ -33,7 +39,10 @@ namespace WickedFlame.InjectionMap
         /// <returns>All mappings of T</returns>
         public IEnumerable<T> ResolveMultiple<T>()
         {
-            return MappingManager.GetAll<T>();
+            using (var resolver = new ComponentResolver())
+            {
+                return resolver.GetAll<T>();
+            }
         }
 
         /// <summary>
@@ -42,11 +51,50 @@ namespace WickedFlame.InjectionMap
         /// <typeparam name="T">The type of mappings to remove</typeparam>
         public void Clean<T>()
         {
-            MappingManager.Clean<T>();
+            using (var resolver = new ComponentResolver())
+            {
+                resolver.Clean<T>();
+            }
         }
 
+        #region IDisposeable Implementation
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is disposed.
+        /// </summary>
+        public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
+            Dispose(true);
         }
+
+        /// <summary>
+        /// Releases resources held by the object.
+        /// </summary>
+        public virtual void Dispose(bool disposing)
+        {
+            lock (this)
+            {
+                if (disposing && !IsDisposed)
+                {
+                    IsDisposed = true;
+                    GC.SuppressFinalize(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Releases resources before the object is reclaimed by garbage collection.
+        /// </summary>
+        ~InjectionResolver()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

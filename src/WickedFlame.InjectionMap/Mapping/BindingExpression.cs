@@ -38,8 +38,8 @@ namespace WickedFlame.InjectionMap.Mapping
         public IBoundExpression WithOptions(InjectionFlags option)
         {
             var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
-            var keepInstance = (option & InjectionFlags.KeepInstance) == InjectionFlags.KeepInstance;
-            var withOverwrite = (option & InjectionFlags.WithOverwrite) == InjectionFlags.WithOverwrite;
+            var keepInstance = (option & InjectionFlags.KeepInstanceAlive) == InjectionFlags.KeepInstanceAlive;
+            var withOverwrite = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
 
             if (resolveInstanceOnMapping && !keepInstance)
                 keepInstance = true;

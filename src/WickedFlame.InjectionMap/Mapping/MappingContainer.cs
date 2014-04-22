@@ -6,7 +6,7 @@ using WickedFlame.InjectionMap.Composition;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
-    internal class MappingContainer : IMappingContainer, IComponentContainer
+    internal class MappingContainer : IMappingContainer, IComponentContainer, IComponentProvider
     {
         #region IComponentContainer Implementation
 
@@ -54,6 +54,20 @@ namespace WickedFlame.InjectionMap.Mapping
 
         #endregion
 
+        #region IComponentProvider Implementation
+
+        public IEnumerable<IMappingComponent> Get<T>()
+        {
+            return Components.Where(c => c.KeyType == typeof(T));
+        }
+
+        public IEnumerable<IMappingComponent> Get(Type type)
+        {
+            return Components.Where(c => c.KeyType == type);
+        }
+        
+        #endregion
+
         #region IMappingContainer Implementation
 
         public IMappingExpression Map<TSvc>()
@@ -74,6 +88,19 @@ namespace WickedFlame.InjectionMap.Mapping
             var expression = MappingContainer.MapInternal<TSvc>(this);
 
             return expression.For<TImpl>();
+        }
+
+        /// <summary>
+        /// Removes all mappings of type T
+        /// </summary>
+        /// <typeparam name="T">The type of mappings to remove</typeparam>
+        public void Clean<T>()
+        {
+            var items = Components.Where(c => c.KeyType == typeof(T)).ToList();
+            foreach (var item in items)
+            {
+                Remove(item);
+            }
         }
 
         #endregion
