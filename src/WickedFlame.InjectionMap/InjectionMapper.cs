@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using WickedFlame.InjectionMap.Expressions;
 using WickedFlame.InjectionMap.Internals;
 using WickedFlame.InjectionMap.Mapping;
 

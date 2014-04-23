@@ -1,5 +1,5 @@
 ﻿
-namespace WickedFlame.InjectionMap
+namespace WickedFlame.InjectionMap.Expressions
 {
     public interface IComponentExpression
     {

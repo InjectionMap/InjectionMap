@@ -24,6 +24,9 @@ namespace WickedFlame.InjectionMap.Mapping
         {
             get
             {
+                if (Callback == null)
+                    return null;
+
                 return () => Callback.Compile().Invoke();
             }
         }

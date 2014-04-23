@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using WickedFlame.InjectionMap.Expressions;
 
 namespace WickedFlame.InjectionMap
 {

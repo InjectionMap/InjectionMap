@@ -58,5 +58,7 @@ namespace WickedFlame.InjectionMap.Mapping
                 return _arguments;
             }
         }
+
+        public bool IsSubstitute { get; internal set; }
     }
 }

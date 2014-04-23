@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
 using WickedFlame.InjectionMap.Exceptions;
+using WickedFlame.InjectionMap.Expressions;
+using WickedFlame.InjectionMap.Internals;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
@@ -46,11 +48,14 @@ namespace WickedFlame.InjectionMap.Mapping
             {
                 KeyType = Component.KeyType,
                 ValueCallback = callback,
-                MappingOption = Component.MappingOption
+                MappingOption = Component.MappingOption,
+                IsSubstitute = Component.IsSubstitute
             };
 
+            Component.Arguments.ForEach(a => component.Arguments.Add(a));
+
             Container.AddOrReplace(component);
-            if (component.MappingOption == null || !component.MappingOption.WithoutOverwrite)
+            if (component.MappingOption == null || component.MappingOption.AsSingleton)
             {
                 Container.ReplaceAll(component);
             }
@@ -66,11 +71,14 @@ namespace WickedFlame.InjectionMap.Mapping
             var component = new MappingComponent<T>(Component.ID)
             {
                 KeyType = Component.KeyType,
-                MappingOption = Component.MappingOption
+                MappingOption = Component.MappingOption,
+                IsSubstitute = Component.IsSubstitute
             };
 
+            Component.Arguments.ForEach(a => component.Arguments.Add(a));
+
             Container.AddOrReplace(component);
-            if (component.MappingOption == null || !component.MappingOption.WithoutOverwrite)
+            if (component.MappingOption == null || component.MappingOption.AsSingleton)
             {
                 Container.ReplaceAll(component);
             }

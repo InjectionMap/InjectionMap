@@ -9,59 +9,46 @@ using WickedFlame.InjectionMap.Test.Mock;
 namespace WickedFlame.InjectionMap.Test
 {
     [TestFixture]
-    public class ConstructorWithArgumentsTest
+    public class ConstructorWithArgumentsTest : TestBase
     {
-        [Test]
-        [Description("Create a object that takes one argument in the constructor and pass the argument using the injection")]
-        [Ignore()]
-        public void ConstructorWithOneArgument()
-        {
-        }
+        //[Test]
+        //[Description("Create a object that takes one argument in the constructor and pass the argument using the injection")]
+        //[Ignore()]
+        //public void ConstructorWithOneArgument()
+        //{
+        //}
 
 
         [Test]
         [Description("Create a object that takes multiple arguments in the constructor and pass the argument using the injection with naming the arguments")]
-        public void ConstructorWithMultipleArguments_WithName()
+        public void ConstructorWithArgumentsWithName()
         {
-            using (var mapper = new InjectionMapper())
-            {
-                // clean all previous mappings to ensure test
-                mapper.Clean<IConstructorArgumentMock>();
+            Mapper.Clean<IConstructorArgumentMock>();
 
-                // mapping
-                mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument("message", () => "Number").WithArgument("id", 1);
-            }
+            // mapping
+            Mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument("message", () => "Number").WithArgument("id", 1);
 
-            using (var resolver = new InjectionResolver())
-            {
-                // resolve
-                var map = resolver.Resolve<IConstructorArgumentMock>();
+            // resolve
+            var map = Resolver.Resolve<IConstructorArgumentMock>();
 
-                Assert.IsTrue(map.ID == "Number 1");
-            }
+            Assert.IsTrue(map.ID == "Number 1");
         }
 
 
         [Test]
         [Description("Create a object that takes multiple arguments in the constructor and pass the argument using the injection without naming the arguments")]
-        public void ConstructorWithMultipleArguments_WithoutName()
+        public void ConstructorWithArgumentsWithoutName()
         {
-            using (var mapper = new InjectionMapper())
-            {
-                // clean all previous mappings to ensure test
-                mapper.Clean<IConstructorArgumentMock>();
+            // clean all previous mappings to ensure test
+            Mapper.Clean<IConstructorArgumentMock>();
 
-                // mapping
-                mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument(2).WithArgument(() => "Number");
-            }
+            // mapping
+            Mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument(2).WithArgument(() => "Number");
 
-            using (var resolver = new InjectionResolver())
-            {
-                // resolve
-                var map = resolver.Resolve<IConstructorArgumentMock>();
+            // resolve
+            var map = Resolver.Resolve<IConstructorArgumentMock>();
 
-                Assert.IsTrue(map.ID == "Number 2");
-            }
+            Assert.IsTrue(map.ID == "Number 2");
         }
 
         [Test]

@@ -71,14 +71,10 @@ namespace WickedFlame.InjectionMap.Composition
                     {
                         var composed = factory.CreateArgument(param);
 
-                        //var composed = InjectionResolver.Resolve(param.ParameterType);
-                        //var composed = Compose(param.ParameterType);
                         if (composed != null)
                         {
-                            //info.Parameters.Add(composed);
                             if (!info.PushArgument(composed))
                                 throw new ArgumentNotDefinedException(param.ParameterType, component.KeyType);
-
                         }
                         else
                         {
