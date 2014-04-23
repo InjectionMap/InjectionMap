@@ -77,7 +77,7 @@ namespace WickedFlame.InjectionMap.Composition
                         {
                             //info.Parameters.Add(composed);
                             if (!info.PushArgument(composed))
-                                throw new InjectionArgumentNotDefinedException(param.ParameterType, component.KeyType);
+                                throw new ArgumentNotDefinedException(param.ParameterType, component.KeyType);
 
                         }
                         else

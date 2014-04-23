@@ -1,4 +1,5 @@
 packages
+*.suo
 InjectionMap.v12.suo
 *.jtconfig
 src/WickedFlame.InjectionMap.Test/bin

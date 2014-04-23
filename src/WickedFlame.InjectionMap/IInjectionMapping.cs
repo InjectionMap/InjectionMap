@@ -3,6 +3,6 @@ namespace WickedFlame.InjectionMap
 {
     public interface IInjectionMapping
     {
-        void Register(IMappingContainer container);
+        void Register(IMappingProvider container);
     }
 }

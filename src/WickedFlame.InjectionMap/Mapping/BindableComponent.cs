@@ -1,16 +1,20 @@
-﻿
+﻿using WickedFlame.InjectionMap.Internals;
+
 namespace WickedFlame.InjectionMap.Mapping
 {
     internal class BindableComponent
     {
-        public BindableComponent(IComponentContainer container, IMappingComponent component)
+        public BindableComponent(IComponentCollection container, IMappingComponent component)
         {
+            Ensure.ArgumentNotNull(container, "container");
+            Ensure.ArgumentNotNull(component, "component");
+
             _container = container;
             _component = component;
         }
 
-        readonly IComponentContainer _container;
-        public IComponentContainer Container
+        readonly IComponentCollection _container;
+        public IComponentCollection Container
         {
             get
             {

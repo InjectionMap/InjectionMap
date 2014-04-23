@@ -1,17 +1,38 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using WickedFlame.InjectionMap.Internals;
 using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap
 {
     public class InjectionMapper : IDisposable
     {
+        IMappableContainer _container;
+
+        /// <summary>
+        /// Creates a InjectionMapper that mapps to the common mappingcontainer
+        /// </summary>
+        public InjectionMapper()
+        {
+        }
+
+        /// <summary>
+        /// Creates a InjectionMapper with a custom container to map to
+        /// </summary>
+        /// <param name="container">The <see cref="IMappableContainer"/> to add the mappings to</param>
+        public InjectionMapper(IMappableContainer container)
+        {
+            Ensure.ArgumentNotNull(container, "container");
+
+            _container = container;
+        }
+
         #region Static Implementation
 
         public static void Initialize(IInjectionMapping mapper)
         {
-            mapper.Register(MappingManager.MappingContainer);
+            mapper.Register(MappingContainerManager.MappingContainer);
         }
 
         public static void Initialize(Assembly assembly)
@@ -25,7 +46,7 @@ namespace WickedFlame.InjectionMap
                 if (obj == null)
                     continue;
 
-                obj.Register(MappingManager.MappingContainer);
+                obj.Register(MappingContainerManager.MappingContainer);
             }
         }
 
@@ -35,7 +56,7 @@ namespace WickedFlame.InjectionMap
 
         public IMappingExpression Map<TSvc>()
         {
-            using (var provider = new MappingProvider())
+            using (var provider = new ComponentMapper())
             {
                 return provider.Map<TSvc>();
             }
@@ -43,7 +64,7 @@ namespace WickedFlame.InjectionMap
 
         public IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc
         {
-            using (var provider = new MappingProvider())
+            using (var provider = new ComponentMapper(_container))
             {
                 return provider.Map<TSvc, TImpl>();
             }
@@ -55,7 +76,7 @@ namespace WickedFlame.InjectionMap
         /// <typeparam name="T">The type of mappings to remove</typeparam>
         public void Clean<T>()
         {
-            using (var provider = new MappingProvider())
+            using (var provider = new ComponentMapper(_container))
             {
                 provider.Clean<T>();
             }
@@ -87,6 +108,8 @@ namespace WickedFlame.InjectionMap
             {
                 if (disposing && !IsDisposed)
                 {
+                    _container = null;
+
                     IsDisposed = true;
                     GC.SuppressFinalize(this);
                 }

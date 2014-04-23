@@ -5,7 +5,7 @@ namespace WickedFlame.InjectionMap.Mapping
 {
     internal class BindingExpression : BindableComponent, IBindingExpression
     {
-        public BindingExpression(IComponentContainer container, IMappingComponent component)
+        public BindingExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)
         {
         }
@@ -85,7 +85,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
     internal class BindingExpression<T> : BindableComponent, IBindingExpression<T>
     {
-        public BindingExpression(IComponentContainer container, IMappingComponent component)
+        public BindingExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)
         {
         }

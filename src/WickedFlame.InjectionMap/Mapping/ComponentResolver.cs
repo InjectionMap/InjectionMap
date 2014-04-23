@@ -9,14 +9,24 @@ namespace WickedFlame.InjectionMap.Mapping
     {
         IComponentProvider _container;
 
+        /// <summary>
+        /// Creates a componentresolver
+        /// </summary>
         public ComponentResolver()
         {
-            _container = MappingManager.MappingContainer;
+            _container = MappingContainerManager.MappingContainer;
         }
 
+        /// <summary>
+        /// Creates a componentresolver with a custom container
+        /// </summary>
+        /// <param name="container">The <see cref="IMappingProvider"/> to resolve the mappings from</param>
         public ComponentResolver(IComponentProvider container)
         {
             _container = container;
+
+            if (_container == null)
+                _container = MappingContainerManager.MappingContainer;
         }
 
         #region Implementation
