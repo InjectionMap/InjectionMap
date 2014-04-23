@@ -37,7 +37,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
         #region Implementation
 
-        private IBindingExpression<T> CreateBinding<T>(Expression<Func<T>> callback)
+        internal IBindingExpression<T> CreateBinding<T>(Expression<Func<T>> callback)
         {
             if (!Component.KeyType.IsAssignableFrom(typeof(T)))
                 throw new MappingMismatchException(typeof(T), Component.KeyType);
@@ -58,7 +58,7 @@ namespace WickedFlame.InjectionMap.Mapping
             return new BindingExpression<T>(Container, component);
         }
 
-        private IBindingExpression CreateBinding(Type type)
+        internal IBindingExpression CreateBinding(Type type)
         {
             if (!Component.KeyType.IsAssignableFrom(type))
                 throw new MappingMismatchException(type, Component.KeyType);
