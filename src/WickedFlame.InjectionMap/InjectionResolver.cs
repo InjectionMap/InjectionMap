@@ -1,11 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using WickedFlame.InjectionMap.Internals;
 using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap
 {
     public class InjectionResolver : IDisposable
     {
+        IMappableContainer _container;
+
+        /// <summary>
+        /// Creates a InjectionResolver to resolve from the common mappingcontainer
+        /// </summary>
+        public InjectionResolver()
+        {
+        }
+
+        /// <summary>
+        /// Creates a InjectionResolver with a custom container to resolve from
+        /// </summary>
+        /// <param name="container">The <see cref="IMappableContainer"/> to resolve the mappings from</param>
+        public InjectionResolver(IMappableContainer container)
+        {
+            Ensure.ArgumentNotNull(container, "container");
+
+            _container = container;
+        }
+
+        #region Implementation
+
         /// <summary>
         /// Resolves the first found occurance of T
         /// </summary>
@@ -13,7 +36,7 @@ namespace WickedFlame.InjectionMap
         /// <returns>First found mapping of T</returns>
         public T Resolve<T>()
         {
-            using (var resolver = new ComponentResolver())
+            using (var resolver = new ComponentResolver(_container))
             {
                 return resolver.Get<T>();
             }
@@ -26,7 +49,7 @@ namespace WickedFlame.InjectionMap
         /// <returns>First found mappinf of type</returns>
         public object Resolve(Type type)
         {
-            using (var resolver = new ComponentResolver())
+            using (var resolver = new ComponentResolver(_container))
             {
                 return resolver.Get(type);
             }
@@ -39,7 +62,7 @@ namespace WickedFlame.InjectionMap
         /// <returns>All mappings of T</returns>
         public IEnumerable<T> ResolveMultiple<T>()
         {
-            using (var resolver = new ComponentResolver())
+            using (var resolver = new ComponentResolver(_container))
             {
                 return resolver.GetAll<T>();
             }
@@ -51,11 +74,13 @@ namespace WickedFlame.InjectionMap
         /// <typeparam name="T">The type of mappings to remove</typeparam>
         public void Clean<T>()
         {
-            using (var resolver = new ComponentResolver())
+            using (var resolver = new ComponentResolver(_container))
             {
                 resolver.Clean<T>();
             }
         }
+
+        #endregion
 
         #region IDisposeable Implementation
 

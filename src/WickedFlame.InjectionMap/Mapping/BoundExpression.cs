@@ -4,7 +4,7 @@ namespace WickedFlame.InjectionMap.Mapping
 {
     internal class BoundExpression : BindableComponent, IBoundExpression
     {
-        public BoundExpression(IComponentContainer container, IMappingComponent component)
+        public BoundExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)
         {
         }

@@ -5,7 +5,7 @@ using WickedFlame.InjectionMap.Composition;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
-    internal static class MappingManager
+    internal static class MappingContainerManager
     {
         #region Collection and Helpers
 
@@ -20,15 +20,7 @@ namespace WickedFlame.InjectionMap.Mapping
                 return _mappingContainer;
             }
         }
-
-        public static void ReplaceMapping(IMappingComponent original, IMappingComponent substitute)
-        {
-            if (MappingContainer.Components.Contains(original))
-                MappingContainer.Components.Remove(original);
-
-            MappingContainer.Components.Add(substitute);
-        }
-
+        
         #endregion
     }
 }

@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="BindToSelfTest.cs" />
     <Compile Include="ConstructorWithArgumentsTest.cs" />
+    <Compile Include="CustomContainerMappingTest.cs" />
     <Compile Include="CustomMappingContainerTest.cs" />
     <Compile Include="CustomMappingContextTest.cs" />
     <Compile Include="InjectionConstructorTest.cs" />

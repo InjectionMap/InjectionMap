@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq.Expressions;
-using WickedFlame.InjectionMap.Internals;
+using WickedFlame.InjectionMap.Exceptions;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
     internal class MappingExpression<T> : BindableComponent, IMappingExpression
     {
-        public MappingExpression(IComponentContainer container, IMappingComponent component)
+        public MappingExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)
         {
         }
@@ -30,8 +30,6 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IBindingExpression ToSelf()
         {
-            //Ensure.ArgumentNotNull(Component.KeyType);
-
             return CreateBinding(Component.KeyType);
         }
 
@@ -42,7 +40,7 @@ namespace WickedFlame.InjectionMap.Mapping
         private IBindingExpression<T> CreateBinding<T>(Expression<Func<T>> callback)
         {
             if (!Component.KeyType.IsAssignableFrom(typeof(T)))
-                throw new ArgumentException(string.Format("Type {0} has to implementen {1} to be assignable", typeof(T), Component.KeyType), "component");
+                throw new MappingMismatchException(typeof(T), Component.KeyType);
 
             var component = new MappingComponent<T>(Component.ID)
             {
@@ -63,7 +61,7 @@ namespace WickedFlame.InjectionMap.Mapping
         private IBindingExpression CreateBinding(Type type)
         {
             if (!Component.KeyType.IsAssignableFrom(type))
-                throw new ArgumentException(string.Format("Type {0} has to implementen {1} to be assignable", typeof(T), Component.KeyType), "component");
+                throw new MappingMismatchException(type, Component.KeyType);
 
             var component = new MappingComponent<T>(Component.ID)
             {

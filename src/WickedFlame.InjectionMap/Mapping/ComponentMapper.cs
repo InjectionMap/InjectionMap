@@ -2,19 +2,31 @@
 
 namespace WickedFlame.InjectionMap.Mapping
 {
-    internal class MappingProvider : IDisposable
+    internal class ComponentMapper : IDisposable
     {
-        IMappingContainer _container;
+        IMappingProvider _container;
 
-        public MappingProvider()
+        /// <summary>
+        /// Creates a componentmapper to add mappings
+        /// </summary>
+        public ComponentMapper()
         {
-            _container = MappingManager.MappingContainer;
+            _container = MappingContainerManager.MappingContainer;
         }
 
-        public MappingProvider(IMappingContainer container)
+        /// <summary>
+        /// Creates a componentmapper with a custom container
+        /// </summary>
+        /// <param name="container">The <see cref="IMappingProvider"/> to resolve the mappings from</param>
+        public ComponentMapper(IMappingProvider container)
         {
             _container = container;
+
+            if (_container == null)
+                _container = MappingContainerManager.MappingContainer;
         }
+
+        #region Implementation
 
         /// <summary>
         /// Creates a Mapping to TSvc
@@ -45,6 +57,8 @@ namespace WickedFlame.InjectionMap.Mapping
         {
             _container.Clean<T>();
         }
+
+        #endregion
 
         #region IDisposeable Implementation
 
@@ -81,7 +95,7 @@ namespace WickedFlame.InjectionMap.Mapping
         /// <summary>
         /// Releases resources before the object is reclaimed by garbage collection.
         /// </summary>
-        ~MappingProvider()
+        ~ComponentMapper()
         {
             Dispose(false);
         }

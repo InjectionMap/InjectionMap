@@ -2,9 +2,9 @@
 
 namespace WickedFlame.InjectionMap
 {
-    public interface IComponentContainer
+    public interface IComponentCollection
     {
-        IList<IMappingComponent> Components { get; }
+        //IList<IMappingComponent> Components { get; }
 
         void AddOrReplace(IMappingComponent component);
 
