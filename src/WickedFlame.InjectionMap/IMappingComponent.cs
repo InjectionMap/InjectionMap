@@ -17,5 +17,7 @@ namespace WickedFlame.InjectionMap
         IMappingOption MappingOption { get; }
 
         IList<IBindingArgument> Arguments { get; }
+
+        bool IsSubstitute { get; }
     }
 }

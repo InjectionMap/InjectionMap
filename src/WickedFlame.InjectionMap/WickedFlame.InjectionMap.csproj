@@ -46,9 +46,10 @@
     <Compile Include="Composition\ArgumentContainer.cs" />
     <Compile Include="Enums\InjectionFlags.cs" />
     <Compile Include="Exceptions\ArgumentNotDefinedException.cs" />
+    <Compile Include="Exceptions\MappingMismatchException.cs" />
     <Compile Include="IArgument.cs" />
     <Compile Include="IBindingArgument.cs" />
-    <Compile Include="IBindingExpression.cs" />
+    <Compile Include="Expressions\IBindingExpression.cs" />
     <Compile Include="IComponentCollection.cs" />
     <Compile Include="IComponentProvider.cs" />
     <Compile Include="IMappableContainer.cs" />
@@ -58,16 +59,17 @@
     <Compile Include="IMappingComponent.cs" />
     <Compile Include="IMappingOption.cs" />
     <Compile Include="Internals\Ensure.cs" />
+    <Compile Include="Internals\IEnumerableExtensions.cs" />
     <Compile Include="Mapping\ComponentResolver.cs" />
     <Compile Include="Mapping\ComponentMapper.cs" />
     <Compile Include="Mapping\BindableComponent.cs" />
     <Compile Include="Mapping\BindingExpression.cs" />
     <Compile Include="Mapping\BindingArgument.cs" />
-    <Compile Include="IComponentExpression.cs" />
+    <Compile Include="Expressions\IComponentExpression.cs" />
     <Compile Include="Mapping\MappingExpression.cs" />
     <Compile Include="InjectionMapper.cs" />
     <Compile Include="InjectionResolver.cs" />
-    <Compile Include="IBoundExpression.cs" />
+    <Compile Include="Expressions\IBoundExpression.cs" />
     <Compile Include="Mapping\MappingComponent.cs" />
     <Compile Include="MappingContainer.cs" />
     <Compile Include="Mapping\MappingContainerManager.cs" />
@@ -75,7 +77,7 @@
     <Compile Include="Mapping\BoundExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Composition\CompositionService.cs" />
-    <Compile Include="UnitTest\IMappingExpressionExtension.cs" />
+    <Compile Include="Substitution\IMappingExpressionExtension.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

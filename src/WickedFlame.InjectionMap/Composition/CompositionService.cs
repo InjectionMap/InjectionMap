@@ -12,7 +12,7 @@ namespace WickedFlame.InjectionMap.Composition
             using (var composition = new CompositionContainer())
             {
                 var value = composition.ComposePart<T>(component);
-                if (component.MappingOption.KeepInstance)
+                if (component.MappingOption.CacheValue)
                     component.ValueCallback = () => value;
 
                 return value;
@@ -27,7 +27,7 @@ namespace WickedFlame.InjectionMap.Composition
             using (var composition = new CompositionContainer())
             {
                 var value = composition.ComposePart(component);
-                if (component.MappingOption.KeepInstance)
+                if (component.MappingOption.CacheValue)
                     component.ValueCallback = () => value;
 
                 return value;

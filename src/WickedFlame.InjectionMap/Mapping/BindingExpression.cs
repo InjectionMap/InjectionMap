@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using WickedFlame.InjectionMap.Expressions;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
@@ -41,14 +42,14 @@ namespace WickedFlame.InjectionMap.Mapping
         {
             var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
             var keepInstance = (option & InjectionFlags.KeepInstanceAlive) == InjectionFlags.KeepInstanceAlive;
-            var withOverwrite = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
+            var asSingleton = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
 
             if (resolveInstanceOnMapping && !keepInstance)
                 keepInstance = true;
 
             // remove previous instances...
             Container.AddOrReplace(Component);
-            if (withOverwrite)
+            if (asSingleton)
             {
                 Container.ReplaceAll(Component);
             }
@@ -58,8 +59,8 @@ namespace WickedFlame.InjectionMap.Mapping
                 MappingOption = new MappingOption
                 {
                     ResolveInstanceOnMapping = resolveInstanceOnMapping,
-                    KeepInstance = keepInstance,
-                    WithoutOverwrite = !withOverwrite
+                    CacheValue = keepInstance,
+                    AsSingleton = !asSingleton
                 }
             };
         }
@@ -121,14 +122,14 @@ namespace WickedFlame.InjectionMap.Mapping
         {
             var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
             var keepInstance = (option & InjectionFlags.KeepInstanceAlive) == InjectionFlags.KeepInstanceAlive;
-            var withOverwrite = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
+            var asSingleton = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
 
             if (resolveInstanceOnMapping && !keepInstance)
                 keepInstance = true;
 
             // remove previous instances...
             Container.AddOrReplace(Component);
-            if (withOverwrite)
+            if (asSingleton)
             {
                 Container.ReplaceAll(Component);
             }
@@ -138,8 +139,8 @@ namespace WickedFlame.InjectionMap.Mapping
                 MappingOption = new MappingOption
                 {
                     ResolveInstanceOnMapping = resolveInstanceOnMapping,
-                    KeepInstance = keepInstance,
-                    WithoutOverwrite = !withOverwrite
+                    CacheValue = keepInstance,
+                    AsSingleton = asSingleton
                 }
             };
         }

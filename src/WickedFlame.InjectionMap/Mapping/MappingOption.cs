@@ -5,15 +5,21 @@ namespace WickedFlame.InjectionMap.Mapping
     {
         public MappingOption()
         {
-            KeepInstance = false;
+            CacheValue = false;
             ResolveInstanceOnMapping = false;
-            WithoutOverwrite = true;
+            AsSingleton = false;
         }
 
-        public bool KeepInstance { get; internal set; }
+        /// <summary>
+        /// Gets a value indicating if the instance should be cached
+        /// </summary>
+        public bool CacheValue { get; internal set; }
 
         public bool ResolveInstanceOnMapping { get; internal set; }
 
-        public bool WithoutOverwrite { get; internal set; }
+        /// <summary>
+        /// Gets a value indicating if the Mapping replaces all other mappings with the same key type
+        /// </summary>
+        public bool AsSingleton { get; internal set; }
     }
 }

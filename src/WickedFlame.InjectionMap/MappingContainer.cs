@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WickedFlame.InjectionMap.Expressions;
 using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap
@@ -57,12 +58,26 @@ namespace WickedFlame.InjectionMap
 
         public IEnumerable<IMappingComponent> Get<T>()
         {
-            return Components.Where(c => c.KeyType == typeof(T));
+            var lst = Components.Where(c => c.KeyType == typeof(T));
+            
+            // check if a component was added as substitute
+            if (lst.Any(c => c.IsSubstitute))
+                return lst.Where(c => c.IsSubstitute);
+
+            // return all components
+            return lst;
         }
 
         public IEnumerable<IMappingComponent> Get(Type type)
         {
-            return Components.Where(c => c.KeyType == type);
+            var components = Components.Where(c => c.KeyType == type);
+
+            // check if a component was added as substitute
+            if (components.Any(c => c.IsSubstitute))
+                return components.Where(c => c.IsSubstitute);
+
+            // return all components
+            return components;
         }
         
         #endregion
@@ -76,7 +91,7 @@ namespace WickedFlame.InjectionMap
             return expression;
         }
 
-        public IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc//, new()
+        public IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc
         {
             var expression = MappingContainer.MapInternal<TSvc>(this);
 

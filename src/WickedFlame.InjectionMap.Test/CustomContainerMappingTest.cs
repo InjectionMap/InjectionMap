@@ -3,8 +3,14 @@
 namespace WickedFlame.InjectionMap.Test
 {
     [TestFixture]
-    public class CustomContainerMappingTest
+    public class CustomContainerMappingTest : TestBase
     {
+        [SetUp]
+        public void TestInitialize()
+        {
+            Mapper.Clean<ICustomContainer>();
+        }
+
         [Test]
         [Description("Adds a mapping to a custom container")]
         public void MapToCustomContainer()

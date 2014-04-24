@@ -81,6 +81,7 @@
     <Compile Include="Mock\CustomMock.cs" />
     <Compile Include="Mock\InjectionMapperMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubstitutionTest.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>

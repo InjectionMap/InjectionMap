@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace WickedFlame.InjectionMap
 {
     public interface IComponentCollection
     {
-        //IList<IMappingComponent> Components { get; }
-
         void AddOrReplace(IMappingComponent component);
 
         void Add(IMappingComponent component);
