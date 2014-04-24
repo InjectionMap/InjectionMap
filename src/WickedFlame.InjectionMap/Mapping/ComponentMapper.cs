@@ -34,7 +34,7 @@ namespace WickedFlame.InjectionMap.Mapping
         /// </summary>
         /// <typeparam name="TSvc">The type to map</typeparam>
         /// <returns>The expression for the mapping</returns>
-        public IMappingExpression Map<TSvc>()
+        public IMappingExpression<TSvc> Map<TSvc>()
         {
             return _container.Map<TSvc>();
         }

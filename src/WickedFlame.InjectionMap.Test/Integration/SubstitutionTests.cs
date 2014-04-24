@@ -69,7 +69,7 @@ namespace WickedFlame.InjectionMap.Test.Integration
             Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
 
             // substitute the original with the new and readd the original
-            Mapper.Map<ISubstitute>().Substitute<SubstituteMock>().As(() => new OriginalSubstitute());
+            Mapper.Map<ISubstitute>().Substitute<ISubstitute>().As(() => new OriginalSubstitute());
 
             // test new substitute
             map = Resolver.Resolve<ISubstitute>();

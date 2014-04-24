@@ -10,7 +10,7 @@ namespace WickedFlame.InjectionMap
         /// </summary>
         /// <typeparam name="TSvc">The type to map</typeparam>
         /// <returns>The expression for the mapping</returns>
-        IMappingExpression Map<TSvc>();
+        IMappingExpression<TSvc> Map<TSvc>();
 
         /// <summary>
         /// Creates a mapping to TSvc with TImpl

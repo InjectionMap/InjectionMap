@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using WickedFlame.InjectionMap.Expressions;
 
 namespace WickedFlame.InjectionMap.Mapping
@@ -11,5 +12,10 @@ namespace WickedFlame.InjectionMap.Mapping
         }
 
         public IMappingOption MappingOption { get; internal set; }
+
+        public IBoundExpression OnResolved<T>(Action<T> callback)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

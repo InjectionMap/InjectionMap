@@ -53,7 +53,7 @@
     <Compile Include="IComponentCollection.cs" />
     <Compile Include="IComponentProvider.cs" />
     <Compile Include="IMappableContainer.cs" />
-    <Compile Include="IMappingExpression.cs" />
+    <Compile Include="Expressions\IMappingExpression.cs" />
     <Compile Include="IInjectionMapping.cs" />
     <Compile Include="IMappingProvider.cs" />
     <Compile Include="IMappingComponent.cs" />

@@ -84,7 +84,7 @@ namespace WickedFlame.InjectionMap
 
         #region IMappingContainer Implementation
 
-        public IMappingExpression Map<TSvc>()
+        public IMappingExpression<TSvc> Map<TSvc>()
         {
             var expression = MappingContainer.MapInternal<TSvc>(this);
 
@@ -115,7 +115,7 @@ namespace WickedFlame.InjectionMap
 
         #region Internal Implementation
 
-        private static IMappingExpression MapInternal<T>(IComponentCollection container)
+        private static IMappingExpression<T> MapInternal<T>(IComponentCollection container)
         {
             var component = new MappingComponent<T>
             {

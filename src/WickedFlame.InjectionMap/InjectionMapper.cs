@@ -55,7 +55,7 @@ namespace WickedFlame.InjectionMap
 
         #region Implementation
 
-        public IMappingExpression Map<TSvc>()
+        public IMappingExpression<TSvc> Map<TSvc>()
         {
             using (var provider = new ComponentMapper())
             {

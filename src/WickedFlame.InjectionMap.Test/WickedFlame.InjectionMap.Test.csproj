@@ -76,6 +76,7 @@
     <Compile Include="Integration\CustomMappingContextTests.cs" />
     <Compile Include="Integration\InjectionConstructorTests.cs" />
     <Compile Include="Integration\InjectionMappingTests.cs" />
+    <Compile Include="Integration\OnResolvedExpressionTests.cs" />
     <Compile Include="Mock\ConstructorArgumentMock.cs" />
     <Compile Include="Mock\ConstructorInjectionMock.cs" />
     <Compile Include="Mock\CustomMock.cs" />

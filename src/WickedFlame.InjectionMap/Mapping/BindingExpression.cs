@@ -4,85 +4,90 @@ using WickedFlame.InjectionMap.Expressions;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
-    internal class BindingExpression : BindableComponent, IBindingExpression
-    {
-        public BindingExpression(IComponentCollection container, IMappingComponent component)
-            : base(container, component)
-        {
-        }
+    //internal class BindingExpression : BindableComponent, IBindingExpression<ThreadStaticAttribute>
+    //{
+    //    public BindingExpression(IComponentCollection container, IMappingComponent component)
+    //        : base(container, component)
+    //    {
+    //    }
 
-        #region IBindingExpression Implementation
+    //    #region IBindingExpression Implementation
 
-        public IBindingExpression WithArgument<TArg>(TArg value)
-        {
-            return AddArgument<TArg>(null, value, null);
-        }
+    //    public IBindingExpression WithArgument<TArg>(TArg value)
+    //    {
+    //        return AddArgument<TArg>(null, value, null);
+    //    }
 
-        public IBindingExpression WithArgument<TArg>(string name, TArg value)
-        {
-            return AddArgument<TArg>(name, value, null);
-        }
+    //    public IBindingExpression WithArgument<TArg>(string name, TArg value)
+    //    {
+    //        return AddArgument<TArg>(name, value, null);
+    //    }
 
-        public IBindingExpression WithArgument<TArg>(Expression<Func<TArg>> argument)
-        {
-            return AddArgument<TArg>(null, default(TArg), argument);
-        }
+    //    public IBindingExpression WithArgument<TArg>(Expression<Func<TArg>> argument)
+    //    {
+    //        return AddArgument<TArg>(null, default(TArg), argument);
+    //    }
 
-        public IBindingExpression WithArgument<TArg>(string name, Expression<Func<TArg>> argument)
-        {
-            return AddArgument<TArg>(name, default(TArg), argument);
-        }
+    //    public IBindingExpression WithArgument<TArg>(string name, Expression<Func<TArg>> argument)
+    //    {
+    //        return AddArgument<TArg>(name, default(TArg), argument);
+    //    }
 
-        public IBindingExpression<T> As<T>(Expression<Func<T>> callback)
-        {
-            return new MappingExpression<T>(Container, Component).For<T>(callback);
-        }
+    //    public IBindingExpression<T> As<T>(Expression<Func<T>> callback)
+    //    {
+    //        return new MappingExpression<T>(Container, Component).For<T>(callback);
+    //    }
 
-        public IBoundExpression WithOptions(InjectionFlags option)
-        {
-            var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
-            var keepInstance = (option & InjectionFlags.KeepInstanceAlive) == InjectionFlags.KeepInstanceAlive;
-            var asSingleton = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
+    //    public IBoundExpression WithOptions(InjectionFlags option)
+    //    {
+    //        var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
+    //        var keepInstance = (option & InjectionFlags.KeepInstanceAlive) == InjectionFlags.KeepInstanceAlive;
+    //        var asSingleton = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
 
-            if (resolveInstanceOnMapping && !keepInstance)
-                keepInstance = true;
+    //        if (resolveInstanceOnMapping && !keepInstance)
+    //            keepInstance = true;
 
-            // remove previous instances...
-            Container.AddOrReplace(Component);
-            if (asSingleton)
-            {
-                Container.ReplaceAll(Component);
-            }
+    //        // remove previous instances...
+    //        Container.AddOrReplace(Component);
+    //        if (asSingleton)
+    //        {
+    //            Container.ReplaceAll(Component);
+    //        }
 
-            return new BoundExpression(Container, Component)
-            {
-                MappingOption = new MappingOption
-                {
-                    ResolveInstanceOnMapping = resolveInstanceOnMapping,
-                    CacheValue = keepInstance,
-                    AsSingleton = !asSingleton
-                }
-            };
-        }
+    //        return new BoundExpression(Container, Component)
+    //        {
+    //            MappingOption = new MappingOption
+    //            {
+    //                ResolveInstanceOnMapping = resolveInstanceOnMapping,
+    //                CacheValue = keepInstance,
+    //                AsSingleton = !asSingleton
+    //            }
+    //        };
+    //    }
 
-        #endregion
+    //    public IBindingExpression<T> OnResolved<T>(Action<T> callback)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        #region Private Implementation
+    //    #endregion
 
-        private IBindingExpression AddArgument<TArg>(string name, TArg value, Expression<Func<TArg>> callback)
-        {
-            Component.Arguments.Add(new BindingArgument<TArg>
-            {
-                Name = name,
-                Value = value,
-                Callback = callback
-            });
+    //    #region Private Implementation
 
-            return new BindingExpression(Container, Component);
-        }
+    //    private IBindingExpression AddArgument<TArg>(string name, TArg value, Expression<Func<TArg>> callback)
+    //    {
+    //        Component.Arguments.Add(new BindingArgument<TArg>
+    //        {
+    //            Name = name,
+    //            Value = value,
+    //            Callback = callback
+    //        });
 
-        #endregion
-    }
+    //        return new BindingExpression(Container, Component);
+    //    }
+
+    //    #endregion
+    //}
 
     internal class BindingExpression<T> : BindableComponent, IBindingExpression<T>
     {
@@ -113,7 +118,7 @@ namespace WickedFlame.InjectionMap.Mapping
             return AddArgument<TArg>(name, default(TArg), argument);
         }
 
-        public IBindingExpression<T> As<T>(Expression<Func<T>> callback)
+        public IBindingExpression<T> As(Expression<Func<T>> callback)
         {
             return new MappingExpression<T>(Container, Component).For<T>(callback);
         }
@@ -143,6 +148,11 @@ namespace WickedFlame.InjectionMap.Mapping
                     AsSingleton = asSingleton
                 }
             };
+        }
+
+        public IBindingExpression<T> OnResolved(Action<T> callback)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
