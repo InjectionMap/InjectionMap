@@ -12,5 +12,10 @@ namespace WickedFlame.InjectionMap.Internals
                 action(item);
             }
         }
+
+        public static void AddFrom<T>(this IList<T> list, IEnumerable<T> enumeration)
+        {
+            enumeration.ForEach<T>(item => list.Add(item));
+        }
     }
 }

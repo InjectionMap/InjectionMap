@@ -59,6 +59,7 @@
     <Compile Include="IMappingComponent.cs" />
     <Compile Include="IMappingOption.cs" />
     <Compile Include="Internals\Ensure.cs" />
+    <Compile Include="Internals\MappingComponentExtensions.cs" />
     <Compile Include="Internals\IEnumerableExtensions.cs" />
     <Compile Include="Mapping\ComponentResolver.cs" />
     <Compile Include="Mapping\ComponentMapper.cs" />

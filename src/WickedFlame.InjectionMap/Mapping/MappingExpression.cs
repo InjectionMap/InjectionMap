@@ -32,12 +32,17 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IBindingExpression<T> ToSelf()
         {
-            return CreateBinding(Component.KeyType);
+            return CreateBinding();
         }
 
         public IMappingExpression<T> OnResolved(Action<T> callback)
         {
             throw new NotImplementedException();
+
+            //var component = Component.CreateComponent<T>();
+            //component.OnResolvedCallback = callback;
+
+            //return component.CreateBinding<T>(Container);
         }
 
         /// <summary>
@@ -47,23 +52,12 @@ namespace WickedFlame.InjectionMap.Mapping
         /// <returns>New IBindingExpression with the substitute</returns>
         public IBindingExpression<TImpl> Substitute<TImpl>()
         {
-            if (!Component.KeyType.IsAssignableFrom(typeof (TImpl)))
-                throw new MappingMismatchException(typeof (TImpl), Component.KeyType);
+            Ensure.MappingTypesMatch(Component.KeyType, typeof(TImpl));
 
-            var component = new MappingComponent<TImpl>(Component.ID)
-            {
-                KeyType = Component.KeyType,
-                MappingOption = Component.MappingOption,
-                IsSubstitute = true
-            };
+            var component = Component.CreateComponent<TImpl>();
+            component.IsSubstitute = true;
 
-            Container.AddOrReplace(component);
-            if (component.MappingOption == null || component.MappingOption.AsSingleton)
-            {
-                Container.ReplaceAll(component);
-            }
-
-            return new BindingExpression<TImpl>(Container, component);
+            return component.CreateBinding<TImpl>(Container);
         }
 
         /// <summary>
@@ -74,21 +68,13 @@ namespace WickedFlame.InjectionMap.Mapping
         /// <returns>New IBindingExpression with the substitute</returns>
         public IBindingExpression<T> Substitute(Expression<Func<T>> callback)
         {
-            var component = new MappingComponent<T>(Component.ID)
-            {
-                KeyType = Component.KeyType,
-                ValueCallback = callback,
-                MappingOption = Component.MappingOption,
-                IsSubstitute = true
-            };
+            Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
 
-            Container.AddOrReplace(component);
-            if (component.MappingOption == null || component.MappingOption.AsSingleton)
-            {
-                Container.ReplaceAll(component);
-            }
+            var component = Component.CreateComponent<T>();
+            component.IsSubstitute = true;
+            component.ValueCallback = callback;
 
-            return new BindingExpression<T>(Container, component);
+            return component.CreateBinding<T>(Container);
         }
 
 
@@ -98,49 +84,19 @@ namespace WickedFlame.InjectionMap.Mapping
 
         internal IBindingExpression<TImpl> CreateBinding<TImpl>(Expression<Func<TImpl>> callback)
         {
-            if (!Component.KeyType.IsAssignableFrom(typeof(T)))
-                throw new MappingMismatchException(typeof(T), Component.KeyType);
+            Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
 
-            var component = new MappingComponent<TImpl>(Component.ID)
-            {
-                KeyType = Component.KeyType,
-                ValueCallback = callback,
-                MappingOption = Component.MappingOption,
-                IsSubstitute = Component.IsSubstitute
-            };
-
-            Component.Arguments.ForEach(a => component.Arguments.Add(a));
-
-            Container.AddOrReplace(component);
-            if (component.MappingOption == null || component.MappingOption.AsSingleton)
-            {
-                Container.ReplaceAll(component);
-            }
-
-            return new BindingExpression<TImpl>(Container, component);
+            var component = Component.CreateComponent<TImpl>();
+            component.ValueCallback = callback;
+            return component.CreateBinding<TImpl>(Container);
         }
 
-        internal IBindingExpression<T> CreateBinding(Type type)
+        internal IBindingExpression<T> CreateBinding()
         {
-            if (!Component.KeyType.IsAssignableFrom(type))
-                throw new MappingMismatchException(type, Component.KeyType);
+            Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
 
-            var component = new MappingComponent<T>(Component.ID)
-            {
-                KeyType = Component.KeyType,
-                MappingOption = Component.MappingOption,
-                IsSubstitute = Component.IsSubstitute
-            };
-
-            Component.Arguments.ForEach(a => component.Arguments.Add(a));
-
-            Container.AddOrReplace(component);
-            if (component.MappingOption == null || component.MappingOption.AsSingleton)
-            {
-                Container.ReplaceAll(component);
-            }
-
-            return new BindingExpression<T>(Container, component);
+            var component = Component.CreateComponent<T>();
+            return component.CreateBinding<T>(Container);
         }
 
         #endregion

@@ -38,6 +38,19 @@ namespace WickedFlame.InjectionMap.Mapping
             }
         }
 
+        public Action<T> OnResolvedCallback { get; internal set; }
+
+        Action<object> IMappingComponent.OnResolvedCallback
+        {
+            get
+            {
+                if (OnResolvedCallback == null)
+                    return null;
+
+                return p => OnResolvedCallback((T)p);
+            }
+        }
+
         public Type ValueType
         {
             get

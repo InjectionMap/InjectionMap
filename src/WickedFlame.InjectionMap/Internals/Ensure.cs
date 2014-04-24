@@ -1,4 +1,5 @@
 ﻿using System;
+using WickedFlame.InjectionMap.Exceptions;
 
 namespace WickedFlame.InjectionMap.Internals
 {
@@ -14,6 +15,12 @@ namespace WickedFlame.InjectionMap.Internals
         {
             if (String.IsNullOrEmpty(argument)) 
                 throw new ArgumentException("Cannot be null or empty", name);
+        }
+
+        public static void MappingTypesMatch(Type keyType, Type mappedType)
+        {
+            if (!keyType.IsAssignableFrom(mappedType))
+                throw new MappingMismatchException(mappedType, keyType);
         }
     }
 }

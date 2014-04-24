@@ -14,6 +14,8 @@ namespace WickedFlame.InjectionMap
 
         Expression<Func<object>> ValueCallback { get; set; }
 
+        Action<object> OnResolvedCallback { get; }
+
         IMappingOption MappingOption { get; }
 
         IList<IBindingArgument> Arguments { get; }
