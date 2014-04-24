@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using WickedFlame.InjectionMap.Substitution;
 
-namespace WickedFlame.InjectionMap.Test
+namespace WickedFlame.InjectionMap.Test.Integration
 {
     [TestFixture]
-    public class SubstitutionTest : TestBase
+    public class SubstitutionTests : TestBase
     {
         [SetUp]
         public void Initialize()

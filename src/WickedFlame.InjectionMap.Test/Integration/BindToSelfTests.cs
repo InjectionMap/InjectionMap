@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 
-namespace WickedFlame.InjectionMap.Test
+namespace WickedFlame.InjectionMap.Test.Integration
 {
     [TestFixture]
-    public class BindToSelfTest : TestBase
+    public class BindToSelfTests : TestBase
     {
         [SetUp]
         public void Initialize()

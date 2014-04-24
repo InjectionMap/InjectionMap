@@ -1,13 +1,12 @@
 ﻿using System;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WickedFlame.InjectionMap.Test.Mock;
 using System.Linq;
 using NUnit.Framework;
 
-namespace WickedFlame.InjectionMap.Test
+namespace WickedFlame.InjectionMap.Test.Integration
 {
     [TestFixture]
-    public class InjectionMappingTest
+    public class InjectionMappingTests
     {
         [Test]
         public void IInjectionMapping_InitializeTest()

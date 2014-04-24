@@ -1,15 +1,10 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WickedFlame.InjectionMap.Test.Mock;
 
-namespace WickedFlame.InjectionMap.Test
+namespace WickedFlame.InjectionMap.Test.Integration
 {
     [TestFixture]
-    public class InjectionConstructorTest
+    public class InjectionConstructorTests
     {
         [SetUp]
         public void Init()

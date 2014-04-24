@@ -1,14 +1,9 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace WickedFlame.InjectionMap.Test
+namespace WickedFlame.InjectionMap.Test.Integration
 {
     [TestFixture]
-    public class CustomMappingContainerTest
+    public class CustomMappingContainerTests
     {
         [Test]
         [Description("Create a private mappingcontainer that manages mappings")]
