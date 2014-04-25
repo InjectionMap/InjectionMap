@@ -39,7 +39,7 @@ namespace WickedFlame.InjectionMap.Mapping
             return new MappingExpression<T>(Container, Component).For<T>(callback);
         }
 
-        public IBoundExpression WithOptions(InjectionFlags option)
+        public IBoundExpression<T> WithOptions(InjectionFlags option)
         {
             var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
             var keepInstance = (option & InjectionFlags.KeepInstanceAlive) == InjectionFlags.KeepInstanceAlive;
@@ -55,7 +55,7 @@ namespace WickedFlame.InjectionMap.Mapping
                 Container.ReplaceAll(Component);
             }
 
-            return new BoundExpression(Container, Component)
+            return new BoundExpression<T>(Container, Component)
             {
                 MappingOption = new MappingOption
                 {

@@ -15,7 +15,7 @@ namespace WickedFlame.InjectionMap.Expressions
 
         IBindingExpression<T> As(Expression<Func<T>> callback);
 
-        IBoundExpression WithOptions(InjectionFlags option);
+        IBoundExpression<T> WithOptions(InjectionFlags option);
 
         IBindingExpression<T> OnResolved(Action<T> callback);
     }

@@ -5,7 +5,7 @@ using WickedFlame.InjectionMap.Internals;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
-    internal class BoundExpression : BindableComponent, IBoundExpression
+    internal class BoundExpression<T> : BindableComponent, IBoundExpression<T>
     {
         public BoundExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)
@@ -14,14 +14,14 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IMappingOption MappingOption { get; internal set; }
 
-        public IBoundExpression OnResolved<T>(Action<T> callback)
+        public IBoundExpression<T> OnResolved(Action<T> callback)
         {
             Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
 
             var component = Component.CreateComponent<T>();
             component.OnResolvedCallback = callback;
 
-            return component.CreateBoundExpression(Container);
+            return component.CreateBoundExpression<T>(Container);
         }
     }
 }
