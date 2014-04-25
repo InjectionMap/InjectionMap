@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using WickedFlame.InjectionMap.Internals;
 using WickedFlame.InjectionMap.Mapping;
 
 namespace WickedFlame.InjectionMap.Composition
@@ -36,6 +37,8 @@ namespace WickedFlame.InjectionMap.Composition
             {
                 return ctor.ConstructorInfo.Invoke(ctor.Parameters.Select(p => p.Value).ToArray());
             }
+
+            Ensure.CanBeDefaultInstantiated(component.ValueType);
 
             // default constructor
             return Activator.CreateInstance(component.ValueType);

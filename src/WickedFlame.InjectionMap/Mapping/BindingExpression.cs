@@ -73,7 +73,7 @@ namespace WickedFlame.InjectionMap.Mapping
             var component = Component.CreateComponent<T>();
             component.OnResolvedCallback = callback;
 
-            return component.CreateBinding<T>(Container);
+            return component.CreateBindingExpression<T>(Container);
         }
 
         #endregion

@@ -47,6 +47,7 @@
     <Compile Include="Enums\InjectionFlags.cs" />
     <Compile Include="Exceptions\ArgumentNotDefinedException.cs" />
     <Compile Include="Exceptions\MappingMismatchException.cs" />
+    <Compile Include="Exceptions\TypeCompositionException.cs" />
     <Compile Include="IArgument.cs" />
     <Compile Include="IBindingArgument.cs" />
     <Compile Include="Expressions\IBindingExpression.cs" />

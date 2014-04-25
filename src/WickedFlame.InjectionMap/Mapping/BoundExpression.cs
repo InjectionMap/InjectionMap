@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using WickedFlame.InjectionMap.Expressions;
+using WickedFlame.InjectionMap.Internals;
 
 namespace WickedFlame.InjectionMap.Mapping
 {
@@ -15,7 +16,12 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IBoundExpression OnResolved<T>(Action<T> callback)
         {
-            throw new NotImplementedException();
+            Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
+
+            var component = Component.CreateComponent<T>();
+            component.OnResolvedCallback = callback;
+
+            return component.CreateBoundExpression(Container);
         }
     }
 }

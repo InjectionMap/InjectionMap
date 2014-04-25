@@ -15,7 +15,7 @@ namespace WickedFlame.InjectionMap.Test.Integration
         [Description("Tests for IBoundExpression.OnResolved")]
         public void IBoundExpressionOnResolved()
         {
-            Mapper.Map<IOnResolved>().For<OnResolvedMock>().WithArgument(() => 1).WithOptions(InjectionFlags.AsSingleton).OnResolved<IOnResolved>(m => m.ID = 5);
+            Mapper.Map<IOnResolved>().For<OnResolvedMock>().WithArgument(() => 1).WithOptions(InjectionFlags.AsSingleton).OnResolved<OnResolvedMock>(m => m.ID = 5);
 
             var map = Resolver.Resolve<IOnResolved>();
             Assert.IsTrue(map.ID == 5);
@@ -27,7 +27,7 @@ namespace WickedFlame.InjectionMap.Test.Integration
         {
             Mapper.Map<OnResolvedMock>().ToSelf().OnResolved(m => m.ID = 5).WithArgument(() => 1);
 
-            var map = Resolver.Resolve<IOnResolved>();
+            var map = Resolver.Resolve<OnResolvedMock>();
             Assert.IsTrue(map.ID == 5);
         }
 

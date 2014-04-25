@@ -37,12 +37,10 @@ namespace WickedFlame.InjectionMap.Mapping
 
         public IMappingExpression<T> OnResolved(Action<T> callback)
         {
-            throw new NotImplementedException();
+            var component = Component.CreateComponent<T>();
+            component.OnResolvedCallback = callback;
 
-            //var component = Component.CreateComponent<T>();
-            //component.OnResolvedCallback = callback;
-
-            //return component.CreateBinding<T>(Container);
+            return component.CreateMappingExpression<T>(Container);
         }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace WickedFlame.InjectionMap.Mapping
             var component = Component.CreateComponent<TImpl>();
             component.IsSubstitute = true;
 
-            return component.CreateBinding<TImpl>(Container);
+            return component.CreateBindingExpression<TImpl>(Container);
         }
 
         /// <summary>
@@ -74,7 +72,7 @@ namespace WickedFlame.InjectionMap.Mapping
             component.IsSubstitute = true;
             component.ValueCallback = callback;
 
-            return component.CreateBinding<T>(Container);
+            return component.CreateBindingExpression<T>(Container);
         }
 
 
@@ -88,7 +86,7 @@ namespace WickedFlame.InjectionMap.Mapping
 
             var component = Component.CreateComponent<TImpl>();
             component.ValueCallback = callback;
-            return component.CreateBinding<TImpl>(Container);
+            return component.CreateBindingExpression<TImpl>(Container);
         }
 
         internal IBindingExpression<T> CreateBinding()
@@ -96,7 +94,7 @@ namespace WickedFlame.InjectionMap.Mapping
             Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
 
             var component = Component.CreateComponent<T>();
-            return component.CreateBinding<T>(Container);
+            return component.CreateBindingExpression<T>(Container);
         }
 
         #endregion

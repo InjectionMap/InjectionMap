@@ -37,7 +37,7 @@ namespace WickedFlame.InjectionMap.Internals
             return copy;
         }
 
-        internal static IBindingExpression<T> CreateBinding<T>(this IMappingComponent component, IComponentCollection container)
+        internal static IBindingExpression<T> CreateBindingExpression<T>(this IMappingComponent component, IComponentCollection container)
         {
             container.AddOrReplace(component);
             if (component.MappingOption == null || component.MappingOption.AsSingleton)
@@ -46,6 +46,28 @@ namespace WickedFlame.InjectionMap.Internals
             }
 
             return new BindingExpression<T>(container, component);
+        }
+
+        internal static IBoundExpression CreateBoundExpression(this IMappingComponent component, IComponentCollection container)
+        {
+            container.AddOrReplace(component);
+            if (component.MappingOption == null || component.MappingOption.AsSingleton)
+            {
+                container.ReplaceAll(component);
+            }
+
+            return new BoundExpression(container, component);
+        }
+
+        internal static IMappingExpression<T> CreateMappingExpression<T>(this IMappingComponent component, IComponentCollection container)
+        {
+            container.AddOrReplace(component);
+            if (component.MappingOption == null || component.MappingOption.AsSingleton)
+            {
+                container.ReplaceAll(component);
+            }
+
+            return new MappingExpression<T>(container, component);
         }
     }
 }

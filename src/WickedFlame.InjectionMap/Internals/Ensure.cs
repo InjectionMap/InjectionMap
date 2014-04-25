@@ -22,5 +22,20 @@ namespace WickedFlame.InjectionMap.Internals
             if (!keyType.IsAssignableFrom(mappedType))
                 throw new MappingMismatchException(mappedType, keyType);
         }
+
+        public static void CanBeInstantiated(Type type)
+        {
+            if (type.IsAbstract || type.IsInterface)
+                throw new TypeCompositionException(type);
+        }
+
+        public static void CanBeDefaultInstantiated(Type type)
+        {
+            if (type.IsAbstract || type.IsInterface)
+                throw new TypeCompositionException(type);
+
+            if (type.GetConstructor(Type.EmptyTypes) == null)
+                throw new TypeCompositionException(type);
+        }
     }
 }
