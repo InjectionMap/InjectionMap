@@ -3,7 +3,7 @@ namespace WickedFlame.InjectionMap.Test.Mock
 {
     class InjectionMapperMock : IInjectionMapping
     {
-        public void Register(IMappingProvider container)
+        public void InitializeMap(IMappingProvider container)
         {
             container.Map<IInjectionMapperMock1, InjectionMapperMock1>();
             container.Map<IInjectionMapperMock2>().For<InjectionMapperMock2>();

@@ -33,7 +33,7 @@ namespace WickedFlame.InjectionMap
 
         public static void Initialize(IInjectionMapping mapper)
         {
-            mapper.Register(MappingContainerManager.MappingContainer);
+            mapper.InitializeMap(MappingContainerManager.MappingContainer);
         }
 
         public static void Initialize(Assembly assembly)
@@ -47,7 +47,7 @@ namespace WickedFlame.InjectionMap
                 if (obj == null)
                     continue;
 
-                obj.Register(MappingContainerManager.MappingContainer);
+                obj.InitializeMap(MappingContainerManager.MappingContainer);
             }
         }
 
