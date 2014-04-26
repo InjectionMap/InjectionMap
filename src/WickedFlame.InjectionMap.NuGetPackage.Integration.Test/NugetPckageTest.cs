@@ -70,7 +70,7 @@ namespace WickedFlame.InjectionMap.NuGetPackage.Integration.Test
 
     class InjectionMapperMock : IInjectionMapping
     {
-        public void Register(IMappingProvider container)
+        public void InitializeMap(IMappingProvider container)
         {
             container.Map<IInjectionMappingTest, FirstInjectionMappingTestMock>();
             container.Map<IInjectionMappingTest>().For<SecondInjectionMappingTestMock>().WithArgument(() => 5);
