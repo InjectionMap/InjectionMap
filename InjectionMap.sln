@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WickedFlame.InjectionMap", "src\WickedFlame.InjectionMap\WickedFlame.InjectionMap.csproj", "{6572ABE8-5AB4-49D2-9FAC-A35851087D0E}"
 EndProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E2A4FA
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WickedFlame.InjectionMap.NuGetPackage.Integration.Test", "src\WickedFlame.InjectionMap.NuGetPackage.Integration.Test\WickedFlame.InjectionMap.NuGetPackage.Integration.Test.csproj", "{932E8A96-09D6-4B14-8969-F4BCDE96F650}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,11 +30,16 @@ Global
 		{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{932E8A96-09D6-4B14-8969-F4BCDE96F650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{932E8A96-09D6-4B14-8969-F4BCDE96F650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{932E8A96-09D6-4B14-8969-F4BCDE96F650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{932E8A96-09D6-4B14-8969-F4BCDE96F650}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F} = {26358A6E-0241-4C1C-A961-94B3ABF8A332}
+		{932E8A96-09D6-4B14-8969-F4BCDE96F650} = {26358A6E-0241-4C1C-A961-94B3ABF8A332}
 	EndGlobalSection
 EndGlobal

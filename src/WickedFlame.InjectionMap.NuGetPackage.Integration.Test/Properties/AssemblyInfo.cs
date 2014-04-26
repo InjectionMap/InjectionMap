@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WickedFlame.InjectionMap")]
-[assembly: AssemblyDescription("A small and lightweight IoC/DI container for .NET")]
+[assembly: AssemblyTitle("WickedFlame.InjectionMap.NuGetPackage.Integration.Test")]
+[assembly: AssemblyDescription("Project for simple integration Tests for the NuGet package")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("WickedFlame")]
-[assembly: AssemblyProduct("WickedFlame.InjectionMap")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("WickedFlame.InjectionMap.NuGetPackage.Integration.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a4ba4be4-7dd2-408e-9234-c8cb33401eb3")]
+[assembly: Guid("5a1894de-94d7-424d-8141-33536c1f9fac")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
