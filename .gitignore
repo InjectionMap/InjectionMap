@@ -1,13 +1,6 @@
 packages
-*.suo
-InjectionMap.v12.suo
-*.jtconfig
 bin
 obj
 *.user
-src/WickedFlame.InjectionMap.Test/bin
-src/WickedFlame.InjectionMap.Test/obj
-src/WickedFlame.InjectionMap/WickedFlame.InjectionMap.csproj.user
-src/WickedFlame.InjectionMap/bin
-src/WickedFlame.InjectionMap/obj
-src/WickedFlame.InjectionMap.Test/WickedFlame.InjectionMap.Test.csproj.user
+*.jtconfig
+*.suo
