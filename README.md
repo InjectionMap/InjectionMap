@@ -7,7 +7,7 @@ InjectionMap allows loose coupling betweeen interfaces and implementations.
 Compared to other containers that are lightweight, this one really is.
 
 - InjectionMap uses type mapping to reference the key/reference and the implementation. 
-- Instances are resolved using reflection or can be provided through a callback whitch allows you to create the instance in your own code.
+- Instances are resolved using reflection or can be provided through a callback whitch allows you to create the instance in the mapping.
 - It suports a fluent syntax to help keep the code simple, small and clean.
 - Constructors can be marked with attributes.
 - Parameters for constructors can be injected or passed when mapping.
