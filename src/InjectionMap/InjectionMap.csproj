@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6572ABE8-5AB4-49D2-9FAC-A35851087D0E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InjectionMap</RootNamespace>
+    <AssemblyName>InjectionMap</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
+    <Compile Include="Composition\ArgumentFactory.cs" />
+    <Compile Include="Composition\CompositionContainer.cs" />
+    <Compile Include="Composition\ComposedArgument.cs" />
+    <Compile Include="Composition\ArgumentContainer.cs" />
+    <Compile Include="Enums\InjectionFlags.cs" />
+    <Compile Include="Exceptions\ArgumentNotDefinedException.cs" />
+    <Compile Include="Exceptions\MappingMismatchException.cs" />
+    <Compile Include="Exceptions\TypeCompositionException.cs" />
+    <Compile Include="IArgument.cs" />
+    <Compile Include="IBindingArgument.cs" />
+    <Compile Include="Expressions\IBindingExpression.cs" />
+    <Compile Include="IComponentCollection.cs" />
+    <Compile Include="IComponentProvider.cs" />
+    <Compile Include="IMappableContainer.cs" />
+    <Compile Include="Expressions\IMappingExpression.cs" />
+    <Compile Include="IInjectionMapping.cs" />
+    <Compile Include="IMappingProvider.cs" />
+    <Compile Include="IMappingComponent.cs" />
+    <Compile Include="IMappingOption.cs" />
+    <Compile Include="Internals\Ensure.cs" />
+    <Compile Include="Internals\MappingComponentExtensions.cs" />
+    <Compile Include="Internals\IEnumerableExtensions.cs" />
+    <Compile Include="Mapping\ComponentResolver.cs" />
+    <Compile Include="Mapping\ComponentMapper.cs" />
+    <Compile Include="Mapping\BindableComponent.cs" />
+    <Compile Include="Mapping\BindingExpression.cs" />
+    <Compile Include="Mapping\BindingArgument.cs" />
+    <Compile Include="Expressions\IComponentExpression.cs" />
+    <Compile Include="Mapping\MappingExpression.cs" />
+    <Compile Include="InjectionMapper.cs" />
+    <Compile Include="InjectionResolver.cs" />
+    <Compile Include="Expressions\IBoundExpression.cs" />
+    <Compile Include="Mapping\MappingComponent.cs" />
+    <Compile Include="MappingContainer.cs" />
+    <Compile Include="Mapping\MappingContainerManager.cs" />
+    <Compile Include="Mapping\MappingOption.cs" />
+    <Compile Include="Mapping\BoundExpression.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Composition\CompositionService.cs" />
+    <Compile Include="Substitution\IMappingExpressionExtension.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
