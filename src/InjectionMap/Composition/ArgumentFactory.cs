@@ -66,6 +66,11 @@ namespace InjectionMap.Composition
                 }
             }
 
+            // if value is null and no argument with the same name as the parameter return null
+            // if a argument has the same name as the parameter but the value is null, it may be meant that way
+            if (argument.Value == null && !_component.Arguments.Any(a => a.Name == argument.Name))
+                return null;
+
             return argument;
         }
 

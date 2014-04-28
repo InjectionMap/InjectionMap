@@ -182,6 +182,21 @@ namespace InjectionMap.Test.Integration
         }
     }
 
+    public interface ICustomMock
+    {
+        int ID { get; set; }
+    }
+
+    public class CustomMock : ICustomMock
+    {
+        public CustomMock()
+        {
+            ID = 1;
+        }
+
+        public int ID { get; set; }
+    }
+
     class InjectionMapperMock : IInjectionMapping
     {
         public void InitializeMap(IMappingProvider container)

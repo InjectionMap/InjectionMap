@@ -16,26 +16,52 @@ namespace InjectionMap.Mapping
 
         #region IMappingExpression Implementation
 
+        /// <summary>
+        /// Creates a mapping to the type TMap that gets composed when resolving
+        /// </summary>
+        /// <typeparam name="TMap">The mapped type</typeparam>
+        /// <returns>A IBindingExpression of TMap</returns>
         public IBindingExpression<TMap> For<TMap>()
         {
             return CreateBinding<TMap>(null);
         }
 
+        /// <summary>
+        /// Creates a mapping to the value passed as parameter
+        /// </summary>
+        /// <typeparam name="TMap">The mapped type</typeparam>
+        /// <param name="value">The value that gets mapped</param>
+        /// <returns>A IBindingExpression of TMap</returns>
         public IBindingExpression<TMap> For<TMap>(TMap value)
         {
             return CreateBinding<TMap>(() => value);
         }
 
+        /// <summary>
+        /// Creates a mapping to the return value of the expression
+        /// </summary>
+        /// <typeparam name="TMap">The mapped type</typeparam>
+        /// <param name="callback">Expression that gets called to return the value for the mapping. The expression gets called everytime the mapping is resolved</param>
+        /// <returns>A IBindingExpression of TMap</returns>
         public IBindingExpression<TMap> For<TMap>(Expression<Func<TMap>> callback)
         {
             return CreateBinding<TMap>(callback);
         }
 
+        /// <summary>
+        /// Creates a binding to the key type
+        /// </summary>
+        /// <returns>A IBindingExpression of T</returns>
         public IBindingExpression<T> ToSelf()
         {
             return CreateBinding();
         }
 
+        /// <summary>
+        /// Mapps a expression that gets executed when the component has been resolved
+        /// </summary>
+        /// <param name="callback">The Action to execute after resolving</param>
+        /// <returns>A IMappingExpression of T</returns>
         public IMappingExpression<T> OnResolved(Action<T> callback)
         {
             var component = Component.CreateComponent<T>();

@@ -9,25 +9,16 @@ namespace InjectionMap.Composition
 {
     internal class CompositionContainer : IDisposable
     {
+        /// <summary>
+        /// Composes an instance of T from the component
+        /// </summary>
+        /// <typeparam name="T">The type to create from the component</typeparam>
+        /// <param name="component"></param>
+        /// <returns></returns>
         public T ComposePart<T>(IMappingComponent component)
         {
-            // 1. Search for InjectionConstructor
-            // 2. Create Instances of all parameters in constructor
-            // 3. pass objects to constructor
-            // 4. if no InjectionConstructor use default constructor
-
             return (T)ComposePart(component);
         }
-
-        //public T ComposePart<T>(params object[] parameters)
-        //{
-        //    // 1. Search for InjectionConstructor
-        //    // 2. Create Instances of all parameters in constructor
-        //    // 3. pass objects to constructor
-        //    // 4. if no InjectionConstructor use default constructor
-
-        //    return (T)ComposePart(typeof(T), parameters);
-        //}
 
         public object ComposePart(IMappingComponent component)
         {
@@ -49,6 +40,11 @@ namespace InjectionMap.Composition
             return Activator.CreateInstance(component.ValueType, parameters);
         }
 
+        /// <summary>
+        /// Gets a constructor where all parameters can be composed 
+        /// </summary>
+        /// <param name="component">The component to compose</param>
+        /// <returns>An ArgumentContainer containing all arguments</returns>
         private ArgumentContainer GetComposeableConstructor(IMappingComponent component)
         {
             var ctors = component.ValueType.GetConstructors().Where(c => c.GetCustomAttributes(typeof(InjectionConstructorAttribute), false).Any());
@@ -56,13 +52,13 @@ namespace InjectionMap.Composition
             if (ctors == null || !ctors.Any())
             {
                 // if no InjectionConstructor, test if any arguments
-                ctors = component.ValueType.GetConstructors().Where(c => c.GetParameters().Count() == component.Arguments.Count);
+                ctors = component.ValueType.GetConstructors();//.Where(c => c.GetParameters().Count() == component.Arguments.Count);
             }
 
             if (ctors == null || !ctors.Any())
                 return null;
 
-            var resolved = new List<ArgumentContainer>();
+            //var resolved = new List<ArgumentContainer>();
             foreach (var ctor in ctors)
             {
                 bool ok = true;
@@ -87,11 +83,15 @@ namespace InjectionMap.Composition
                     }
                 }
 
+                // get first constructor that is composeable
                 if (ok)
-                    resolved.Add(info);
+                    return info;
+                
+                // add the info anyway to try to resolve
+                //resolved.Add(info);
             }
 
-            return resolved.FirstOrDefault();
+            return null;// resolved.FirstOrDefault();
         }
 
         public void Dispose()

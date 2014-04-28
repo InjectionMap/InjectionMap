@@ -5,14 +5,40 @@ namespace InjectionMap.Expressions
 {
     public interface IMappingExpression<T> : IComponentExpression
     {
+        /// <summary>
+        /// Creates a mapping to the type TMap that gets composed when resolving
+        /// </summary>
+        /// <typeparam name="TMap">The mapped type</typeparam>
+        /// <returns>A IBindingExpression of TMap</returns>
         IBindingExpression<TMap> For<TMap>();
 
+        /// <summary>
+        /// Creates a mapping to the value passed as parameter
+        /// </summary>
+        /// <typeparam name="TMap">The mapped type</typeparam>
+        /// <param name="value">The value that gets mapped</param>
+        /// <returns>A IBindingExpression of TMap</returns>
         IBindingExpression<TMap> For<TMap>(TMap value);
 
+        /// <summary>
+        /// Creates a mapping to the return value of the expression
+        /// </summary>
+        /// <typeparam name="TMap">The mapped type</typeparam>
+        /// <param name="callback">Expression that gets called to return the value for the mapping. The expression gets called everytime the mapping is resolved</param>
+        /// <returns>A IBindingExpression of TMap</returns>
         IBindingExpression<TMap> For<TMap>(Expression<Func<TMap>> callback);
 
+        /// <summary>
+        /// Creates a binding to the key type
+        /// </summary>
+        /// <returns>A IBindingExpression of T</returns>
         IBindingExpression<T> ToSelf();
 
+        /// <summary>
+        /// Mapps a expression that gets executed when the component has been resolved
+        /// </summary>
+        /// <param name="callback">The Action to execute after resolving</param>
+        /// <returns>A IMappingExpression of T</returns>
         IMappingExpression<T> OnResolved(Action<T> callback);
 
 

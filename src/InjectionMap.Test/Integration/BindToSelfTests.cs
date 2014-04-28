@@ -22,6 +22,7 @@ namespace InjectionMap.Test.Integration
             var map = Resolver.Resolve<BindToSelfMock>();
 
             Assert.IsNotNull(map);
+            Assert.IsInstanceOf<BindToSelfMock>(map);
             Assert.IsTrue(map.ID == 1);
         }
     }

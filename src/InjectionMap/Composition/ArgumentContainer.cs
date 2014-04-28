@@ -33,7 +33,7 @@ namespace InjectionMap.Composition
 
             return true;
         }
-
+        
         public bool IsArgumentInUse(object value)
         {
             return Parameters.Any(a => a.Value == value);

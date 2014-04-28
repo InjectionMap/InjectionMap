@@ -92,26 +92,5 @@ namespace InjectionMap.Test.Integration
                 Assert.IsTrue(map.ID == 8);
             }
         }
-
-        [Test]
-        [Description("Resolves a instance without a constructor marked as InjectionConstructor with one parameter")]
-        [Ignore("Not complete")]
-        public void ConstructorWithOneParameter_WithoutAttributeTest()
-        {
-        }
-
-        [Test]
-        [Description("Resolves a instance without a constructor marked as InjectionConstructor with two parameters")]
-        [Ignore("Not complete")]
-        public void ConstructorWithTwoParameters_WithoutAttributeTest()
-        {
-        }
-
-        [Test]
-        [Description("Resolves a instance without a constructor marked as InjectionConstructor with multiple constructors")]
-        [Ignore("Not complete")]
-        public void MultipleConstructors_WithoutAttribute_WithoutDefaultTest()
-        {
-        }
     }
 }
