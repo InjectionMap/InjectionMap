@@ -8,10 +8,63 @@ namespace InjectionMap.Test.Integration
     [TestFixture]
     public class InjectionMappingTests
     {
+        [SetUp]
+        public void Initialize()
+        {
+            var mapper = new InjectionMapper();
+            mapper.Clean<IInjectionMapperMock1>();
+            mapper.Clean<IInjectionMapperMock2>();
+        }
+
         [Test]
-        public void IInjectionMapping_InitializeTest()
+        public void IInjectionMapping_InitializeWithAssembly()
         {
             InjectionMapper.Initialize(this.GetType().Assembly);
+
+            using (var resolver = new InjectionResolver())
+            {
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.AreEqual(mapp1.ID, 1);
+
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.AreEqual(mapp2.ID, 2);
+            }
+        }
+
+        [Test]
+        public void IInjectionMapping_InitializeWithDirectInjectionMappingCall()
+        {
+            InjectionMapper.Initialize(new InjectionMapperMock());
+
+            using (var resolver = new InjectionResolver())
+            {
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.AreEqual(mapp1.ID, 1);
+
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.AreEqual(mapp2.ID, 2);
+            }
+        }
+
+        [Test]
+        public void IInjectionMapping_InitializeByType()
+        {
+            InjectionMapper.Initialize<InjectionMapperMock>();
+
+            using (var resolver = new InjectionResolver())
+            {
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.AreEqual(mapp1.ID, 1);
+
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.AreEqual(mapp2.ID, 2);
+            }
+        }
+
+        [Test]
+        public void IInjectionMapping_InitializeByAssemblyName()
+        {
+            InjectionMapper.Initialize("InjectionMap.Test.dll");
 
             using (var resolver = new InjectionResolver())
             {
@@ -125,6 +178,47 @@ namespace InjectionMap.Test.Integration
                 var map1 = resolver.ResolveMultiple<ICustomMock>();
 
                 Assert.IsTrue(map1.Count() == 1);
+            }
+        }
+    }
+
+    class InjectionMapperMock : IInjectionMapping
+    {
+        public void InitializeMap(IMappingProvider container)
+        {
+            container.Map<IInjectionMapperMock1, InjectionMapperMock1>();
+            container.Map<IInjectionMapperMock2>().For<InjectionMapperMock2>();
+        }
+    }
+
+    public interface IInjectionMapperMock1
+    {
+        int ID { get; }
+    }
+
+    public class InjectionMapperMock1 : IInjectionMapperMock1
+    {
+        public int ID
+        {
+            get
+            {
+                return 1;
+            }
+        }
+    }
+
+    public interface IInjectionMapperMock2
+    {
+        int ID { get; }
+    }
+
+    public class InjectionMapperMock2 : IInjectionMapperMock2
+    {
+        public int ID
+        {
+            get
+            {
+                return 2;
             }
         }
     }

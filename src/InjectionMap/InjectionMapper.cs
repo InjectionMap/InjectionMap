@@ -41,22 +41,51 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Initializes all implementations of <see cref="IInjectionMapping"/>
+        /// Initializes all implementations of <see cref="IInjectionMapping"/> in the assembly
+        /// </summary>
+        /// <param name="assemblyFile"></param>
+        public static void Initialize(string assemblyFile)
+        {
+            Ensure.ArgumentNotNullOrEmpty(assemblyFile, "assemblyFile");
+
+            Initialize(Assembly.LoadFrom(assemblyFile));
+        }
+
+        /// <summary>
+        /// Initializes all implementations of <see cref="IInjectionMapping"/> in the assembly
         /// </summary>
         /// <param name="assembly"></param>
         public static void Initialize(Assembly assembly)
         {
-            var type = typeof(IInjectionMapping);
-            var types = assembly.GetTypes().Where(p => type.IsAssignableFrom(p) && !p.IsInterface);
+            var mappingtype = typeof(IInjectionMapping);
+            var types = assembly.GetTypes().Where(p => mappingtype.IsAssignableFrom(p) && !p.IsInterface);
 
-            foreach (var t in types)
+            foreach (var type in types)
             {
-                var obj = Activator.CreateInstance(t) as IInjectionMapping;
+                Ensure.CanBeDefaultInstantiated(type);
+
+                var obj = Activator.CreateInstance(type) as IInjectionMapping;
                 if (obj == null)
                     continue;
 
                 obj.InitializeMap(MappingContainerManager.MappingContainer);
             }
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="IInjectionMapping"/>
+        /// </summary>
+        /// <param name="type"></param>
+        public static void Initialize<T>() where T : IInjectionMapping
+        {
+            var type = typeof(T);
+
+            Ensure.CanBeDefaultInstantiated(type);
+            Ensure.TypeImplements(type, typeof(IInjectionMapping));
+
+            var obj = Activator.CreateInstance(type) as IInjectionMapping;
+            if (obj != null)
+                obj.InitializeMap(MappingContainerManager.MappingContainer);
         }
 
         #endregion

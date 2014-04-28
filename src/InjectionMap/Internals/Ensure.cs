@@ -23,6 +23,11 @@ namespace InjectionMap.Internals
                 throw new MappingMismatchException(mappedType, keyType);
         }
 
+        public static void TypeImplements(Type type, Type basetype)
+        {
+            MappingTypesMatch(basetype, type);
+        }
+
         public static void CanBeInstantiated(Type type)
         {
             if (type.IsAbstract || type.IsInterface)

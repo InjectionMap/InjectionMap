@@ -56,8 +56,8 @@
     <Compile Include="IMappingComponent.cs" />
     <Compile Include="IMappingOption.cs" />
     <Compile Include="Internals\Ensure.cs" />
-    <Compile Include="Internals\MappingComponentExtensions.cs" />
-    <Compile Include="Internals\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\MappingComponentExtensions.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Mapping\ComponentResolver.cs" />
     <Compile Include="Mapping\ComponentMapper.cs" />
     <Compile Include="Mapping\BindableComponent.cs" />
@@ -75,7 +75,6 @@
     <Compile Include="Mapping\BoundExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Composition\CompositionService.cs" />
-    <Compile Include="Substitution\IMappingExpressionExtension.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

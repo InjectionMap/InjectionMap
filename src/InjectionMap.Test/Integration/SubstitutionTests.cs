@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using InjectionMap.Substitution;
 
 namespace InjectionMap.Test.Integration
 {

@@ -1,7 +1,7 @@
 ﻿using InjectionMap.Expressions;
 using InjectionMap.Mapping;
 
-namespace InjectionMap.Internals
+namespace InjectionMap.Extensions
 {
     public static class MappingComponentExtensions
     {

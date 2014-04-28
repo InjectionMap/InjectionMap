@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using InjectionMap.Expressions;
 using InjectionMap.Internals;
+using InjectionMap.Extensions;
 
 namespace InjectionMap.Mapping
 {
