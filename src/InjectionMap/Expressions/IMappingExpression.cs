@@ -5,11 +5,11 @@ namespace InjectionMap.Expressions
 {
     public interface IMappingExpression<T> : IComponentExpression
     {
-        IBindingExpression<TImpl> For<TImpl>();
+        IBindingExpression<TMap> For<TMap>();
 
-        IBindingExpression<TImpl> For<TImpl>(TImpl value);
+        IBindingExpression<TMap> For<TMap>(TMap value);
 
-        IBindingExpression<TImpl> For<TImpl>(Expression<Func<TImpl>> callback);
+        IBindingExpression<TMap> For<TMap>(Expression<Func<TMap>> callback);
 
         IBindingExpression<T> ToSelf();
 
@@ -19,9 +19,9 @@ namespace InjectionMap.Expressions
         /// <summary>
         /// Adds a substitute mapping for the mapping
         /// </summary>
-        /// <typeparam name="TImpl">The implementing type of the substitue</typeparam>
+        /// <typeparam name="TMap">The implementing type of the substitue</typeparam>
         /// <returns>New IBindingExpression with the substitute</returns>
-        IBindingExpression<TImpl> Substitute<TImpl>();
+        IBindingExpression<TMap> Substitute<TMap>();
 
         /// <summary>
         /// Adds a substitute mapping for the mapping

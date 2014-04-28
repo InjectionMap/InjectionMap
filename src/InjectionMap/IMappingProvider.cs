@@ -6,19 +6,19 @@ namespace InjectionMap
     public interface IMappingProvider
     {
         /// <summary>
-        /// Creates a Mapping to TSvc
+        /// Creates a Mapping to TKey
         /// </summary>
-        /// <typeparam name="TSvc">The type to map</typeparam>
+        /// <typeparam name="TKey">The type to map</typeparam>
         /// <returns>The expression for the mapping</returns>
-        IMappingExpression<TSvc> Map<TSvc>();
+        IMappingExpression<TKey> Map<TKey>();
 
         /// <summary>
-        /// Creates a mapping to TSvc with TImpl
+        /// Creates a mapping to TKey with TMap
         /// </summary>
-        /// <typeparam name="TSvc">The key type to map</typeparam>
-        /// <typeparam name="TImpl">The instance type to map</typeparam>
+        /// <typeparam name="TKey">The key type to map</typeparam>
+        /// <typeparam name="TMap">The instance type to map</typeparam>
         /// <returns>The expression for the mapping</returns>
-        IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc;
+        IBindingExpression<TMap> Map<TKey, TMap>() where TMap : TKey;
 
         /// <summary>
         /// Removes all mappings of type T

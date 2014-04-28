@@ -84,18 +84,18 @@ namespace InjectionMap
 
         #region IMappingContainer Implementation
 
-        public IMappingExpression<TSvc> Map<TSvc>()
+        public IMappingExpression<TKey> Map<TKey>()
         {
-            var expression = MappingContainer.MapInternal<TSvc>(this);
+            var expression = MappingContainer.MapInternal<TKey>(this);
 
             return expression;
         }
 
-        public IBindingExpression<TImpl> Map<TSvc, TImpl>() where TImpl : TSvc
+        public IBindingExpression<TMap> Map<TKey, TMap>() where TMap : TKey
         {
-            var expression = MappingContainer.MapInternal<TSvc>(this);
+            var expression = MappingContainer.MapInternal<TKey>(this);
 
-            return expression.For<TImpl>();
+            return expression.For<TMap>();
         }
 
         /// <summary>

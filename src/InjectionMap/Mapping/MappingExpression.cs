@@ -16,19 +16,19 @@ namespace InjectionMap.Mapping
 
         #region IMappingExpression Implementation
 
-        public IBindingExpression<TImpl> For<TImpl>()
+        public IBindingExpression<TMap> For<TMap>()
         {
-            return CreateBinding<TImpl>(null);
+            return CreateBinding<TMap>(null);
         }
 
-        public IBindingExpression<TImpl> For<TImpl>(TImpl value)
+        public IBindingExpression<TMap> For<TMap>(TMap value)
         {
-            return CreateBinding<TImpl>(() => value);
+            return CreateBinding<TMap>(() => value);
         }
 
-        public IBindingExpression<TImpl> For<TImpl>(Expression<Func<TImpl>> callback)
+        public IBindingExpression<TMap> For<TMap>(Expression<Func<TMap>> callback)
         {
-            return CreateBinding<TImpl>(callback);
+            return CreateBinding<TMap>(callback);
         }
 
         public IBindingExpression<T> ToSelf()
@@ -47,16 +47,16 @@ namespace InjectionMap.Mapping
         /// <summary>
         /// Adds a substitute mapping for the mapping
         /// </summary>
-        /// <typeparam name="TImpl">The implementing type of the substitue</typeparam>
+        /// <typeparam name="TMap">The implementing type of the substitue</typeparam>
         /// <returns>New IBindingExpression with the substitute</returns>
-        public IBindingExpression<TImpl> Substitute<TImpl>()
+        public IBindingExpression<TMap> Substitute<TMap>()
         {
-            Ensure.MappingTypesMatch(Component.KeyType, typeof(TImpl));
+            Ensure.MappingTypesMatch(Component.KeyType, typeof(TMap));
 
-            var component = Component.CreateComponent<TImpl>();
+            var component = Component.CreateComponent<TMap>();
             component.IsSubstitute = true;
 
-            return component.CreateBindingExpression<TImpl>(Container);
+            return component.CreateBindingExpression<TMap>(Container);
         }
 
         /// <summary>
@@ -81,13 +81,13 @@ namespace InjectionMap.Mapping
 
         #region Implementation
 
-        internal IBindingExpression<TImpl> CreateBinding<TImpl>(Expression<Func<TImpl>> callback)
+        internal IBindingExpression<TMap> CreateBinding<TMap>(Expression<Func<TMap>> callback)
         {
             Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
 
-            var component = Component.CreateComponent<TImpl>();
+            var component = Component.CreateComponent<TMap>();
             component.ValueCallback = callback;
-            return component.CreateBindingExpression<TImpl>(Container);
+            return component.CreateBindingExpression<TMap>(Container);
         }
 
         internal IBindingExpression<T> CreateBinding()
