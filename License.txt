@@ -1,5 +1,4 @@
-InjectionMap is intended to be used in both open-source and commercial environments. To allow its use in as many
-situations as possible, InjectionMap is licensed under the Microsoft Public License (Ms-RL).
+InjectionMap is intended to be used in both open-source and commercial environments.
 
 Microsoft Reciprocal License (Ms-RL)
 ------------------------------------

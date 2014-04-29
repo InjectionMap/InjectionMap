@@ -43,11 +43,11 @@ namespace InjectionMap.Mapping
         public IBoundExpression<T> WithOptions(InjectionFlags option)
         {
             var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
-            var keepInstance = (option & InjectionFlags.KeepInstanceAlive) == InjectionFlags.KeepInstanceAlive;
+            var cacheValue = (option & InjectionFlags.CacheValue) == InjectionFlags.CacheValue;
             var asSingleton = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
 
-            if (resolveInstanceOnMapping && !keepInstance)
-                keepInstance = true;
+            if (resolveInstanceOnMapping && !cacheValue)
+                cacheValue = true;
 
             // remove previous instances...
             Container.AddOrReplace(Component);
@@ -61,7 +61,7 @@ namespace InjectionMap.Mapping
                 MappingOption = new MappingOption
                 {
                     ResolveInstanceOnMapping = resolveInstanceOnMapping,
-                    CacheValue = keepInstance,
+                    CacheValue = cacheValue,
                     AsSingleton = asSingleton
                 }
             };
