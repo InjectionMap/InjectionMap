@@ -49,21 +49,24 @@ namespace InjectionMap.Mapping
             if (resolveInstanceOnMapping && !cacheValue)
                 cacheValue = true;
 
+            var component = Component.CreateComponent<T>();
+            component.MappingOption = new MappingOption
+            {
+                ResolveInstanceOnMapping = resolveInstanceOnMapping,
+                CacheValue = cacheValue,
+                AsSingleton = asSingleton
+            };
+
             // remove previous instances...
-            Container.AddOrReplace(Component);
+            Container.AddOrReplace(component);
             if (asSingleton)
             {
-                Container.ReplaceAll(Component);
+                Container.ReplaceAll(component);
             }
 
-            return new BoundExpression<T>(Container, Component)
+            return new BoundExpression<T>(Container, component)
             {
-                MappingOption = new MappingOption
-                {
-                    ResolveInstanceOnMapping = resolveInstanceOnMapping,
-                    CacheValue = cacheValue,
-                    AsSingleton = asSingleton
-                }
+                MappingOption = component.MappingOption
             };
         }
 
