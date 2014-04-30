@@ -35,9 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="InjectionMap, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="InjectionMap, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\InjectionMap.1.2.1\lib\net45\InjectionMap.dll</HintPath>
+      <HintPath>..\..\packages\InjectionMap.1.3.1\lib\net45\InjectionMap.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core">
       <HintPath>..\..\packages\NUnitTestAdapter.1.0\lib\nunit.core.dll</HintPath>
