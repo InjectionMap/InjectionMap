@@ -68,18 +68,6 @@ namespace InjectionMap
             }
         }
 
-        /// <summary>
-        /// Removes all mappings of type T
-        /// </summary>
-        /// <typeparam name="T">The type of mappings to remove</typeparam>
-        public void Clean<T>()
-        {
-            using (var resolver = new ComponentResolver(_container))
-            {
-                resolver.Clean<T>();
-            }
-        }
-
         #endregion
 
         #region IDisposeable Implementation

@@ -18,11 +18,5 @@ namespace InjectionMap
         /// <param name="type">Key type of the mapping</param>
         /// <returns>A list of all maoppings to the given type</returns>
         IEnumerable<IMappingComponent> Get(Type type);
-
-        /// <summary>
-        /// Removes all mappings of type T
-        /// </summary>
-        /// <typeparam name="T">The type of mappings to remove</typeparam>
-        void Clean<T>();
     }
 }

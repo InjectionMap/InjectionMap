@@ -81,15 +81,6 @@ namespace InjectionMap.Mapping
             return _container.Get<T>().Select(c => CompositionService.Compose<T>(c));
         }
 
-        /// <summary>
-        /// Removes all mappings of type T
-        /// </summary>
-        /// <typeparam name="T">The type of mappings to remove</typeparam>
-        public void Clean<T>()
-        {
-            _container.Clean<T>();
-        }
-
         #endregion
 
         #region IDisposeable Implementation
