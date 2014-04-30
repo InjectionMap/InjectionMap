@@ -19,8 +19,6 @@ namespace InjectionMap
         /// <returns>A list of all maoppings to the given type</returns>
         IEnumerable<IMappingComponent> Get(Type type);
 
-        //IEnumerable<T> Get<T>(Func<bool, T> condition);
-
         /// <summary>
         /// Removes all mappings of type T
         /// </summary>

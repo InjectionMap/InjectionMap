@@ -52,6 +52,18 @@ namespace InjectionMap
                 Components.Remove(component);
         }
 
+        public IEnumerable<IMappingComponent> Get<T>(Func<IMappingComponent, bool> predicate)
+        {
+            var lst = Components.Where(c => c.KeyType == typeof(T) && predicate(c));
+
+            // check if a component was added as substitute
+            if (lst.Any(c => c.IsSubstitute))
+                return lst.Where(c => c.IsSubstitute);
+
+            // return all components
+            return lst;
+        }
+
         #endregion
 
         #region IComponentProvider Implementation
@@ -117,6 +129,16 @@ namespace InjectionMap
 
         private static IMappingExpression<T> MapInternal<T>(IComponentCollection container)
         {
+            if (container.Get<T>(m => m.MappingOption.AsSingleton).Any())
+            {
+                //TODO: It is not jet decided if the Mapping should cast an error when there is existing mapping in singletonscope. It may not be a good idea to just silently throw the new mapping away without notifying the user!
+
+                // create a new mappingcontainer
+                // this preserves the original mapping but prevents a null reference when processing further with fluent syntax
+                // this mapping will get lost because the container is not stored anywhere!
+                container = new MappingContainer();
+            }
+
             var component = new MappingComponent<T>
             {
                 KeyType = typeof(T)

@@ -1,4 +1,7 @@
 ﻿
+using System;
+using System.Collections.Generic;
+
 namespace InjectionMap
 {
     /// <summary>
@@ -29,5 +32,20 @@ namespace InjectionMap
         /// </summary>
         /// <param name="component"></param>
         void Remove(IMappingComponent component);
+
+        /// <summary>
+        /// Gets all mappings of the type
+        /// </summary>
+        /// <typeparam name="T">Key type of the mapping</typeparam>
+        /// <returns>A list of all maoppings to the given type</returns>
+        IEnumerable<IMappingComponent> Get<T>();
+
+        /// <summary>
+        /// Gets all mappings of the type
+        /// </summary>
+        /// <typeparam name="T">Key type of the mapping</typeparam>
+        /// <param name="predicate">The predicate that checks the expression</param>
+        /// <returns>A list of all maoppings to the given type</returns>
+        IEnumerable<IMappingComponent> Get<T>(Func<IMappingComponent, bool> predicate);
     }
 }
