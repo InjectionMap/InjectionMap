@@ -9,7 +9,7 @@ namespace InjectionMap
     public interface IBindingArgument : IArgument
     {
         /// <summary>
-        /// Expression that gets executed when the value is passed to the parameter
+        /// Predicate that gets executed when the value is passed to the parameter
         /// </summary>
         Expression<Func<object>> Callback { get; }
     }

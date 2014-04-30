@@ -129,7 +129,7 @@ namespace InjectionMap
 
         private static IMappingExpression<T> MapInternal<T>(IComponentCollection container)
         {
-            if (container.Get<T>(m => m.MappingOption.AsSingleton).Any())
+            if (container.Get<T>(m => m.MappingConfiguration.AsSingleton).Any())
             {
                 //TODO: It is not jet decided if the Mapping should cast an error when there is existing mapping in singletonscope. It may not be a good idea to just silently throw the new mapping away without notifying the user!
 

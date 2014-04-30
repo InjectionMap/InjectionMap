@@ -5,11 +5,16 @@ namespace InjectionMap.Expressions
 {
     public interface IBoundExpression<T> : IComponentExpression
     {
+        /// <summary>
+        /// Gets the configuration for the mapping
+        /// </summary>
+        IMappingConfiguration MappingConfiguration { get; }
 
-        IMappingOption MappingOption { get; }
-
-        //IOptionExpression WithOptions(InjectionFlags option);
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <returns></returns>
         IBoundExpression<T> OnResolved(Action<T> callback);
     }
 }

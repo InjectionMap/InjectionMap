@@ -24,9 +24,9 @@ namespace InjectionMap.Expressions
         /// Creates a mapping to the return value of the expression
         /// </summary>
         /// <typeparam name="TMap">The mapped type</typeparam>
-        /// <param name="callback">Expression that gets called to return the value for the mapping. The expression gets called everytime the mapping is resolved</param>
+        /// <param name="predicate">Expression that gets called to return the value for the mapping. The expression gets called everytime the mapping is resolved</param>
         /// <returns>A IBindingExpression of TMap</returns>
-        IBindingExpression<TMap> For<TMap>(Expression<Func<TMap>> callback);
+        IBindingExpression<TMap> For<TMap>(Expression<Func<TMap>> predicate);
 
         /// <summary>
         /// Creates a binding to the key type
@@ -53,8 +53,8 @@ namespace InjectionMap.Expressions
         /// Adds a substitute mapping for the mapping
         /// </summary>
         /// <typeparam name="T">Key type to create a substitute for</typeparam>
-        /// <param name="callback">Callback expression to generate substitute</param>
+        /// <param name="predicate">Callback expression to generate substitute</param>
         /// <returns>New IBindingExpression with the substitute</returns>
-        IBindingExpression<T> Substitute(Expression<Func<T>> callback);
+        IBindingExpression<T> Substitute(Expression<Func<T>> predicate);
     }
 }

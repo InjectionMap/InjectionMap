@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using InjectionMap.Exceptions;
 using InjectionMap.Expressions;
-using InjectionMap.Internals;
 using InjectionMap.Extensions;
+using InjectionMap.Internals;
 
 namespace InjectionMap.Mapping
 {
@@ -41,11 +40,11 @@ namespace InjectionMap.Mapping
         /// Creates a mapping to the return value of the expression
         /// </summary>
         /// <typeparam name="TMap">The mapped type</typeparam>
-        /// <param name="callback">Expression that gets called to return the value for the mapping. The expression gets called everytime the mapping is resolved</param>
+        /// <param name="predicate">Expression that gets called to return the value for the mapping. The expression gets called everytime the mapping is resolved</param>
         /// <returns>A IBindingExpression of TMap</returns>
-        public IBindingExpression<TMap> For<TMap>(Expression<Func<TMap>> callback)
+        public IBindingExpression<TMap> For<TMap>(Expression<Func<TMap>> predicate)
         {
-            return CreateBinding<TMap>(callback);
+            return CreateBinding<TMap>(predicate);
         }
 
         /// <summary>
@@ -89,15 +88,15 @@ namespace InjectionMap.Mapping
         /// Adds a substitute mapping for the mapping
         /// </summary>
         /// <typeparam name="T">Key type to create a substitute for</typeparam>
-        /// <param name="callback">Callback expression to generate substitute</param>
+        /// <param name="predicate">Callback expression to generate substitute</param>
         /// <returns>New IBindingExpression with the substitute</returns>
-        public IBindingExpression<T> Substitute(Expression<Func<T>> callback)
+        public IBindingExpression<T> Substitute(Expression<Func<T>> predicate)
         {
             Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
 
             var component = Component.CreateComponent<T>();
             component.IsSubstitute = true;
-            component.ValueCallback = callback;
+            component.ValueCallback = predicate;
 
             return component.CreateBindingExpression<T>(Container);
         }
@@ -107,12 +106,12 @@ namespace InjectionMap.Mapping
 
         #region Implementation
 
-        internal IBindingExpression<TMap> CreateBinding<TMap>(Expression<Func<TMap>> callback)
+        internal IBindingExpression<TMap> CreateBinding<TMap>(Expression<Func<TMap>> predicate)
         {
             Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
 
             var component = Component.CreateComponent<TMap>();
-            component.ValueCallback = callback;
+            component.ValueCallback = predicate;
             return component.CreateBindingExpression<TMap>(Container);
         }
 

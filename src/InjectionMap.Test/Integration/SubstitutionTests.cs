@@ -83,7 +83,7 @@ namespace InjectionMap.Test.Integration
             Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
 
             // substitute the original with the new
-            Mapper.Map<ISubstitute>().Substitute<SubstituteMock>().WithOptions(InjectionFlags.AsSingleton);
+            Mapper.Map<ISubstitute>().Substitute<SubstituteMock>().WithConfiguration(InjectionFlags.AsSingleton);
 
             // test new substitute
             map = Resolver.Resolve<ISubstitute>();

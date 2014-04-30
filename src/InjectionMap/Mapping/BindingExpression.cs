@@ -25,22 +25,22 @@ namespace InjectionMap.Mapping
             return AddArgument<TArg>(name, value, null);
         }
 
-        public IBindingExpression<T> WithArgument<TArg>(Expression<Func<TArg>> argument)
+        public IBindingExpression<T> WithArgument<TArg>(Expression<Func<TArg>> predicate)
         {
-            return AddArgument<TArg>(null, default(TArg), argument);
+            return AddArgument<TArg>(null, default(TArg), predicate);
         }
 
-        public IBindingExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> argument)
+        public IBindingExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate)
         {
-            return AddArgument<TArg>(name, default(TArg), argument);
+            return AddArgument<TArg>(name, default(TArg), predicate);
         }
 
-        public IBindingExpression<T> As(Expression<Func<T>> callback)
+        public IBindingExpression<T> As(Expression<Func<T>> predicate)
         {
-            return new MappingExpression<T>(Container, Component).For<T>(callback);
+            return new MappingExpression<T>(Container, Component).For<T>(predicate);
         }
 
-        public IBoundExpression<T> WithOptions(InjectionFlags option)
+        public IBoundExpression<T> WithConfiguration(InjectionFlags option)
         {
             var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
             var cacheValue = (option & InjectionFlags.CacheValue) == InjectionFlags.CacheValue;
@@ -50,7 +50,7 @@ namespace InjectionMap.Mapping
                 cacheValue = true;
 
             var component = Component.CreateComponent<T>();
-            component.MappingOption = new MappingOption
+            component.MappingConfiguration = new MappingConfiguration
             {
                 ResolveInstanceOnMapping = resolveInstanceOnMapping,
                 CacheValue = cacheValue,
@@ -66,7 +66,7 @@ namespace InjectionMap.Mapping
 
             return new BoundExpression<T>(Container, component)
             {
-                MappingOption = component.MappingOption
+                MappingConfiguration = component.MappingConfiguration
             };
         }
 
@@ -84,13 +84,13 @@ namespace InjectionMap.Mapping
 
         #region Private Implementation
 
-        private IBindingExpression<T> AddArgument<TArg>(string name, TArg value, Expression<Func<TArg>> callback)
+        private IBindingExpression<T> AddArgument<TArg>(string name, TArg value, Expression<Func<TArg>> predicate)
         {
             Component.Arguments.Add(new BindingArgument<TArg>
             {
                 Name = name,
                 Value = value,
-                Callback = callback
+                Callback = predicate
             });
 
             return new BindingExpression<T>(Container, Component);

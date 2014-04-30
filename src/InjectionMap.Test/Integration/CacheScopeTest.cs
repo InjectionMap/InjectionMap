@@ -20,7 +20,7 @@ namespace InjectionMap.Test.Integration
         public void ChangeValueInCachedScope()
         {
             // mapping
-            Mapper.Map<ICacheScope, CacheScopeMock>().WithArgument("id", () => 2).WithOptions(InjectionFlags.CacheValue);
+            Mapper.Map<ICacheScope, CacheScopeMock>().WithArgument("id", () => 2).WithConfiguration(InjectionFlags.CacheValue);
 
             // resolve
             var map = Resolver.Resolve<ICacheScope>();

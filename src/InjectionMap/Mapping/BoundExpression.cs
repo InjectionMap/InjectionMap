@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq.Expressions;
 using InjectionMap.Expressions;
-using InjectionMap.Internals;
 using InjectionMap.Extensions;
+using InjectionMap.Internals;
 
 namespace InjectionMap.Mapping
 {
@@ -13,7 +12,10 @@ namespace InjectionMap.Mapping
         {
         }
 
-        public IMappingOption MappingOption { get; internal set; }
+        /// <summary>
+        /// Gets the configuration for the mapping
+        /// </summary>
+        public IMappingConfiguration MappingConfiguration { get; internal set; }
 
         public IBoundExpression<T> OnResolved(Action<T> callback)
         {

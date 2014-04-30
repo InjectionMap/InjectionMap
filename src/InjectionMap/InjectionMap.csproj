@@ -54,7 +54,7 @@
     <Compile Include="IInjectionMapping.cs" />
     <Compile Include="IMappingProvider.cs" />
     <Compile Include="IMappingComponent.cs" />
-    <Compile Include="IMappingOption.cs" />
+    <Compile Include="IMappingConfiguration.cs" />
     <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Extensions\MappingComponentExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="Mapping\MappingComponent.cs" />
     <Compile Include="MappingContainer.cs" />
     <Compile Include="Mapping\MappingContainerManager.cs" />
-    <Compile Include="Mapping\MappingOption.cs" />
+    <Compile Include="Mapping\MappingConfiguration.cs" />
     <Compile Include="Mapping\BoundExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Composition\CompositionService.cs" />

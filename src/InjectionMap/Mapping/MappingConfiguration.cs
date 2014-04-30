@@ -1,9 +1,9 @@
 ﻿
 namespace InjectionMap.Mapping
 {
-    internal class MappingOption : IMappingOption
+    internal class MappingConfiguration : IMappingConfiguration
     {
-        public MappingOption()
+        public MappingConfiguration()
         {
             CacheValue = false;
             ResolveInstanceOnMapping = false;
@@ -11,10 +11,13 @@ namespace InjectionMap.Mapping
         }
 
         /// <summary>
-        /// Gets a value indicating if the instance should be cached
+        /// Indicates if the resolved value should be cached and reused for all further uses
         /// </summary>
         public bool CacheValue { get; internal set; }
 
+        /// <summary>
+        /// Indicates if the value of the mapping will be resolved when mapping or when resolving
+        /// </summary>
         public bool ResolveInstanceOnMapping { get; internal set; }
 
         /// <summary>

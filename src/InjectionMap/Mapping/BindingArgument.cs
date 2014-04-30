@@ -17,7 +17,9 @@ namespace InjectionMap.Mapping
             }
         }
 
-        //public Expression<Func<object>> Callback { get; internal set; }
+        /// <summary>
+        /// Predicate that gets executed when the value is passed to the parameter
+        /// </summary>
         public Expression<Func<T>> Callback { get; internal set; }
 
         Expression<Func<object>> IBindingArgument.Callback

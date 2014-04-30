@@ -14,15 +14,21 @@ namespace InjectionMap.Mapping
         internal MappingComponent(Guid id)
         {
             ID = id;
-            MappingOption = new MappingOption();
+            MappingConfiguration = new MappingConfiguration();
         }
 
         public Guid ID { get; private set; }
 
         public Type KeyType { get; internal set; }
 
+        /// <summary>
+        /// The predicate that gets executed to provide the value for the mapping
+        /// </summary>
         public Expression<Func<T>> ValueCallback { get; set; }
 
+        /// <summary>
+        /// The predicate that gets executed to provide the value for the mapping
+        /// </summary>
         Expression<Func<object>> IMappingComponent.ValueCallback
         {
             get
@@ -59,7 +65,7 @@ namespace InjectionMap.Mapping
             }
         }
 
-        public IMappingOption MappingOption { get; internal set; }
+        public IMappingConfiguration MappingConfiguration { get; internal set; }
 
         IList<IBindingArgument> _arguments;
         public IList<IBindingArgument> Arguments

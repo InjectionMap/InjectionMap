@@ -13,7 +13,7 @@ namespace InjectionMap.Extensions
                 //ValueCallback = component.ValueCallback,
                 //OnResolvedCallback = component.OnResolvedCallback,
                 //ValueType = component.ValueType,
-                MappingOption = component.MappingOption,
+                MappingConfiguration = component.MappingConfiguration,
                 IsSubstitute = component.IsSubstitute
             };
 
@@ -40,7 +40,7 @@ namespace InjectionMap.Extensions
         internal static IBindingExpression<T> CreateBindingExpression<T>(this IMappingComponent component, IComponentCollection container)
         {
             container.AddOrReplace(component);
-            if (component.MappingOption == null || component.MappingOption.AsSingleton)
+            if (component.MappingConfiguration == null || component.MappingConfiguration.AsSingleton)
             {
                 container.ReplaceAll(component);
             }
@@ -51,7 +51,7 @@ namespace InjectionMap.Extensions
         internal static IBoundExpression<T> CreateBoundExpression<T>(this IMappingComponent component, IComponentCollection container)
         {
             container.AddOrReplace(component);
-            if (component.MappingOption == null || component.MappingOption.AsSingleton)
+            if (component.MappingConfiguration == null || component.MappingConfiguration.AsSingleton)
             {
                 container.ReplaceAll(component);
             }
@@ -62,7 +62,7 @@ namespace InjectionMap.Extensions
         internal static IMappingExpression<T> CreateMappingExpression<T>(this IMappingComponent component, IComponentCollection container)
         {
             container.AddOrReplace(component);
-            if (component.MappingOption == null || component.MappingOption.AsSingleton)
+            if (component.MappingConfiguration == null || component.MappingConfiguration.AsSingleton)
             {
                 container.ReplaceAll(component);
             }

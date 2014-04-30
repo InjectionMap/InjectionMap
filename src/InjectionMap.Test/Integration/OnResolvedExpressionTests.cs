@@ -15,7 +15,7 @@ namespace InjectionMap.Test.Integration
         [Description("Tests for IBoundExpression.OnResolved")]
         public void IBoundExpressionOnResolved()
         {
-            Mapper.Map<IOnResolved>().For<OnResolvedMock>().WithArgument(() => 1).WithOptions(InjectionFlags.AsSingleton).OnResolved(m => m.ID = 5);
+            Mapper.Map<IOnResolved>().For<OnResolvedMock>().WithArgument(() => 1).WithConfiguration(InjectionFlags.AsSingleton).OnResolved(m => m.ID = 5);
 
             var map = Resolver.Resolve<IOnResolved>();
             Assert.IsTrue(map.ID == 5);
