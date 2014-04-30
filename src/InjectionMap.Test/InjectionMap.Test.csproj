@@ -73,6 +73,7 @@
     <Compile Include="Integration\ConstructorWithArgumentsTests.cs" />
     <Compile Include="Integration\CustomContainerMappingTests.cs" />
     <Compile Include="Integration\CustomMappingContextTests.cs" />
+    <Compile Include="Integration\IMappingExpressionExtensionsTest.cs" />
     <Compile Include="Integration\InjectionConstructorTests.cs" />
     <Compile Include="Integration\InjectionMappingTests.cs" />
     <Compile Include="Integration\OnResolvedExpressionTests.cs" />

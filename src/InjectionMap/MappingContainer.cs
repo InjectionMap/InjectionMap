@@ -127,7 +127,7 @@ namespace InjectionMap
 
         #region Internal Implementation
 
-        private static IMappingExpression<T> MapInternal<T>(IComponentCollection container)
+        internal static IMappingExpression<T> MapInternal<T>(IComponentCollection container)
         {
             if (container.Get<T>(m => m.MappingConfiguration.AsSingleton).Any())
             {
