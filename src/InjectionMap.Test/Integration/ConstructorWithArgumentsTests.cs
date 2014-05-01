@@ -118,31 +118,4 @@ namespace InjectionMap.Test.Integration
         //    var map = Resolver.Resolve<IConstructorArgumentMock>();
         //}
     }
-
-
-
-    public interface IConstructorArgumentMock
-    {
-        string ID { get; }
-    }
-
-    public class ConstructorArgumentMock : IConstructorArgumentMock
-    {
-        public ConstructorArgumentMock(int id, string message)
-        {
-            ID = string.Format("{0} {1}", message, id);
-        }
-
-        public string ID { get; private set; }
-    }
-
-    public class ConstructorWithoutArgumentMock : IConstructorArgumentMock
-    {
-        public ConstructorWithoutArgumentMock()
-        {
-            ID = "Test without arguments";
-        }
-
-        public string ID { get; private set; }
-    }
 }

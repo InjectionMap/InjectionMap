@@ -36,10 +36,8 @@ namespace InjectionMap.Composition
                     a => new
                     {
                         Name = a.Name,
-                        //Value = a.Value ?? (a.Callback != null ? a.Callback.Compile().Invoke() : null)
                         Value = a.Callback != null ? a.Callback.Compile().Invoke() : a.Value
                     });
-                    //.Where(a => a.Value != null);
 
                 // 1. check if argument is defined in arguments by name
                 var arg = arguments.FirstOrDefault(a => a.Name == param.Name);

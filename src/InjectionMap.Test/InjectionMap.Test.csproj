@@ -70,6 +70,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Integration\BindToSelfTests.cs" />
+    <Compile Include="Integration\ConstructorParameterTest.cs" />
     <Compile Include="Integration\ConstructorWithArgumentsTests.cs" />
     <Compile Include="Integration\CustomContainerMappingTests.cs" />
     <Compile Include="Integration\CustomMappingContextTests.cs" />

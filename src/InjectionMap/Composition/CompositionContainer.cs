@@ -13,13 +13,18 @@ namespace InjectionMap.Composition
         /// Composes an instance of T from the component
         /// </summary>
         /// <typeparam name="T">The type to create from the component</typeparam>
-        /// <param name="component"></param>
-        /// <returns></returns>
+        /// <param name="component">The mapping</param>
+        /// <returns>The composed object</returns>
         public T ComposePart<T>(IMappingComponent component)
         {
             return (T)ComposePart(component);
         }
 
+        /// <summary>
+        /// Composes an instance from the component
+        /// </summary>
+        /// <param name="component">The mapping</param>
+        /// <returns>The composed object</returns>
         public object ComposePart(IMappingComponent component)
         {
             // check if there is a constructor marked as InjectionConstructor
@@ -35,6 +40,12 @@ namespace InjectionMap.Composition
             return Activator.CreateInstance(component.ValueType);
         }
 
+        /// <summary>
+        /// Composes an instance from the component
+        /// </summary>
+        /// <param name="component">The mapping</param>
+        /// <param name="parameters">Parameters to resolve</param>
+        /// <returns>The composed object</returns>
         public object ComposePart(IMappingComponent component, params object[] parameters)
         {
             return Activator.CreateInstance(component.ValueType, parameters);
@@ -47,51 +58,81 @@ namespace InjectionMap.Composition
         /// <returns>An ArgumentContainer containing all arguments</returns>
         private ArgumentContainer GetComposeableConstructor(IMappingComponent component)
         {
-            var ctors = component.ValueType.GetConstructors().Where(c => c.GetCustomAttributes(typeof(InjectionConstructorAttribute), false).Any());
-
-            if (ctors == null || !ctors.Any())
+            var ctors = component.ValueType.GetConstructors();
+            
+            // try get InjectionConstructors
+            var tmpctors = ctors.Where(c => c.GetCustomAttributes(typeof(InjectionConstructorAttribute), false).Any());
+            if (tmpctors != null && tmpctors.Any())
             {
-                // if no InjectionConstructor, test if any arguments
-                ctors = component.ValueType.GetConstructors();//.Where(c => c.GetParameters().Count() == component.Arguments.Count);
+                var container = GetArgumentContainer(component, tmpctors);
+                if (container != null)
+                    return container;
             }
 
-            if (ctors == null || !ctors.Any())
-                return null;
+            // try resolve by argument amount
+            tmpctors = ctors.Where(c => c.GetParameters().Count() == component.Arguments.Count);
+            if (tmpctors != null && tmpctors.Any())
+            {
+                var container = GetArgumentContainer(component, tmpctors);
+                if (container != null)
+                    return container;
+            }
 
-            //var resolved = new List<ArgumentContainer>();
+            // try resolve by argument and resolving
+            if (ctors != null && ctors.Any())
+            {
+                var container = GetArgumentContainer(component, ctors);
+                if (container != null)
+                    return container;
+            }
+            
+            return null;
+        }
+
+        private ArgumentContainer GetArgumentContainer(IMappingComponent component, IEnumerable<ConstructorInfo> ctors)
+        {
+            // loops trough all constructors and tries to resolve
             foreach (var ctor in ctors)
             {
-                bool ok = true;
-                var info = new ArgumentContainer(ctor);
-
-                using (var factory = new ArgumentFactory(component, info))
-                {
-                    foreach (var param in ctor.GetParameters())
-                    {
-                        var composed = factory.CreateArgument(param);
-
-                        if (composed != null)
-                        {
-                            if (!info.PushArgument(composed))
-                                throw new ArgumentNotDefinedException(param.ParameterType, component.KeyType);
-                        }
-                        else
-                        {
-                            ok = false;
-                            break;
-                        }
-                    }
-                }
-
-                // get first constructor that is composeable
-                if (ok)
-                    return info;
-                
-                // add the info anyway to try to resolve
-                //resolved.Add(info);
+                var container = CreateArgumentContainer(component, ctor);
+                if (container != null)
+                    return container;
             }
 
-            return null;// resolved.FirstOrDefault();
+            return null;
+        }
+
+        private ArgumentContainer CreateArgumentContainer(IMappingComponent component, ConstructorInfo ctor)
+        {
+            // tries to resolve the constructor
+            bool ok = true;
+            var info = new ArgumentContainer(ctor);
+
+            using (var factory = new ArgumentFactory(component, info))
+            {
+                foreach (var param in ctor.GetParameters())
+                {
+                    var composed = factory.CreateArgument(param);
+
+                    if (composed != null)
+                    {
+                        if (!info.PushArgument(composed))
+                            throw new ArgumentNotDefinedException(param.ParameterType, component.KeyType);
+                    }
+                    else
+                    {
+                        ok = false;
+                        break;
+                    }
+                }
+            }
+
+            // get first constructor that is composeable
+            if (ok)
+                return info;
+
+
+            return null;
         }
 
         public void Dispose()
