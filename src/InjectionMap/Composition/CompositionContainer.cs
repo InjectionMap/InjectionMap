@@ -78,8 +78,16 @@ namespace InjectionMap.Composition
                     return container;
             }
 
-            // try resolve by argument and resolving
-            if (ctors != null && ctors.Any())
+            // try to resolve default constructor
+            tmpctors = ctors.Where(c => !c.GetParameters().Any());
+            if (tmpctors != null && tmpctors.Any())
+            {
+                // no arguments so use the default constructor
+                return null;
+            }
+
+            // try resolve any constructor
+            if (ctors != null && ctors.OrderByDescending(c => c.GetParameters().Count()).Any())
             {
                 var container = GetArgumentContainer(component, ctors);
                 if (container != null)
