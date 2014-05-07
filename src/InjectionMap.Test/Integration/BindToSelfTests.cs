@@ -10,6 +10,7 @@ namespace InjectionMap.Test.Integration
         {
             // clean all previous mappings to ensure test
             Mapper.Clean<BindToSelfMock>();
+            Mapper.Clean<BindToSelfMockWithArguments>();
         }
 
         [Test]
@@ -25,13 +26,51 @@ namespace InjectionMap.Test.Integration
             Assert.IsInstanceOf<BindToSelfMock>(map);
             Assert.IsTrue(map.ID == 1);
         }
+
+        [Test]
+        public void OnBindToSelfWithArguments()
+        {
+            // mapping
+            Mapper.Map<BindToSelfMockWithArguments>().ToSelf().WithArgument(() => 2);
+
+            // resolve
+            var map = Resolver.Resolve<BindToSelfMockWithArguments>();
+
+            Assert.IsNotNull(map);
+            Assert.IsInstanceOf<BindToSelfMockWithArguments>(map);
+            Assert.IsTrue(map.ID == 2);
+        }
+
+        [Test]
+        public void OnBindToSelfWithArgumentsAndAs()
+        {
+            // mapping
+            Mapper.Map<BindToSelfMockWithArguments>().ToSelf().WithArgument(() => 1).As(() => new BindToSelfMockWithArguments(2));
+
+            // resolve
+            var map = Resolver.Resolve<BindToSelfMockWithArguments>();
+
+            Assert.IsNotNull(map);
+            Assert.IsInstanceOf<BindToSelfMockWithArguments>(map);
+            Assert.IsTrue(map.ID == 2);
+        }
     }
 
-    public class BindToSelfMock
+    class BindToSelfMock
     {
         public BindToSelfMock()
         {
             ID = 1;
+        }
+
+        public int ID { get; private set; }
+    }
+
+    class BindToSelfMockWithArguments
+    {
+        public BindToSelfMockWithArguments(int id)
+        {
+            ID = id;
         }
 
         public int ID { get; private set; }

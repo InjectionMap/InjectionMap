@@ -75,6 +75,28 @@ namespace InjectionMap.Test.Integration
             map = customResolver.Resolve<ICustomContainer>();
             Assert.IsInstanceOf(typeof(CustomContainerMapMock), map);
         }
+
+        [Test]
+        [Description("Creates 2 mappings with the same key in 2 differenct containers and resolves from these containers")]
+        public void ResolveDirectlyFromCustomContainer()
+        {
+            // create contaienrs and mappers
+            var container = new MappingContainer();
+            var customMapper = new InjectionMapper(container);
+            var defaultMapper = new InjectionMapper();
+
+            // mapping
+            customMapper.Map<ICustomContainer, CustomContainerMapMock>();
+            defaultMapper.Map<ICustomContainer, DefaultContainerMapMock>();
+
+            // resolve
+            var map = Resolver.Resolve<ICustomContainer>();
+            Assert.IsInstanceOf(typeof(DefaultContainerMapMock), map);
+
+            // resolve from the custom container
+            map = Resolver.Resolve<ICustomContainer>(container);
+            Assert.IsInstanceOf(typeof(CustomContainerMapMock), map);
+        }
     }
 
     public interface ICustomContainer

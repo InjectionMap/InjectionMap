@@ -68,6 +68,20 @@ namespace InjectionMap
             }
         }
 
+        /// <summary>
+        /// Resolves T from the given container
+        /// </summary>
+        /// <typeparam name="T">The type to resolve</typeparam>
+        /// <param name="container">The container to resolve from</param>
+        /// <returns>A instance of T</returns>
+        public T Resolve<T>(IMappableContainer container)
+        {
+            using (var resolver = new ComponentResolver(container))
+            {
+                return resolver.Get<T>();
+            }
+        }
+
         #endregion
 
         #region IDisposeable Implementation
