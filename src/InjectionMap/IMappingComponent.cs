@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace InjectionMap
 {
-    public interface IMappingComponent
+    public interface IMappingComponent : IDisposable
     {
         Guid ID { get; }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using InjectionMap.Expressions;
 using InjectionMap.Mapping;
+using InjectionMap.Internals;
 
 namespace InjectionMap
 {
@@ -21,24 +22,40 @@ namespace InjectionMap
             }
         }
 
+        /// <summary>
+        /// Adds a component or replace all existing mappings of components with the same id
+        /// </summary>
+        /// <param name="component"></param>
         public void AddOrReplace(IMappingComponent component)
         {
+            Ensure.ArgumentNotNull(component, "component");
+
             var remove = Components.FirstOrDefault(c => c.ID == component.ID);
             if (Components.Contains(remove))
-            {
                 Components.Remove(remove);
-            }
 
             Components.Add(component);
         }
 
+        /// <summary>
+        /// Adds a new component
+        /// </summary>
+        /// <param name="component"></param>
         public void Add(IMappingComponent component)
         {
+            Ensure.ArgumentNotNull(component, "component");
+
             Components.Add(component);
         }
 
+        /// <summary>
+        /// Replaces all existing components with this version
+        /// </summary>
+        /// <param name="component"></param>
         public void ReplaceAll(IMappingComponent component)
         {
+            Ensure.ArgumentNotNull(component, "component");
+
             var lst = Components.Where(c => c.KeyType == component.KeyType).ToList();
             foreach (var comp in lst)
                 Components.Remove(comp);
@@ -46,12 +63,24 @@ namespace InjectionMap
             Components.Add(component);
         }
 
+        /// <summary>
+        /// remove the given component
+        /// </summary>
+        /// <param name="component"></param>
         public void Remove(IMappingComponent component)
         {
+            Ensure.ArgumentNotNull(component, "component");
+
             if (Components.Contains(component))
                 Components.Remove(component);
         }
 
+        /// <summary>
+        /// Gets all mappings of the type
+        /// </summary>
+        /// <typeparam name="T">Key type of the mapping</typeparam>
+        /// <param name="predicate">The predicate that checks the expression</param>
+        /// <returns>A list of all maoppings to the given type</returns>
         public IEnumerable<IMappingComponent> Get<T>(Func<IMappingComponent, bool> predicate)
         {
             var lst = Components.Where(c => c.KeyType == typeof(T) && predicate(c));
@@ -68,6 +97,11 @@ namespace InjectionMap
 
         #region IComponentProvider Implementation
 
+        /// <summary>
+        /// Gets all mappings of the type
+        /// </summary>
+        /// <typeparam name="T">Key type of the mapping</typeparam>
+        /// <returns>A list of all maoppings to the given type</returns>
         public IEnumerable<IMappingComponent> Get<T>()
         {
             var lst = Components.Where(c => c.KeyType == typeof(T));
@@ -80,6 +114,11 @@ namespace InjectionMap
             return lst;
         }
 
+        /// <summary>
+        /// Gets all mappings of the type
+        /// </summary>
+        /// <param name="type">Key type of the mapping</param>
+        /// <returns>A list of all maoppings to the given type</returns>
         public IEnumerable<IMappingComponent> Get(Type type)
         {
             var components = Components.Where(c => c.KeyType == type);
@@ -96,18 +135,25 @@ namespace InjectionMap
 
         #region IMappingContainer Implementation
 
+        /// <summary>
+        /// Creates a Mapping to TKey
+        /// </summary>
+        /// <typeparam name="TKey">The type to map</typeparam>
+        /// <returns>The expression for the mapping</returns>
         public IMappingExpression<TKey> Map<TKey>()
         {
-            var expression = MappingContainer.MapInternal<TKey>(this);
-
-            return expression;
+            return MappingContainer.MapInternal<TKey>(this);
         }
 
+        /// <summary>
+        /// Creates a mapping to TKey with TMap
+        /// </summary>
+        /// <typeparam name="TKey">The key type to map</typeparam>
+        /// <typeparam name="TMap">The instance type to map</typeparam>
+        /// <returns>The expression for the mapping</returns>
         public IBindingExpression<TMap> Map<TKey, TMap>() where TMap : TKey
         {
-            var expression = MappingContainer.MapInternal<TKey>(this);
-
-            return expression.For<TMap>();
+            return MappingContainer.MapInternal<TKey>(this).For<TMap>();
         }
 
         /// <summary>
@@ -120,6 +166,7 @@ namespace InjectionMap
             foreach (var item in items)
             {
                 Remove(item);
+                item.Dispose();
             }
         }
 
@@ -129,6 +176,8 @@ namespace InjectionMap
 
         internal static IMappingExpression<T> MapInternal<T>(IComponentCollection container)
         {
+            Ensure.ArgumentNotNull(container, "container");
+
             if (container.Get<T>(m => m.MappingConfiguration.AsSingleton).Any())
             {
                 //TODO: It is not jet decided if the Mapping should cast an error when there is existing mapping in singletonscope. It may not be a good idea to just silently throw the new mapping away without notifying the user!
