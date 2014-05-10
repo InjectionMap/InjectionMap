@@ -42,18 +42,18 @@ namespace InjectionMap.Mapping
 
         public IBoundExpression<T> WithConfiguration(InjectionFlags option)
         {
-            var resolveInstanceOnMapping = (option & InjectionFlags.ResolveInstanceOnMapping) == InjectionFlags.ResolveInstanceOnMapping;
-            var cacheValue = (option & InjectionFlags.CacheValue) == InjectionFlags.CacheValue;
+            var resolveValueOnMapping = (option & InjectionFlags.ResolveValueOnMapping) == InjectionFlags.ResolveValueOnMapping;
+            var asConstant = (option & InjectionFlags.AsConstant) == InjectionFlags.AsConstant;
             var asSingleton = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
 
-            if (resolveInstanceOnMapping && !cacheValue)
-                cacheValue = true;
+            if (resolveValueOnMapping && !asConstant)
+                asConstant = true;
 
             var component = Component.CreateComponent<T>();
             component.MappingConfiguration = new MappingConfiguration
             {
-                ResolveInstanceOnMapping = resolveInstanceOnMapping,
-                CacheValue = cacheValue,
+                ResolveValueOnMapping = resolveValueOnMapping,
+                AsConstant = asConstant,
                 AsSingleton = asSingleton
             };
 
@@ -62,6 +62,16 @@ namespace InjectionMap.Mapping
             if (asSingleton)
             {
                 Container.ReplaceAll(component);
+            }
+
+            if (resolveValueOnMapping)
+            {
+                var provider = Container as IComponentProvider;
+                using (var resolver = new ComponentResolver(provider))
+                {
+                    var value = resolver.Get(component.KeyType);
+                    component.ValueCallback = () => (T)value;
+                }
             }
 
             return new BoundExpression<T>(Container, component)

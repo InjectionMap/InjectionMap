@@ -1,36 +1,31 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InjectionMap.Test.Integration
 {
     [TestFixture]
-    public class CacheScopeTest : TestBase
+    public class ConstantScopeTest : TestBase
     {
         [SetUp]
         public void Initialize()
         {
-            Mapper.Clean<ICacheScope>();
+            Mapper.Clean<IConstantScope>();
         }
 
         [Test]
-        public void ChangeValueInCachedScope()
+        public void ChangeValueInConstantScope()
         {
             // mapping
-            Mapper.Map<ICacheScope, CacheScopeMock>().WithArgument("id", () => 2).WithConfiguration(InjectionFlags.CacheValue);
+            Mapper.Map<IConstantScope, ConstantScopeMock>().WithArgument("id", () => 2).WithConfiguration(InjectionFlags.AsConstant);
 
             // resolve
-            var map = Resolver.Resolve<ICacheScope>();
+            var map = Resolver.Resolve<IConstantScope>();
 
             Assert.AreEqual(map.ID, 2);
 
             map.ID = 3;
 
             // resolving should deliver the same instance
-            var map2 = Resolver.Resolve<ICacheScope>();
+            var map2 = Resolver.Resolve<IConstantScope>();
 
             Assert.AreSame(map, map2);
             Assert.AreEqual(map2.ID, 3);
@@ -41,31 +36,31 @@ namespace InjectionMap.Test.Integration
         public void ChangeValueWihtoutCachingScope()
         {
             // mapping
-            Mapper.Map<ICacheScope, CacheScopeMock>().WithArgument("id", () => 2);
+            Mapper.Map<IConstantScope, ConstantScopeMock>().WithArgument("id", () => 2);
 
             // resolve
-            var map = Resolver.Resolve<ICacheScope>();
+            var map = Resolver.Resolve<IConstantScope>();
 
             Assert.AreEqual(map.ID, 2);
 
             map.ID = 3;
 
             // resolving should deliver the same instance
-            var map2 = Resolver.Resolve<ICacheScope>();
+            var map2 = Resolver.Resolve<IConstantScope>();
 
             Assert.AreNotSame(map, map2);
             Assert.AreNotEqual(map2.ID, map.ID);
         }
     }
 
-    internal interface ICacheScope
+    internal interface IConstantScope
     {
         int ID { get; set; }
     }
 
-    internal class CacheScopeMock : ICacheScope
+    internal class ConstantScopeMock : IConstantScope
     {
-        public CacheScopeMock(int id)
+        public ConstantScopeMock(int id)
         {
             ID = id;
         }

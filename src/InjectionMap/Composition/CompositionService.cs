@@ -22,7 +22,7 @@ namespace InjectionMap.Composition
                 // compose instance
                 var value = composition.ComposePart<T>(component);
 
-                if (component.MappingConfiguration.CacheValue)
+                if (component.MappingConfiguration.AsConstant)
                     component.ValueCallback = () => value;
 
                 if (component.OnResolvedCallback != null)
@@ -50,7 +50,7 @@ namespace InjectionMap.Composition
                 // compose instance
                 var value = composition.ComposePart(component);
 
-                if (component.MappingConfiguration.CacheValue)
+                if (component.MappingConfiguration.AsConstant)
                     component.ValueCallback = () => value;
 
                 if (component.OnResolvedCallback != null)

@@ -169,7 +169,7 @@ namespace InjectionMap.Test.Integration
                 mapper.Clean<ICustomMock>();
 
                 //InjectionMapper.Map<ITestMock1>().For(() => new TestMock1(), o => o.WithOptions(InjectionOption.WithOverwrite).WithOptions(InjectionOption.ResolveInstanceOnMapping));
-                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.AsSingleton | InjectionFlags.ResolveInstanceOnMapping);
+                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.AsSingleton | InjectionFlags.ResolveValueOnMapping);
             }
 
             using (var resolver = new InjectionResolver())

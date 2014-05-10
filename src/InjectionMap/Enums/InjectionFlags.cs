@@ -6,12 +6,16 @@ namespace InjectionMap
     public enum InjectionFlags
     {
         None = 0,
-        ResolveInstanceOnMapping = 1,
 
         /// <summary>
-        /// Caches the instance of the value
+        /// Resolves the value when creating the mapping
         /// </summary>
-        CacheValue = 2,
+        ResolveValueOnMapping = 1,
+
+        /// <summary>
+        /// Stores the value of the mapping and reuses the same value with every resolving
+        /// </summary>
+        AsConstant = 2,
 
         /// <summary>
         /// Overrides all existing mapings of the type
