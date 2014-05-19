@@ -64,7 +64,16 @@ namespace InjectionMap.Test.Integration
         [Test]
         public void IInjectionMapping_InitializeByAssemblyName()
         {
-            InjectionMapper.Initialize("InjectionMap.Test.dll");
+
+            var fullAssemblyName = this.GetType().Assembly.FullName;
+            InjectionMapper.Initialize(fullAssemblyName);
+            //InjectionMapper.Initialize("InjectionMap.Test.dll");
+
+
+            //InjectionMapper.Initialize("InjectionMap.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            //InjectionMapper.Initialize("InjectionMap.Test, Version=1.0.0.0, Culture=neutral");
+            //InjectionMapper.Initialize("InjectionMap.Test, Version=1.0.0.0");
+
 
             using (var resolver = new InjectionResolver())
             {

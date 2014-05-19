@@ -48,7 +48,8 @@ namespace InjectionMap
         {
             Ensure.ArgumentNotNullOrEmpty(assemblyFile, "assemblyFile");
 
-            Initialize(Assembly.LoadFrom(assemblyFile));
+            //Initialize(Assembly.LoadFrom(assemblyFile));
+            Initialize(Assembly.Load(assemblyFile));
         }
 
         /// <summary>

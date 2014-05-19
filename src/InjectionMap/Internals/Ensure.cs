@@ -39,7 +39,9 @@ namespace InjectionMap.Internals
             if (type.IsAbstract || type.IsInterface)
                 throw new TypeCompositionException(type);
 
-            if (type.GetConstructor(Type.EmptyTypes) == null)
+            //if (type.GetConstructor(Type.EmptyTypes) == null)
+            //if (type.GetConstructors().Any(c => c.GetParameters().Length == 0))
+            if (type.GetConstructor(new Type[0]) == null)
                 throw new TypeCompositionException(type);
         }
     }
