@@ -38,10 +38,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
     <Compile Include="Composition\ArgumentFactory.cs" />
     <Compile Include="Composition\CompositionContainer.cs" />

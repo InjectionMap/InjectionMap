@@ -37,6 +37,8 @@ namespace InjectionMap
         /// <param name="mapper"></param>
         public static void Initialize(IInjectionMapping mapper)
         {
+            Ensure.ArgumentNotNull(mapper, "mapper");
+            
             mapper.InitializeMap(MappingContainerManager.MappingContainer);
         }
 
@@ -58,19 +60,9 @@ namespace InjectionMap
         /// <param name="assembly"></param>
         public static void Initialize(Assembly assembly)
         {
-            var mappingtype = typeof(IInjectionMapping);
-            var types = assembly.GetTypes().Where(p => mappingtype.IsAssignableFrom(p) && !p.IsInterface);
+            Ensure.ArgumentNotNull(assembly, "assembly");
 
-            foreach (var type in types)
-            {
-                Ensure.CanBeDefaultInstantiated(type);
-
-                var obj = Activator.CreateInstance(type) as IInjectionMapping;
-                if (obj == null)
-                    continue;
-
-                obj.InitializeMap(MappingContainerManager.MappingContainer);
-            }
+            InitializeInternal(assembly);
         }
 
         /// <summary>
@@ -129,6 +121,27 @@ namespace InjectionMap
             using (var provider = new ComponentMapper(_container))
             {
                 provider.Clean<T>();
+            }
+        }
+
+        #endregion
+
+        #region Internal Implementation
+
+        internal static void InitializeInternal(Assembly assembly)
+        {
+            var mappingtype = typeof(IInjectionMapping);
+            var types = assembly.GetTypes().Where(p => mappingtype.IsAssignableFrom(p) && !p.IsInterface);
+
+            foreach (var type in types)
+            {
+                Ensure.CanBeDefaultInstantiated(type);
+
+                var obj = Activator.CreateInstance(type) as IInjectionMapping;
+                if (obj == null)
+                    continue;
+
+                obj.InitializeMap(MappingContainerManager.MappingContainer);
             }
         }
 
