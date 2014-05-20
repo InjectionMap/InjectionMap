@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace InjectionMap.NuGetPackage.Integration.Test
+namespace InjectionMap.Test.Integration
 {
     [TestFixture]
     public class NugetPckageTest

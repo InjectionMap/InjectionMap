@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E2A4FA
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.NuGetPackage.Integration.Test", "src\InjectionMap.NuGetPackage.Integration.Test\InjectionMap.NuGetPackage.Integration.Test.csproj", "{932E8A96-09D6-4B14-8969-F4BCDE96F650}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test.Integration", "src\InjectionMap.Test.Integration\InjectionMap.Test.Integration.csproj", "{932E8A96-09D6-4B14-8969-F4BCDE96F650}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
