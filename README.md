@@ -12,6 +12,8 @@ InjectionMap allows loose coupling betweeen a client's dependencies and its own 
 - Parameters for constructors can be injected or passed at the time of mapping as objects or as delegate expressions.
 - InjectionMap is very simple and straightforward.
 
+InjectionMap supports .Net 4.5, Silverlight 5, Windows Phone 8 or higher and Windows Store apps for Windows 8 or higher.
+
 Installation
 ------------------------------
 InjectionMap can be installed from [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget) through the package manager console:  
