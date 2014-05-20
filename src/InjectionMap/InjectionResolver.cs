@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using InjectionMap.Internals;
 using InjectionMap.Mapping;
+using InjectionMap.Expressions;
+using InjectionMap.Extensions;
 
 namespace InjectionMap
 {
@@ -79,6 +81,26 @@ namespace InjectionMap
             using (var resolver = new ComponentResolver(container))
             {
                 return resolver.Get<T>();
+            }
+        }
+
+        public IResolverExpression<T> ExtendMap<T>()
+        {
+            // create a IResolverExpression with the values
+            return ExtendMap<T>(_container);
+        }
+
+        public IResolverExpression<T> ExtendMap<T>(IMappableContainer container)
+        {
+            // create a IResolverExpression with the values
+            using (var resolver = new ComponentResolver(container))
+            {
+                var map = resolver.GetComponent<T>();
+
+                //return map.CreateResolverExpression<T>(container as IComponentCollection ?? MappingContainerManager.MappingContainer);
+
+                // map to new container
+                return map.CreateResolverExpression<T>(new MappingContainer());
             }
         }
 

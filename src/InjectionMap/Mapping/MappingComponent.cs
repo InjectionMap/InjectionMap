@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace InjectionMap.Mapping
 {
-    internal class MappingComponent<T> : IMappingComponent
+    internal class MappingComponent : Component, IMappingComponent
     {
         internal MappingComponent()
             : this(Guid.NewGuid())
@@ -12,14 +11,63 @@ namespace InjectionMap.Mapping
         }
 
         internal MappingComponent(Guid id)
+            : base(id)
         {
-            ID = id;
-            MappingConfiguration = new MappingConfiguration();
         }
 
-        public Guid ID { get; private set; }
+        #region Properties
 
-        public Type KeyType { get; internal set; }
+        /// <summary>
+        /// The predicate that gets executed to provide the value for the mapping
+        /// </summary>
+        public Expression<Func<object>> ValueCallback { get; set; }
+
+        public Action<object> OnResolvedCallback { get; internal set; }
+
+        public Type ValueType { get; internal set; }
+
+        #endregion
+
+        #region Overrides
+
+        protected override Type GetValueType()
+        {
+            return ValueType;
+        }
+
+        #endregion
+
+        #region IDisposeable Implementation
+
+        public override void Dispose(bool disposing)
+        {
+            lock (this)
+            {
+                if (disposing && !IsDisposed)
+                {
+                    ValueCallback = null;
+                    OnResolvedCallback = null;
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #endregion
+    }
+
+    internal class MappingComponent<T> : Component, IMappingComponent
+    {
+        internal MappingComponent()
+            : this(Guid.NewGuid())
+        {
+        }
+
+        internal MappingComponent(Guid id) : base(id)
+        {
+        }
+
+        #region Properties
 
         /// <summary>
         /// The predicate that gets executed to provide the value for the mapping
@@ -65,40 +113,20 @@ namespace InjectionMap.Mapping
             }
         }
 
-        public IMappingConfiguration MappingConfiguration { get; internal set; }
+        #endregion
 
-        IList<IBindingArgument> _arguments;
-        public IList<IBindingArgument> Arguments
+        #region Overrides
+
+        protected override Type GetValueType()
         {
-            get
-            {
-                if (_arguments == null)
-                    _arguments = new List<IBindingArgument>();
-                return _arguments;
-            }
+            return ValueType;
         }
 
-        public bool IsSubstitute { get; internal set; }
+        #endregion
 
         #region IDisposeable Implementation
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is disposed.
-        /// </summary>
-        internal bool IsDisposed { get; private set; }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        /// <summary>
-        /// Releases resources held by the object.
-        /// </summary>
-        public virtual void Dispose(bool disposing)
+        public override void Dispose(bool disposing)
         {
             lock (this)
             {
@@ -106,19 +134,10 @@ namespace InjectionMap.Mapping
                 {
                     ValueCallback = null;
                     OnResolvedCallback = null;
-
-                    IsDisposed = true;
-                    GC.SuppressFinalize(this);
                 }
             }
-        }
 
-        /// <summary>
-        /// Releases resources before the object is reclaimed by garbage collection.
-        /// </summary>
-        ~MappingComponent()
-        {
-            Dispose(false);
+            base.Dispose(disposing);
         }
 
         #endregion

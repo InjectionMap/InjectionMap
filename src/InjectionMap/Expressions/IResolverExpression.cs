@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace InjectionMap.Expressions
 {
-    public interface IBindingExpression<T> : IComponentExpression
+    public interface IResolverExpression<T> : IComponentExpression
     {
         /// <summary>
         /// Adds an argument that will be passed as a parameter
@@ -11,7 +11,7 @@ namespace InjectionMap.Expressions
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="value">Value that will be passed to the parameter</param>
         /// <returns><see cref="IBindingExpression"/></returns>
-        IBindingExpression<T> WithArgument<TArg>(TArg value);
+        IResolverExpression<T> WithArgument<TArg>(TArg value);
 
         /// <summary>
         /// Adds an argument that will be passed to the named parameter
@@ -20,7 +20,7 @@ namespace InjectionMap.Expressions
         /// <param name="name">Name of the parameter</param>
         /// <param name="value">Value that will be passed to the parameter</param>
         /// <returns><see cref="IBindingExpression"/></returns>
-        IBindingExpression<T> WithArgument<TArg>(string name, TArg value);
+        IResolverExpression<T> WithArgument<TArg>(string name, TArg value);
 
         /// <summary>
         /// Adds an argument that will be passed as a parameter
@@ -28,7 +28,7 @@ namespace InjectionMap.Expressions
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="predicate">Value that will be passed to the parameter</param>
         /// <returns><see cref="IBindingExpression"/></returns>
-        IBindingExpression<T> WithArgument<TArg>(Expression<Func<TArg>> predicate);
+        IResolverExpression<T> WithArgument<TArg>(Expression<Func<TArg>> predicate);
 
         /// <summary>
         /// Adds an argument that will be passed to the named parameter
@@ -37,12 +37,12 @@ namespace InjectionMap.Expressions
         /// <param name="name">Name of the parameter</param>
         /// <param name="predicate">Value that will be passed to the parameter</param>
         /// <returns><see cref="IBindingExpression"/></returns>
-        IBindingExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate);
+        IResolverExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate);
 
-        IBindingExpression<T> As(Expression<Func<T>> predicate);
-
-        IBoundExpression<T> WithConfiguration(InjectionFlags option);
-
-        IBindingExpression<T> OnResolved(Action<T> callback);
+        /// <summary>
+        /// Resolves the map
+        /// </summary>
+        /// <returns>The resolved value</returns>
+        T Resolve();
     }
 }

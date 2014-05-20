@@ -1,4 +1,5 @@
 ﻿using InjectionMap.Expressions;
+using InjectionMap.Internals;
 using InjectionMap.Mapping;
 
 namespace InjectionMap.Extensions
@@ -37,6 +38,24 @@ namespace InjectionMap.Extensions
             return copy;
         }
 
+        internal static MappingComponent CreateComponent(this IMappingComponent component)
+        {
+            var copy = new MappingComponent(component.ID)
+            {
+                KeyType = component.KeyType,
+                ValueType = component.ValueType,
+                MappingConfiguration = component.MappingConfiguration,
+                IsSubstitute = component.IsSubstitute
+            };
+
+            copy.ValueCallback = component.ValueCallback;
+            copy.OnResolvedCallback = component.OnResolvedCallback;
+            
+            copy.Arguments.AddFrom<IBindingArgument>(component.Arguments);
+
+            return copy;
+        }
+
         internal static IBindingExpression<T> CreateBindingExpression<T>(this IMappingComponent component, IComponentCollection container)
         {
             container.AddOrReplace(component);
@@ -69,5 +88,17 @@ namespace InjectionMap.Extensions
 
             return new MappingExpression<T>(container, component);
         }
+
+        internal static IResolverExpression<T> CreateResolverExpression<T>(this IMappingComponent component, IComponentCollection container)
+        {
+            Ensure.MappingTypesMatch(typeof(T), component.KeyType);
+
+            // create a copy of the component to leave the original as is
+            var copy = component.CreateComponent();
+
+            // create the ResolverExpression
+            return new ResolverExpression<T>(container, copy);
+        }
+         
     }
 }

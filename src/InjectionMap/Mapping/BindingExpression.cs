@@ -15,21 +15,47 @@ namespace InjectionMap.Mapping
 
         #region IBindingExpression<T> Implementation
 
+        /// <summary>
+        /// Adds an argument that will be passed as a parameter
+        /// </summary>
+        /// <typeparam name="TArg">Type of parameter</typeparam>
+        /// <param name="value">Value that will be passed to the parameter</param>
+        /// <returns><see cref="IBindingExpression"/></returns>
         public IBindingExpression<T> WithArgument<TArg>(TArg value)
         {
             return AddArgument<TArg>(null, value, null);
         }
 
+        /// <summary>
+        /// Adds an argument that will be passed to the named parameter
+        /// </summary>
+        /// <typeparam name="TArg">Type of parameter</typeparam>
+        /// <param name="name">Name of the parameter</param>
+        /// <param name="value">Value that will be passed to the parameter</param>
+        /// <returns><see cref="IBindingExpression"/></returns>
         public IBindingExpression<T> WithArgument<TArg>(string name, TArg value)
         {
             return AddArgument<TArg>(name, value, null);
         }
 
+        /// <summary>
+        /// Adds an argument that will be passed as a parameter
+        /// </summary>
+        /// <typeparam name="TArg">Type of parameter</typeparam>
+        /// <param name="predicate">Value that will be passed to the parameter</param>
+        /// <returns><see cref="IBindingExpression"/></returns>
         public IBindingExpression<T> WithArgument<TArg>(Expression<Func<TArg>> predicate)
         {
             return AddArgument<TArg>(null, default(TArg), predicate);
         }
 
+        /// <summary>
+        /// Adds an argument that will be passed to the named parameter
+        /// </summary>
+        /// <typeparam name="TArg">Type of parameter</typeparam>
+        /// <param name="name">Name of the parameter</param>
+        /// <param name="predicate">Value that will be passed to the parameter</param>
+        /// <returns><see cref="IBindingExpression"/></returns>
         public IBindingExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate)
         {
             return AddArgument<TArg>(name, default(TArg), predicate);

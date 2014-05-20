@@ -4,13 +4,13 @@ using System.Linq.Expressions;
 
 namespace InjectionMap
 {
-    public interface IMappingComponent : IDisposable
+    public interface IMappingComponent : IComponent
     {
-        Guid ID { get; }
+        //Guid ID { get; }
 
-        Type KeyType { get; }
+        //Type KeyType { get; }
 
-        Type ValueType { get; }
+        //Type ValueType { get; }
 
         /// <summary>
         /// The predicate that gets executed to provide the value for the mapping
@@ -19,10 +19,10 @@ namespace InjectionMap
 
         Action<object> OnResolvedCallback { get; }
 
-        IMappingConfiguration MappingConfiguration { get; }
+        //IMappingConfiguration MappingConfiguration { get; }
 
-        IList<IBindingArgument> Arguments { get; }
+        //IList<IBindingArgument> Arguments { get; }
 
-        bool IsSubstitute { get; }
+        //bool IsSubstitute { get; }
     }
 }
