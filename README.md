@@ -8,8 +8,8 @@ InjectionMap allows loose coupling betweeen a client's dependencies and its own 
 - InjectionMap uses type mapping to reference the key/reference and the implementation. 
 - Instances are resolved using reflection or can be provided through a callback whitch allows you to create the instance in your own code.
 - It suports a fluent syntax to help keep the code simple, small and clean.
-- Injection constructors can be marked with attributes.
-- Parameters for constructors can be injected or passed at the time of mapping or as expressions.
+- The desired Constructors can be marked with attributes or will be selected according to the passed arguments.
+- Parameters for constructors can be injected or passed at the time of mapping as objects or as delegate expressions.
 - InjectionMap is very simple and straightforward.
 
 Installation
