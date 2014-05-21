@@ -5,7 +5,7 @@ using System.Linq;
 namespace InjectionMap.Test.Integration
 {
     [TestFixture]
-    public class NugetPckageTest
+    public class IntegrationTest
     {
         [SetUp]
         public void Initialize()
@@ -27,8 +27,8 @@ namespace InjectionMap.Test.Integration
             {
                 var maps = resolver.ResolveMultiple<IInjectionMappingTest>().ToList();
 
-                Assert.IsInstanceOf<FirstInjectionMappingTestMock>(maps[0]);
-                Assert.IsInstanceOf<SecondInjectionMappingTestMock>(maps[1]);
+                Assert.IsNotNull(maps[0] as FirstInjectionMappingTestMock);
+                Assert.IsNotNull(maps[1] as SecondInjectionMappingTestMock);
 
                 Assert.IsTrue(maps[0].ID == 1);
                 Assert.IsTrue(maps[1].ID == 5);
@@ -37,6 +37,24 @@ namespace InjectionMap.Test.Integration
 
         [Test]
         public void InjectionMappingTest()
+        {
+            using (var mapper = new InjectionMapper())
+            {
+                mapper.Clean<IInjectionMappingTest>();
+
+                // create a complex map (map doesn't make sense... but it's complexer)
+                mapper.Map<IInjectionMappingTest, SecondInjectionMappingTestMock>().WithArgument("id", () => 5).OnResolved(m => m.ID = 6);
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                var map = resolver.Resolve<IInjectionMappingTest>();
+                Assert.IsTrue(map.ID == 6);
+            }
+        }
+
+        [Test]
+        public void MapToCustomContainer()
         {
             var container = new MappingContainer();
             using (var defMapper = new InjectionMapper())

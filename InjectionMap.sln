@@ -7,14 +7,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap", "src\Injecti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{26358A6E-0241-4C1C-A961-94B3ABF8A332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test", "src\InjectionMap.Test\InjectionMap.Test.csproj", "{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test", "src\Tests\InjectionMap.Test\InjectionMap.Test.csproj", "{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E2A4FA37-FE93-4BC4-952E-8BCF917158FC}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test.Integration", "src\InjectionMap.Test.Integration\InjectionMap.Test.Integration.csproj", "{932E8A96-09D6-4B14-8969-F4BCDE96F650}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test.Integration", "src\Tests\InjectionMap.Test.Integration\InjectionMap.Test.Integration.csproj", "{932E8A96-09D6-4B14-8969-F4BCDE96F650}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test.Integration.SL5", "src\Tests\InjectionMap.Test.Integration.SL5\InjectionMap.Test.Integration.SL5.csproj", "{8F822362-E280-4D68-99C6-E88063DBB3B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test.SL5", "src\Tests\InjectionMap.Test.SL5\InjectionMap.Test.SL5.csproj", "{C6B7A5CD-CB4A-46D0-B10E-F0961A1564B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A22F770C-052C-449D-88BA-871CB38406F6}"
+	ProjectSection(SolutionItems) = preProject
+		License.txt = License.txt
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +44,14 @@ Global
 		{932E8A96-09D6-4B14-8969-F4BCDE96F650}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{932E8A96-09D6-4B14-8969-F4BCDE96F650}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{932E8A96-09D6-4B14-8969-F4BCDE96F650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F822362-E280-4D68-99C6-E88063DBB3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F822362-E280-4D68-99C6-E88063DBB3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F822362-E280-4D68-99C6-E88063DBB3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F822362-E280-4D68-99C6-E88063DBB3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B7A5CD-CB4A-46D0-B10E-F0961A1564B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B7A5CD-CB4A-46D0-B10E-F0961A1564B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B7A5CD-CB4A-46D0-B10E-F0961A1564B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B7A5CD-CB4A-46D0-B10E-F0961A1564B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,5 +59,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F} = {26358A6E-0241-4C1C-A961-94B3ABF8A332}
 		{932E8A96-09D6-4B14-8969-F4BCDE96F650} = {26358A6E-0241-4C1C-A961-94B3ABF8A332}
+		{8F822362-E280-4D68-99C6-E88063DBB3B9} = {26358A6E-0241-4C1C-A961-94B3ABF8A332}
+		{C6B7A5CD-CB4A-46D0-B10E-F0961A1564B7} = {26358A6E-0241-4C1C-A961-94B3ABF8A332}
 	EndGlobalSection
 EndGlobal
