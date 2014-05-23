@@ -21,5 +21,42 @@ namespace InjectionMap.Test.Unit
             {
             }
         }
+
+
+
+        [Test]
+        [Description("IResolverExpression<T> WithArgument<TArg>(TArg value);")]
+        public void ResolverExpressionWithArgumentValue()
+        {
+            Assert.Fail();
+        }
+
+        [Test]
+        [Description("IResolverExpression<T> WithArgument<TArg>(string name, TArg value);")]
+        public void ResolverExpressionWithArgumentNameAndValue()
+        {
+            Assert.Fail();
+        }
+
+        [Test]
+        [Description("IResolverExpression<T> WithArgument<TArg>(Expression<Func<TArg>> predicate);")]
+        public void ResolverExpressionWithArgumentValueExpression()
+        {
+            Assert.Fail();
+        }
+
+        [Test]
+        [Description("IResolverExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate);")]
+        public void ResolverExpressionWithArgumentNameAndValueExpression()
+        {
+            Assert.Fail();
+        }
+
+        [Test]
+        [Description("T Resolve();")]
+        public void ResolverExpressionResolve()
+        {
+            Assert.Fail();
+        }
     }
 }
