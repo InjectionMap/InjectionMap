@@ -3,6 +3,10 @@ using System.Linq.Expressions;
 
 namespace InjectionMap.Expressions
 {
+    /// <summary>
+    /// The ResolverExpression gets called when resolving existing maps. With this Expression the map can be extended with further arguments
+    /// </summary>
+    /// <typeparam name="T">Key type</typeparam>
     public interface IResolverExpression<T> : IComponentExpression
     {
         /// <summary>
@@ -10,7 +14,7 @@ namespace InjectionMap.Expressions
         /// </summary>
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="value">Value that will be passed to the parameter</param>
-        /// <returns><see cref="IBindingExpression"/></returns>
+        /// <returns><see cref="IBindingExpression{T}"/></returns>
         IResolverExpression<T> WithArgument<TArg>(TArg value);
 
         /// <summary>
@@ -19,7 +23,7 @@ namespace InjectionMap.Expressions
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="name">Name of the parameter</param>
         /// <param name="value">Value that will be passed to the parameter</param>
-        /// <returns><see cref="IBindingExpression"/></returns>
+        /// <returns><see cref="IBindingExpression{T}"/></returns>
         IResolverExpression<T> WithArgument<TArg>(string name, TArg value);
 
         /// <summary>
@@ -27,7 +31,7 @@ namespace InjectionMap.Expressions
         /// </summary>
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="predicate">Value that will be passed to the parameter</param>
-        /// <returns><see cref="IBindingExpression"/></returns>
+        /// <returns><see cref="IBindingExpression{T}"/></returns>
         IResolverExpression<T> WithArgument<TArg>(Expression<Func<TArg>> predicate);
 
         /// <summary>
@@ -36,7 +40,7 @@ namespace InjectionMap.Expressions
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="name">Name of the parameter</param>
         /// <param name="predicate">Value that will be passed to the parameter</param>
-        /// <returns><see cref="IBindingExpression"/></returns>
+        /// <returns><see cref="IBindingExpression{T}"/></returns>
         IResolverExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate);
 
         /// <summary>

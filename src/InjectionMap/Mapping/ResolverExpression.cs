@@ -1,11 +1,15 @@
-﻿using InjectionMap.Composition;
-using InjectionMap.Expressions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using InjectionMap.Composition;
+using InjectionMap.Expressions;
 
 namespace InjectionMap.Mapping
 {
+    /// <summary>
+    /// The ResolverExpression gets called when resolving existing maps. With this Expression the map can be extended with further arguments
+    /// </summary>
+    /// <typeparam name="T">Key type</typeparam>
     internal class ResolverExpression<T> : BindableComponent, IResolverExpression<T>
     {
         public ResolverExpression(IComponentCollection container, IMappingComponent component)
@@ -18,7 +22,7 @@ namespace InjectionMap.Mapping
         /// </summary>
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="value">Value that will be passed to the parameter</param>
-        /// <returns><see cref="IBindingExpression"/></returns>
+        /// <returns><see cref="IResolverExpression{T}"/></returns>
         public IResolverExpression<T> WithArgument<TArg>(TArg value)
         {
             return AddArgument<TArg>(null, value, null);
@@ -30,7 +34,7 @@ namespace InjectionMap.Mapping
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="name">Name of the parameter</param>
         /// <param name="value">Value that will be passed to the parameter</param>
-        /// <returns><see cref="IBindingExpression"/></returns>
+        /// <returns><see cref="IResolverExpression{T}"/></returns>
         public IResolverExpression<T> WithArgument<TArg>(string name, TArg value)
         {
             return AddArgument<TArg>(name, value, null);
@@ -41,7 +45,7 @@ namespace InjectionMap.Mapping
         /// </summary>
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="predicate">Value that will be passed to the parameter</param>
-        /// <returns><see cref="IBindingExpression"/></returns>
+        /// <returns><see cref="IResolverExpression{T}"/></returns>
         public IResolverExpression<T> WithArgument<TArg>(Expression<Func<TArg>> predicate)
         {
             return AddArgument<TArg>(null, default(TArg), predicate);
@@ -53,7 +57,7 @@ namespace InjectionMap.Mapping
         /// <typeparam name="TArg">Type of parameter</typeparam>
         /// <param name="name">Name of the parameter</param>
         /// <param name="predicate">Value that will be passed to the parameter</param>
-        /// <returns><see cref="IBindingExpression"/></returns>
+        /// <returns><see cref="IResolverExpression{T}"/></returns>
         public IResolverExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate)
         {
             return AddArgument<TArg>(name, default(TArg), predicate);
