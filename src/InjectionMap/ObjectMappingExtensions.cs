@@ -2,14 +2,15 @@
 using InjectionMap.Internals;
 using InjectionMap.Mapping;
 
-namespace InjectionMap.Exceptions
+namespace InjectionMap
 {
-    public static class IMappingExpressionExtensions
+    public static class ObjectMappingExtensions
     {
         /// <summary>
         /// Creates a mapping to the type TMap that gets composed when resolving
         /// </summary>
         /// <typeparam name="TKey">The mapped type</typeparam>
+        /// <param name="obj">The object to extend</param>
         /// <returns>A IBindingExpression of TMap</returns>
         public static IBindingExpression<TKey> MapTo<TKey>(this object obj)
         {
@@ -20,6 +21,7 @@ namespace InjectionMap.Exceptions
         /// Creates a mapping to the type TMap that gets composed when resolving
         /// </summary>
         /// <typeparam name="TKey">The mapped type</typeparam>
+        /// <param name="obj">The object to extend</param>
         /// <param name="container">The IComponentCollection to map to</param>
         /// <returns>A IBindingExpression of TMap</returns>
         public static IBindingExpression<TKey> MapTo<TKey>(this object obj, IComponentCollection container)
