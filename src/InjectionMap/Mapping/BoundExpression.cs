@@ -2,10 +2,11 @@
 using InjectionMap.Expressions;
 using InjectionMap.Extensions;
 using InjectionMap.Internals;
+using InjectionMap.Components;
 
 namespace InjectionMap.Mapping
 {
-    internal class BoundExpression<T> : BindableComponent, IBoundExpression<T>
+    internal class BoundExpression<T> : ComponentExpression, IBoundExpression<T>
     {
         public BoundExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)

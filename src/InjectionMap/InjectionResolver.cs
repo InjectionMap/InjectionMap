@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using InjectionMap.Internals;
-using InjectionMap.Mapping;
 using InjectionMap.Expressions;
+using InjectionMap.Resolving;
 using InjectionMap.Extensions;
 
 namespace InjectionMap
@@ -38,7 +38,7 @@ namespace InjectionMap
         /// <returns>First found mapping of T</returns>
         public T Resolve<T>()
         {
-            using (var resolver = new ComponentResolver(_container))
+            using (var resolver = ResolverFactory.GetResolver<T>(_container))
             {
                 return resolver.Get<T>();
             }
@@ -51,7 +51,7 @@ namespace InjectionMap
         /// <returns>First found mappinf of type</returns>
         public object Resolve(Type type)
         {
-            using (var resolver = new ComponentResolver(_container))
+            using (var resolver = ResolverFactory.GetResolver(type, _container))
             {
                 return resolver.Get(type);
             }
@@ -64,7 +64,7 @@ namespace InjectionMap
         /// <returns>All mappings of T</returns>
         public IEnumerable<T> ResolveMultiple<T>()
         {
-            using (var resolver = new ComponentResolver(_container))
+            using (var resolver = ResolverFactory.GetResolver<T>(_container))
             {
                 return resolver.GetAll<T>();
             }
@@ -78,7 +78,7 @@ namespace InjectionMap
         /// <returns>A instance of T</returns>
         public T Resolve<T>(IMappableContainer container)
         {
-            using (var resolver = new ComponentResolver(container))
+            using (var resolver = ResolverFactory.GetResolver<T>(container))
             {
                 return resolver.Get<T>();
             }
@@ -93,11 +93,17 @@ namespace InjectionMap
         public IResolverExpression<T> ExtendMap<T>(IMappableContainer container)
         {
             // create a IResolverExpression with the values
-            using (var resolver = new ComponentResolver(container))
+            //using (var resolver = new ComponentResolver(container))
+            //{
+            //    var map = resolver.GetComponent<T>();
+
+            //    // map to new container
+            //    return map.CreateResolverExpression<T>(new MappingContainer());
+            //}
+
+            using (var resolver = ResolverFactory.GetResolver<T>(container))
             {
                 var map = resolver.GetComponent<T>();
-
-                //return map.CreateResolverExpression<T>(container as IComponentCollection ?? MappingContainerManager.MappingContainer);
 
                 // map to new container
                 return map.CreateResolverExpression<T>(new MappingContainer());

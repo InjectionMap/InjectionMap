@@ -3,14 +3,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using InjectionMap.Composition;
 using InjectionMap.Expressions;
+using InjectionMap.Components;
+using InjectionMap.Mapping;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Resolving
 {
     /// <summary>
     /// The ResolverExpression gets called when resolving existing maps. With this Expression the map can be extended with further arguments
     /// </summary>
     /// <typeparam name="T">Key type</typeparam>
-    internal class ResolverExpression<T> : BindableComponent, IResolverExpression<T>
+    internal class ResolverExpression<T> : ComponentExpression, IResolverExpression<T>
     {
         public ResolverExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)

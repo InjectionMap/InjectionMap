@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using InjectionMap.Expressions;
-using InjectionMap.Mapping;
 using InjectionMap.Internals;
+using InjectionMap.Components;
+using InjectionMap.Mapping;
 
 namespace InjectionMap
 {

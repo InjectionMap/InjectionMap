@@ -20,7 +20,7 @@ namespace InjectionMap.Composition
             using (var composition = new CompositionContainer())
             {
                 // compose instance
-                var value = composition.ComposePart<T>(component);
+                var value = composition.Compose<T>(component);
 
                 if (component.MappingConfiguration.AsConstant)
                     component.ValueCallback = () => value;
@@ -48,7 +48,7 @@ namespace InjectionMap.Composition
             using (var composition = new CompositionContainer())
             {
                 // compose instance
-                var value = composition.ComposePart(component);
+                var value = composition.Compose(component);
 
                 if (component.MappingConfiguration.AsConstant)
                     component.ValueCallback = () => value;
@@ -57,6 +57,24 @@ namespace InjectionMap.Composition
                     component.OnResolvedCallback(value);
 
                 return value;
+            }
+        }
+
+        internal static T Compose<T>()
+        {
+            using (var composition = new CompositionContainer())
+            {
+                // compose instance
+                return composition.Compose<T>();
+            }
+        }
+
+        internal static object Compose(Type type)
+        {
+            using (var composition = new CompositionContainer())
+            {
+                // compose instance
+                return composition.Compose(type);
             }
         }
     }

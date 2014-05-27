@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using InjectionMap.Composition;
+using InjectionMap.Mapping;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Resolving
 {
-    internal class ComponentResolver : IDisposable
+    internal class ComponentResolver : IResolver, IDisposable
     {
         IComponentProvider _container;
 

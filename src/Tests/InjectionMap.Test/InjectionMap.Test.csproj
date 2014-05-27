@@ -79,6 +79,7 @@
     <Compile Include="Integration\IMappingExpressionExtensionsTest.cs" />
     <Compile Include="Integration\InjectionConstructorTests.cs" />
     <Compile Include="Integration\InjectionMappingTests.cs" />
+    <Compile Include="Integration\MapToUnregisterdType.cs" />
     <Compile Include="Integration\OnResolvedExpressionTests.cs" />
     <Compile Include="Integration\Mock\ConstructorInjectionMock.cs" />
     <Compile Include="Integration\ConstantScopeTest.cs" />

@@ -51,6 +51,9 @@
     <Compile Include="Composition\ArgumentContainer.cs" />
     <Compile Include="Enums\InjectionFlags.cs" />
     <Compile Include="Exceptions\ArgumentNotDefinedException.cs" />
+    <Compile Include="Resolving\BindingResolver.cs" />
+    <Compile Include="Resolving\IResolver.cs" />
+    <Compile Include="Resolving\ResolverFactory.cs" />
     <Compile Include="ObjectMappingExtensions.cs" />
     <Compile Include="Exceptions\MappingMismatchException.cs" />
     <Compile Include="Exceptions\TypeCompositionException.cs" />
@@ -70,10 +73,10 @@
     <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Extensions\MappingComponentExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
-    <Compile Include="Mapping\Component.cs" />
-    <Compile Include="Mapping\ComponentResolver.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Resolving\ComponentResolver.cs" />
     <Compile Include="Mapping\ComponentMapper.cs" />
-    <Compile Include="Mapping\BindableComponent.cs" />
+    <Compile Include="Components\ComponentExpression.cs" />
     <Compile Include="Mapping\BindingExpression.cs" />
     <Compile Include="Mapping\BindingArgument.cs" />
     <Compile Include="Expressions\IComponentExpression.cs" />
@@ -81,12 +84,12 @@
     <Compile Include="InjectionMapper.cs" />
     <Compile Include="InjectionResolver.cs" />
     <Compile Include="Expressions\IBoundExpression.cs" />
-    <Compile Include="Mapping\MappingComponent.cs" />
+    <Compile Include="Components\MappingComponent.cs" />
     <Compile Include="MappingContainer.cs" />
     <Compile Include="Mapping\MappingContainerManager.cs" />
     <Compile Include="Mapping\MappingConfiguration.cs" />
     <Compile Include="Mapping\BoundExpression.cs" />
-    <Compile Include="Mapping\ResolverExpression.cs" />
+    <Compile Include="Resolving\ResolverExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Composition\CompositionService.cs" />
   </ItemGroup>

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using InjectionMap.Components;
+using InjectionMap.Resolving;
+using System;
 using System.Linq;
 using System.Reflection;
-using InjectionMap.Mapping;
 
 namespace InjectionMap.Composition
 {
@@ -9,6 +10,12 @@ namespace InjectionMap.Composition
     {
         ArgumentContainer _argumentContainer;
         IMappingComponent _component;
+
+        public ArgumentFactory(ArgumentContainer ctx)
+        {
+            _argumentContainer = ctx;
+            _component = new MappingComponent();
+        }
 
         public ArgumentFactory(IMappingComponent component, ArgumentContainer ctx)
         {

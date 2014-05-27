@@ -1,7 +1,8 @@
-﻿using System;
+﻿using InjectionMap.Mapping;
+using System;
 using System.Collections.Generic;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Components
 {
     internal abstract class Component : IComponent
     {

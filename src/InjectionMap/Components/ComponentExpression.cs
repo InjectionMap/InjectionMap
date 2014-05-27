@@ -1,10 +1,10 @@
 ﻿using InjectionMap.Internals;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Components
 {
-    internal class BindableComponent
+    internal abstract class ComponentExpression
     {
-        public BindableComponent(IComponentCollection container, IMappingComponent component)
+        public ComponentExpression(IComponentCollection container, IMappingComponent component)
         {
             Ensure.ArgumentNotNull(container, "container");
             Ensure.ArgumentNotNull(component, "component");

@@ -3,10 +3,11 @@ using System.Linq.Expressions;
 using InjectionMap.Expressions;
 using InjectionMap.Extensions;
 using InjectionMap.Internals;
+using InjectionMap.Components;
 
 namespace InjectionMap.Mapping
 {
-    internal class MappingExpression<T> : BindableComponent, IMappingExpression<T>
+    internal class MappingExpression<T> : ComponentExpression, IMappingExpression<T>
     {
         public MappingExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)
