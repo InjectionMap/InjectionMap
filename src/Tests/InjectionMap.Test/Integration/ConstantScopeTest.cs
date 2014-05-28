@@ -51,20 +51,24 @@ namespace InjectionMap.Test.Integration
             Assert.AreNotSame(map, map2);
             Assert.AreNotEqual(map2.ID, map.ID);
         }
-    }
 
-    internal interface IConstantScope
-    {
-        int ID { get; set; }
-    }
+        #region Mocks
 
-    internal class ConstantScopeMock : IConstantScope
-    {
-        public ConstantScopeMock(int id)
+        internal interface IConstantScope
         {
-            ID = id;
+            int ID { get; set; }
         }
 
-        public int ID { get; set; }
+        internal class ConstantScopeMock : IConstantScope
+        {
+            public ConstantScopeMock(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; set; }
+        }
+
+        #endregion
     }
 }

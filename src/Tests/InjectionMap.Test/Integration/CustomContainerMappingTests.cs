@@ -69,11 +69,11 @@ namespace InjectionMap.Test.Integration
             // resolve
             var defaultResolver = new InjectionResolver();
             var map = defaultResolver.Resolve<ICustomContainer>();
-            Assert.IsInstanceOf(typeof(DefaultContainerMapMock), map);
+            Assert.IsInstanceOf(typeof (DefaultContainerMapMock), map);
 
             var customResolver = new InjectionResolver(container);
             map = customResolver.Resolve<ICustomContainer>();
-            Assert.IsInstanceOf(typeof(CustomContainerMapMock), map);
+            Assert.IsInstanceOf(typeof (CustomContainerMapMock), map);
         }
 
         [Test]
@@ -91,23 +91,27 @@ namespace InjectionMap.Test.Integration
 
             // resolve
             var map = Resolver.Resolve<ICustomContainer>();
-            Assert.IsInstanceOf(typeof(DefaultContainerMapMock), map);
+            Assert.IsInstanceOf(typeof (DefaultContainerMapMock), map);
 
             // resolve from the custom container
             map = Resolver.Resolve<ICustomContainer>(container);
-            Assert.IsInstanceOf(typeof(CustomContainerMapMock), map);
+            Assert.IsInstanceOf(typeof (CustomContainerMapMock), map);
         }
-    }
 
-    public interface ICustomContainer
-    {
-    }
+        #region Mocks
 
-    public class CustomContainerMapMock : ICustomContainer
-    {
-    }
+        public interface ICustomContainer
+        {
+        }
 
-    public class DefaultContainerMapMock : ICustomContainer
-    {
+        public class CustomContainerMapMock : ICustomContainer
+        {
+        }
+
+        public class DefaultContainerMapMock : ICustomContainer
+        {
+        }
+
+        #endregion
     }
 }

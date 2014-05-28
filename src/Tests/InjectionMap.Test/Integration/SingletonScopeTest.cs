@@ -50,20 +50,24 @@ namespace InjectionMap.Test.Integration
             Assert.IsTrue(maps.Count() == 1);
             Assert.IsTrue(maps.First().ID == 1);
         }
-    }
 
-    internal interface ISingletonScope
-    {
-        int ID { get; set; }
-    }
+        #region Mocks
 
-    internal class SingletonScopeMock : ISingletonScope
-    {
-        public SingletonScopeMock(int id)
+        internal interface ISingletonScope
         {
-            ID = id;
+            int ID { get; set; }
         }
 
-        public int ID { get; set; }
+        internal class SingletonScopeMock : ISingletonScope
+        {
+            public SingletonScopeMock(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; set; }
+        }
+
+        #endregion
     }
 }

@@ -189,61 +189,65 @@ namespace InjectionMap.Test.Integration
                 Assert.IsTrue(map1.Count() == 1);
             }
         }
-    }
 
-    public interface ICustomMock
-    {
-        int ID { get; set; }
-    }
+        #region Mocks
 
-    public class CustomMock : ICustomMock
-    {
-        public CustomMock()
+        public interface ICustomMock
         {
-            ID = 1;
+            int ID { get; set; }
         }
 
-        public int ID { get; set; }
-    }
-
-    class InjectionMapperMock : IInjectionMapping
-    {
-        public void InitializeMap(IMappingProvider container)
+        public class CustomMock : ICustomMock
         {
-            container.Map<IInjectionMapperMock1, InjectionMapperMock1>();
-            container.Map<IInjectionMapperMock2>().For<InjectionMapperMock2>();
-        }
-    }
-
-    public interface IInjectionMapperMock1
-    {
-        int ID { get; }
-    }
-
-    public class InjectionMapperMock1 : IInjectionMapperMock1
-    {
-        public int ID
-        {
-            get
+            public CustomMock()
             {
-                return 1;
+                ID = 1;
+            }
+
+            public int ID { get; set; }
+        }
+
+        private class InjectionMapperMock : IInjectionMapping
+        {
+            public void InitializeMap(IMappingProvider container)
+            {
+                container.Map<IInjectionMapperMock1, InjectionMapperMock1>();
+                container.Map<IInjectionMapperMock2>().For<InjectionMapperMock2>();
             }
         }
-    }
 
-    public interface IInjectionMapperMock2
-    {
-        int ID { get; }
-    }
-
-    public class InjectionMapperMock2 : IInjectionMapperMock2
-    {
-        public int ID
+        public interface IInjectionMapperMock1
         {
-            get
+            int ID { get; }
+        }
+
+        public class InjectionMapperMock1 : IInjectionMapperMock1
+        {
+            public int ID
             {
-                return 2;
+                get
+                {
+                    return 1;
+                }
             }
         }
+
+        public interface IInjectionMapperMock2
+        {
+            int ID { get; }
+        }
+
+        public class InjectionMapperMock2 : IInjectionMapperMock2
+        {
+            public int ID
+            {
+                get
+                {
+                    return 2;
+                }
+            }
+        }
+
+        #endregion
     }
 }

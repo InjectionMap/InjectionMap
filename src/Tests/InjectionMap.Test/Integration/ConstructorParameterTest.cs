@@ -101,103 +101,107 @@ namespace InjectionMap.Test.Integration
             // assert
             Assert.AreEqual(map.ID, 2);
         }
-    }
 
-    internal interface IConstuctorParameter
-    {
-        int ID { get; }
-    }
+        #region Mocks
 
-
-    internal class ConstuctorParameter : IConstuctorParameter
-    {
-        public int ID
+        internal interface IConstuctorParameter
         {
-            get
+            int ID { get; }
+        }
+
+
+        internal class ConstuctorParameter : IConstuctorParameter
+        {
+            public int ID
             {
-                return 2;
+                get
+                {
+                    return 2;
+                }
             }
         }
-    }
 
-    internal interface IMixedConstuctor
-    {
-        int ID { get; }
-    }
-
-    internal class MixedConstuctor : IMixedConstuctor
-    {
-        public MixedConstuctor(IConstuctorParameter cp, int value)
+        internal interface IMixedConstuctor
         {
-            ID = cp.ID + value;
+            int ID { get; }
         }
 
-        public int ID { get; private set; }
-    }
-
-    internal class MixedWitTwoConstuctor : IMixedConstuctor
-    {
-        public MixedWitTwoConstuctor(int id)
+        internal class MixedConstuctor : IMixedConstuctor
         {
-            ID = id;
+            public MixedConstuctor(IConstuctorParameter cp, int value)
+            {
+                ID = cp.ID + value;
+            }
+
+            public int ID { get; private set; }
         }
 
-        public MixedWitTwoConstuctor(IConstuctorParameter cp, int value)
+        internal class MixedWitTwoConstuctor : IMixedConstuctor
         {
-            ID = cp.ID + value;
+            public MixedWitTwoConstuctor(int id)
+            {
+                ID = id;
+            }
+
+            public MixedWitTwoConstuctor(IConstuctorParameter cp, int value)
+            {
+                ID = cp.ID + value;
+            }
+
+            public int ID { get; private set; }
         }
 
-        public int ID { get; private set; }
-    }
-
-    internal class MixedWitDefaultConstuctor : IMixedConstuctor
-    {
-        public MixedWitDefaultConstuctor()
+        internal class MixedWitDefaultConstuctor : IMixedConstuctor
         {
-            ID = 1;
+            public MixedWitDefaultConstuctor()
+            {
+                ID = 1;
+            }
+
+            public MixedWitDefaultConstuctor(int id)
+            {
+                ID = id;
+            }
+
+            public MixedWitDefaultConstuctor(IConstuctorParameter cp, int value)
+            {
+                ID = cp.ID + value;
+            }
+
+            public int ID { get; private set; }
         }
 
-        public MixedWitDefaultConstuctor(int id)
+        internal class MixedWitMarkedConstuctor : IMixedConstuctor
         {
-            ID = id;
+            public MixedWitMarkedConstuctor()
+            {
+                ID = 1;
+            }
+
+            public MixedWitMarkedConstuctor(int id)
+            {
+                ID = id;
+            }
+
+            [InjectionConstructor]
+            public MixedWitMarkedConstuctor(IConstuctorParameter cp, int value)
+            {
+                ID = cp.ID + value;
+            }
+
+            public int ID { get; private set; }
         }
 
-        public MixedWitDefaultConstuctor(IConstuctorParameter cp, int value)
+        internal class WitOnlyMappableParameter : IMixedConstuctor
         {
-            ID = cp.ID + value;
+            public WitOnlyMappableParameter(IConstuctorParameter cp)
+            {
+                ID = cp.ID;
+            }
+
+            public int ID { get; private set; }
         }
 
-        public int ID { get; private set; }
-    }
-
-    internal class MixedWitMarkedConstuctor : IMixedConstuctor
-    {
-        public MixedWitMarkedConstuctor()
-        {
-            ID = 1;
-        }
-
-        public MixedWitMarkedConstuctor(int id)
-        {
-            ID = id;
-        }
-
-        [InjectionConstructor]
-        public MixedWitMarkedConstuctor(IConstuctorParameter cp, int value)
-        {
-            ID = cp.ID + value;
-        }
-
-        public int ID { get; private set; }
-    }
-
-    internal class WitOnlyMappableParameter : IMixedConstuctor
-    {
-        public WitOnlyMappableParameter(IConstuctorParameter cp)
-        {
-            ID = cp.ID;
-        }
-
-        public int ID { get; private set; }
+        #endregion
     }
 }

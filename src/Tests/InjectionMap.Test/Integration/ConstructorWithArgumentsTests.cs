@@ -102,20 +102,5 @@ namespace InjectionMap.Test.Integration
             // resolve
             var map = Resolver.Resolve<IConstructorArgumentMock>();
         }
-
-        //[Test]
-        //[Description("Create a object that takes multiple arguments in the constructor with partialy passing arguments where rest is nullable")]
-        //[ExpectedException(typeof(TargetParameterCountException))]
-        //public void ConstructorWithParameters_WithPartCorectAndPartNullableArgument()
-        //{
-        //    // clean all previous mappings to ensure test
-        //    Mapper.Clean<IConstructorArgumentMock>();
-
-        //    // mapping
-        //    Mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>().WithArgument(2);
-
-        //    // resolve
-        //    var map = Resolver.Resolve<IConstructorArgumentMock>();
-        //}
     }
 }

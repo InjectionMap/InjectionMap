@@ -9,15 +9,15 @@ namespace InjectionMap.Test.Integration
         [SetUp]
         public void Initialize()
         {
-            Mapper.Clean<IUnregisteredMapArgument>();
+            Mapper.Clean<IUnregisteredTypeArgument>();
         }
 
         [Test]
-        public void MapArgumentToUnregisteredClass()
+        public void MapArgumentToUnregisteredType()
         {
-            Mapper.Map<IUnregisteredMapArgument, UnregisteredMapArgument>().OnResolved(a => a.ID = 5);
+            Mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(a => a.ID = 5);
 
-            var map = Resolver.Resolve<UnregisteredMap>();
+            var map = Resolver.Resolve<UnregisteredType>();
 
             Assert.IsNotNull(map);
             Assert.IsTrue(map.ID == 5);
@@ -26,9 +26,9 @@ namespace InjectionMap.Test.Integration
         [Test]
         public void MapArgumentToUnregisteredClassWithExtendMap()
         {
-            Mapper.Map<IUnregisteredMapArgument, UnregisteredMapArgument>().OnResolved(a => a.ID = 5);
+            Mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(a => a.ID = 5);
 
-            var map = Resolver.ExtendMap<UnregisteredMap>().Resolve();
+            var map = Resolver.ExtendMap<UnregisteredType>().Resolve();
 
             Assert.IsNotNull(map);
             Assert.IsTrue(map.ID == 5);
@@ -37,33 +37,58 @@ namespace InjectionMap.Test.Integration
         [Test]
         public void MapArgumentToUnregisteredClassWithExtendMapAndArgument()
         {
-            Mapper.Map<IUnregisteredMapArgument, UnregisteredMapArgument>().OnResolved(a => a.ID = 1);
+            Mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(a => a.ID = 1);
 
-            var map = Resolver.ExtendMap<UnregisteredMap2>().WithArgument("id", () => 5).Resolve();
+            var map = Resolver.ExtendMap<UnregisteredMapMultyConstructor>().WithArgument("id", () => 5).Resolve();
 
-            Assert.IsNotNull(map);
             // the maped constructor is taken
             Assert.IsTrue(map.ID == 1);
         }
 
+        [Test]
+        public void MapArgumentToUnregisteredClassWithExtendMapAndArgumentInjectionConstructor()
+        {
+            Mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(a => a.ID = 1);
 
+            var map = Resolver.ExtendMap<UnregisteredMapInjectionConstructor>().WithArgument("id", () => 5).Resolve();
 
+            // the injectionconstructor is taken
+            Assert.IsTrue(map.ID == 5);
+        }
 
+        [Test]
+        public void MapArgumentToUnregisteredClassWithDefaultConstructor()
+        {
+            var map = Resolver.Resolve<UnregisteredMapDefaultConstructor>();
 
+            // the defaultconstructor is taken
+            Assert.IsTrue(map.ID == 1);
+        }
 
-        internal interface IUnregisteredMapArgument
+        [Test]
+        public void MapArgumentToUnregisteredClassWithDefaultAndInjectionConstructor()
+        {
+            var map = Resolver.ExtendMap<UnregisteredMapDefaultConstructor>().WithArgument("id", () => 5).Resolve();
+
+            // the defaultconstructor is taken
+            Assert.IsTrue(map.ID == 5);
+        }
+
+        #region Mocks
+
+        internal interface IUnregisteredTypeArgument
         {
             int ID { get; set; }
         }
 
-        internal class UnregisteredMapArgument : IUnregisteredMapArgument
+        internal class UnregisteredTypeArgument : IUnregisteredTypeArgument
         {
             public int ID { get; set; }
         }
 
-        internal class UnregisteredMap
+        internal class UnregisteredType
         {
-            public UnregisteredMap(IUnregisteredMapArgument argument)
+            public UnregisteredType(IUnregisteredTypeArgument argument)
             {
                 if (argument == null)
                     throw new ArgumentNullException("argument");
@@ -74,9 +99,9 @@ namespace InjectionMap.Test.Integration
             public int ID { get; set; }
         }
 
-        internal class UnregisteredMap2
+        internal class UnregisteredMapMultyConstructor
         {
-            public UnregisteredMap2(IUnregisteredMapArgument argument)
+            public UnregisteredMapMultyConstructor(IUnregisteredTypeArgument argument)
             {
                 if (argument == null)
                     throw new ArgumentNullException("argument");
@@ -84,12 +109,49 @@ namespace InjectionMap.Test.Integration
                 ID = argument.ID;
             }
 
-            public UnregisteredMap2(int id)
+            public UnregisteredMapMultyConstructor(int id)
             {
                 ID = id;
             }
 
             public int ID { get; set; }
         }
+
+        internal class UnregisteredMapInjectionConstructor
+        {
+            public UnregisteredMapInjectionConstructor(IUnregisteredTypeArgument argument)
+            {
+                if (argument == null)
+                    throw new ArgumentNullException("argument");
+
+                ID = argument.ID;
+            }
+
+            [InjectionConstructor]
+            public UnregisteredMapInjectionConstructor(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; set; }
+        }
+
+        internal class UnregisteredMapDefaultConstructor
+        {
+            public UnregisteredMapDefaultConstructor()
+            {
+                ID = 1;
+            }
+
+            [InjectionConstructor]
+            public UnregisteredMapDefaultConstructor(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; set; }
+        }
+
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace InjectionMap.Test.Integration
+namespace InjectionMap.Test
 {
     public class TestBase
     {

@@ -1,9 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InjectionMap.Test.Integration
 {
@@ -35,7 +30,7 @@ namespace InjectionMap.Test.Integration
 
             value = Resolver.ExtendMap<IExtendMap>().WithArgument(4).WithArgument("test4").Resolve();
             Assert.IsTrue(value.ID == 4);
-            Assert.IsTrue(value.Name == "test4");            
+            Assert.IsTrue(value.Name == "test4");
         }
 
         [Test]
@@ -63,7 +58,7 @@ namespace InjectionMap.Test.Integration
             value = Resolver.ExtendMap<IExtendMap>().WithArgument(4).WithArgument("test4").Resolve();
             Assert.IsTrue(value.ID == 4);
             // original argument is named, new is not names so original has to be taken
-            Assert.IsTrue(value.Name == "test"); 
+            Assert.IsTrue(value.Name == "test");
         }
 
         [Test]
@@ -75,25 +70,29 @@ namespace InjectionMap.Test.Integration
             Assert.IsTrue(value.ID == 2);
             Assert.IsTrue(value.Name == "test");
         }
-    }
 
-    interface IExtendMap
-    {
-        int ID { get; set; }
+        #region Mocks
 
-        string Name { get; set; }
-    }
-
-    class ExtendMapMock : IExtendMap
-    {
-        public ExtendMapMock(int id, string name)
+        private interface IExtendMap
         {
-            ID = id;
-            Name = name;
+            int ID { get; set; }
+
+            string Name { get; set; }
         }
 
-        public int ID { get; set; }
+        private class ExtendMapMock : IExtendMap
+        {
+            public ExtendMapMock(int id, string name)
+            {
+                ID = id;
+                Name = name;
+            }
 
-        public string Name { get; set; }
+            public int ID { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        #endregion
     }
 }

@@ -20,14 +20,14 @@ namespace InjectionMap.Test.Integration
         {
             // test original
             var map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
+            Assert.IsInstanceOf(typeof (OriginalSubstitute), map);
 
             // substitute the original with the new
             Mapper.Map<ISubstitute>().Substitute<SubstituteMock>();
 
             // test new substitute
             map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(SubstituteMock), map);
+            Assert.IsInstanceOf(typeof (SubstituteMock), map);
         }
 
         [Test]
@@ -35,14 +35,14 @@ namespace InjectionMap.Test.Integration
         {
             // test original
             var map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
+            Assert.IsInstanceOf(typeof (OriginalSubstitute), map);
 
             // substitute the original with the new
             Mapper.Map<ISubstitute>().Substitute(() => new SubstituteMock());
 
             // test new substitute
             map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(SubstituteMock), map);
+            Assert.IsInstanceOf(typeof (SubstituteMock), map);
         }
 
         [Test]
@@ -50,14 +50,14 @@ namespace InjectionMap.Test.Integration
         {
             // test original
             var map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
+            Assert.IsInstanceOf(typeof (OriginalSubstitute), map);
 
             // substitute the original with the new
             Mapper.Map<ISubstitute>().Substitute<SubstituteMock>().As(() => new SubstituteMock());
 
             // test new substitute
             map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(SubstituteMock), map);
+            Assert.IsInstanceOf(typeof (SubstituteMock), map);
         }
 
         [Test]
@@ -65,14 +65,14 @@ namespace InjectionMap.Test.Integration
         {
             // test original
             var map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
+            Assert.IsInstanceOf(typeof (OriginalSubstitute), map);
 
             // substitute the original with the new and readd the original
             Mapper.Map<ISubstitute>().Substitute<ISubstitute>().As(() => new OriginalSubstitute());
 
             // test new substitute
             map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
+            Assert.IsInstanceOf(typeof (OriginalSubstitute), map);
         }
 
         [Test]
@@ -80,14 +80,14 @@ namespace InjectionMap.Test.Integration
         {
             // test original
             var map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
+            Assert.IsInstanceOf(typeof (OriginalSubstitute), map);
 
             // substitute the original with the new
             Mapper.Map<ISubstitute>().Substitute<SubstituteMock>().WithConfiguration(InjectionFlags.AsSingleton);
 
             // test new substitute
             map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(SubstituteMock), map);
+            Assert.IsInstanceOf(typeof (SubstituteMock), map);
         }
 
         [Test]
@@ -95,34 +95,38 @@ namespace InjectionMap.Test.Integration
         {
             // test original
             var map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(OriginalSubstitute), map);
+            Assert.IsInstanceOf(typeof (OriginalSubstitute), map);
 
             // substitute the original with the new
             Mapper.Map<ISubstitute>().Substitute<SubstituteWithArgumentMock>().WithArgument<int>(() => 5);
 
             // test new substitute
             map = Resolver.Resolve<ISubstitute>();
-            Assert.IsInstanceOf(typeof(SubstituteWithArgumentMock), map);
+            Assert.IsInstanceOf(typeof (SubstituteWithArgumentMock), map);
         }
-    }
 
-    public interface ISubstitute
-    {
-    }
+        #region Mocks
 
-    public class OriginalSubstitute : ISubstitute
-    {
-    }
-
-    public class SubstituteMock : ISubstitute
-    {
-    }
-
-    public class SubstituteWithArgumentMock : ISubstitute
-    {
-        public SubstituteWithArgumentMock(int id)
+        public interface ISubstitute
         {
-            Assert.AreEqual(id, 5);
         }
+
+        public class OriginalSubstitute : ISubstitute
+        {
+        }
+
+        public class SubstituteMock : ISubstitute
+        {
+        }
+
+        public class SubstituteWithArgumentMock : ISubstitute
+        {
+            public SubstituteWithArgumentMock(int id)
+            {
+                Assert.AreEqual(id, 5);
+            }
+        }
+
+        #endregion
     }
 }

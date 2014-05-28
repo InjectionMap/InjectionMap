@@ -28,7 +28,7 @@ namespace InjectionMap.Test.Integration
 
         [Test]
         [Description("Creates a mapping to the default container with the Extenisonmethods that fails")]
-        [ExpectedException(typeof(MappingMismatchException))]
+        [ExpectedException(typeof (MappingMismatchException))]
         public void MappingExpressionExtensionWithDefaultContainer_Fail()
         {
             // create map
@@ -59,7 +59,7 @@ namespace InjectionMap.Test.Integration
 
         [Test]
         [Description("Creates a mapping to a custom container with the Extenisonmethods that fails")]
-        [ExpectedException(typeof(MappingMismatchException))]
+        [ExpectedException(typeof (MappingMismatchException))]
         public void MappingExpressionExtensionWithCustomContainer_Fail()
         {
             var container = new MappingContainer();
@@ -68,30 +68,34 @@ namespace InjectionMap.Test.Integration
             var obj = new NonMappingExpressionExtensionMock(1);
             obj.MapTo<IMappingExpressionExtension>(container);
         }
-    }
 
-    internal interface IMappingExpressionExtension
-    {
-        int ID { get; }
-    }
+        #region Mocks
 
-    internal class MappingExpressionExtensionMock : IMappingExpressionExtension
-    {
-        public MappingExpressionExtensionMock(int id)
+        internal interface IMappingExpressionExtension
         {
-            ID = id;
+            int ID { get; }
         }
 
-        public int ID { get; internal set; }
-    }
-
-    internal class NonMappingExpressionExtensionMock
-    {
-        public NonMappingExpressionExtensionMock(int id)
+        internal class MappingExpressionExtensionMock : IMappingExpressionExtension
         {
-            ID = id;
+            public MappingExpressionExtensionMock(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; internal set; }
         }
 
-        public int ID { get; internal set; }
+        internal class NonMappingExpressionExtensionMock
+        {
+            public NonMappingExpressionExtensionMock(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; internal set; }
+        }
+
+        #endregion
     }
 }

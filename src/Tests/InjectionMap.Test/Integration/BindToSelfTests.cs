@@ -54,27 +54,29 @@ namespace InjectionMap.Test.Integration
             Assert.IsInstanceOf<BindToSelfMockWithArguments>(map);
             Assert.IsTrue(map.ID == 2);
         }
-    }
 
-    class BindToSelfMock
-    {
-        public BindToSelfMock()
+        #region Mocks
+
+        private class BindToSelfMock
         {
-            ID = 1;
+            public BindToSelfMock()
+            {
+                ID = 1;
+            }
+
+            public int ID { get; private set; }
         }
 
-        public int ID { get; private set; }
-    }
-
-    class BindToSelfMockWithArguments
-    {
-        public BindToSelfMockWithArguments(int id)
+        private class BindToSelfMockWithArguments
         {
-            ID = id;
+            public BindToSelfMockWithArguments(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; private set; }
         }
 
-        public int ID { get; private set; }
+        #endregion
     }
-
-
 }

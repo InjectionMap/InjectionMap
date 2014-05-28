@@ -28,13 +28,17 @@ namespace InjectionMap.Test.Integration
 
             Assert.AreSame(map2, map3);
         }
-    }
 
-    interface IResolveOnMapping
-    {
-    }
+        #region Mocks
 
-    class ResolveOnMappingMock : IResolveOnMapping
-    {
+        private interface IResolveOnMapping
+        {
+        }
+
+        private class ResolveOnMappingMock : IResolveOnMapping
+        {
+        }
+
+        #endregion
     }
 }

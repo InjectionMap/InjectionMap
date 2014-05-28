@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+using NUnit.Framework;
 using System.Linq;
 
 namespace InjectionMap.Test.Integration
@@ -21,7 +21,7 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
-        public void IInjectionMappingTest()
+        public void IInjectionMappingRegistrationTest()
         {
             using (var resolver = new InjectionResolver())
             {
@@ -84,40 +84,85 @@ namespace InjectionMap.Test.Integration
                 }
             }
         }
-    }
 
-    class InjectionMapperMock : IInjectionMapping
-    {
-        public void InitializeMap(IMappingProvider container)
+        [Test]
+        public void MapArgumentToUnregisteredType()
         {
-            container.Map<IInjectionMappingTest, FirstInjectionMappingTestMock>();
-            container.Map<IInjectionMappingTest>().For<SecondInjectionMappingTestMock>().WithArgument(() => 5);
-        }
-    }
-
-    interface IInjectionMappingTest
-    {
-        int ID { get; }
-    }
-
-    class FirstInjectionMappingTestMock : IInjectionMappingTest
-    {
-        public int ID
-        {
-            get
+            using (var mapper = new InjectionMapper())
             {
-                return 1;
+                mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(a => a.ID = 5);
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                var map = resolver.Resolve<UnregisteredType>();
+
+                Assert.IsNotNull(map);
+                Assert.IsTrue(map.ID == 5);
             }
         }
-    }
 
-    class SecondInjectionMappingTestMock : IInjectionMappingTest
-    {
-        public SecondInjectionMappingTestMock(int id)
+        #region Mocks
+
+        internal interface IInjectionMappingTest
         {
-            ID = id;
+            int ID { get; }
         }
 
-        public int ID { get; internal set; }
+        internal class InjectionMapperMock : IInjectionMapping
+        {
+            public void InitializeMap(IMappingProvider container)
+            {
+                container.Map<IInjectionMappingTest, FirstInjectionMappingTestMock>();
+                container.Map<IInjectionMappingTest>().For<SecondInjectionMappingTestMock>().WithArgument(() => 5);
+            }
+        }
+
+        internal class FirstInjectionMappingTestMock : IInjectionMappingTest
+        {
+            public int ID
+            {
+                get
+                {
+                    return 1;
+                }
+            }
+        }
+
+        internal class SecondInjectionMappingTestMock : IInjectionMappingTest
+        {
+            public SecondInjectionMappingTestMock(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; internal set; }
+        }
+
+
+        internal interface IUnregisteredTypeArgument
+        {
+            int ID { get; set; }
+        }
+
+        internal class UnregisteredTypeArgument : IUnregisteredTypeArgument
+        {
+            public int ID { get; set; }
+        }
+
+        internal class UnregisteredType
+        {
+            public UnregisteredType(IUnregisteredTypeArgument argument)
+            {
+                if (argument == null)
+                    throw new ArgumentNullException("argument");
+
+                ID = argument.ID;
+            }
+
+            public int ID { get; set; }
+        }
+
+        #endregion
     }
 }

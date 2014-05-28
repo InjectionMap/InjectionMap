@@ -60,20 +60,24 @@ namespace InjectionMap.Test.Integration
             var map = Resolver.Resolve<IOnResolved>();
             Assert.IsTrue(map.ID == 5);
         }
-    }
 
-    public interface IOnResolved
-    {
-        int ID { get; set; }
-    }
+        #region Mocks
 
-    public class OnResolvedMock : IOnResolved
-    {
-        public OnResolvedMock(int id)
+        public interface IOnResolved
         {
-            ID = id;
+            int ID { get; set; }
         }
 
-        public int ID { get; set; }
+        public class OnResolvedMock : IOnResolved
+        {
+            public OnResolvedMock(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; set; }
+        }
+
+        #endregion
     }
 }
