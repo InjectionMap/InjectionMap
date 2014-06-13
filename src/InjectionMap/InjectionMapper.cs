@@ -24,7 +24,7 @@ namespace InjectionMap
         /// <param name="container">The <see cref="IMappableContainer"/> to add the mappings to</param>
         public InjectionMapper(IMappableContainer container)
         {
-            Ensure.ArgumentNotNull(container, "container");
+            container.EnsureArgumentNotNull("container");
 
             _container = container;
         }
@@ -37,7 +37,7 @@ namespace InjectionMap
         /// <param name="mapper"></param>
         public static void Initialize(IInjectionMapping mapper)
         {
-            Ensure.ArgumentNotNull(mapper, "mapper");
+            mapper.EnsureArgumentNotNull("mapper");
             
             mapper.InitializeMap(MappingContainerManager.MappingContainer);
         }
@@ -48,7 +48,7 @@ namespace InjectionMap
         /// <param name="assemblyFile"></param>
         public static void Initialize(string assemblyFile)
         {
-            Ensure.ArgumentNotNullOrEmpty(assemblyFile, "assemblyFile");
+            assemblyFile.EnsureArgumentNotNullOrEmpty("assemblyFile");
 
             //Initialize(Assembly.LoadFrom(assemblyFile));
             Initialize(Assembly.Load(assemblyFile));
@@ -60,7 +60,7 @@ namespace InjectionMap
         /// <param name="assembly"></param>
         public static void Initialize(Assembly assembly)
         {
-            Ensure.ArgumentNotNull(assembly, "assembly");
+            assembly.EnsureArgumentNotNull("assembly");
 
             InitializeInternal(assembly);
         }
@@ -73,8 +73,8 @@ namespace InjectionMap
         {
             var type = typeof(T);
 
-            Ensure.CanBeDefaultInstantiated(type);
-            Ensure.TypeImplements(type, typeof(IInjectionMapping));
+            type.EnsureTypeCanBeDefaultInstantiated();
+            type.EnsureTypeIsImplemented(typeof(IInjectionMapping));
 
             var obj = Activator.CreateInstance(type) as IInjectionMapping;
             if (obj != null)
@@ -135,7 +135,7 @@ namespace InjectionMap
 
             foreach (var type in types)
             {
-                Ensure.CanBeDefaultInstantiated(type);
+                type.EnsureTypeCanBeDefaultInstantiated();
 
                 var obj = Activator.CreateInstance(type) as IInjectionMapping;
                 if (obj == null)

@@ -77,7 +77,7 @@ namespace InjectionMap.Mapping
         /// <returns>New IBindingExpression with the substitute</returns>
         public IBindingExpression<TMap> Substitute<TMap>()
         {
-            Ensure.MappingTypesMatch(Component.KeyType, typeof(TMap));
+            Component.KeyType.EnsureMappingTypeMatches(typeof(TMap));
 
             var component = Component.CreateComponent<TMap>();
             component.IsSubstitute = true;
@@ -93,7 +93,7 @@ namespace InjectionMap.Mapping
         /// <returns>New IBindingExpression with the substitute</returns>
         public IBindingExpression<T> Substitute(Expression<Func<T>> predicate)
         {
-            Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
+            Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
             var component = Component.CreateComponent<T>();
             component.IsSubstitute = true;
@@ -109,7 +109,7 @@ namespace InjectionMap.Mapping
 
         internal IBindingExpression<TMap> CreateBinding<TMap>(Expression<Func<TMap>> predicate)
         {
-            Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
+            Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
             var component = Component.CreateComponent<TMap>();
             component.ValueCallback = predicate;
@@ -118,7 +118,7 @@ namespace InjectionMap.Mapping
 
         internal IBindingExpression<T> CreateBinding()
         {
-            Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
+            Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
             var component = Component.CreateComponent<T>();
             return component.CreateBindingExpression<T>(Container);

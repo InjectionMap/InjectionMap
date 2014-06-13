@@ -26,7 +26,7 @@ namespace InjectionMap
         /// <returns>A IBindingExpression of TMap</returns>
         public static IBindingExpression<TKey> MapTo<TKey>(this object obj, IComponentCollection container)
         {
-            Ensure.MappingTypesMatch(typeof(TKey), obj.GetType());
+            typeof(TKey).EnsureMappingTypeMatches(obj.GetType());
 
             return MappingContainer.MapInternal<TKey>(container).For(() => (TKey)obj);
         }

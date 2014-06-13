@@ -24,7 +24,7 @@ namespace InjectionMap.Composition
                 return ctor.ConstructorInfo.Invoke(ctor.Parameters.Select(p => p.Value).ToArray());
             }
 
-            Ensure.CanBeDefaultInstantiated(type);
+            type.EnsureTypeCanBeDefaultInstantiated();
 
             // default constructor
             return Activator.CreateInstance(type);
@@ -55,7 +55,7 @@ namespace InjectionMap.Composition
                 return ctor.ConstructorInfo.Invoke(ctor.Parameters.Select(p => p.Value).ToArray());
             }
 
-            Ensure.CanBeDefaultInstantiated(component.ValueType);
+            component.ValueType.EnsureTypeCanBeDefaultInstantiated();
 
             // default constructor
             return Activator.CreateInstance(component.ValueType);

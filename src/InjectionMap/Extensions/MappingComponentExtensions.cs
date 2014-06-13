@@ -93,7 +93,7 @@ namespace InjectionMap.Extensions
 
         internal static IResolverExpression<T> CreateResolverExpression<T>(this IMappingComponent component, IComponentCollection container)
         {
-            Ensure.MappingTypesMatch(typeof(T), component.KeyType);
+            typeof(T).EnsureMappingTypeMatches(component.KeyType);
 
             // create a copy of the component to leave the original as is
             var copy = component.CreateComponent();

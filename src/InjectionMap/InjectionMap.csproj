@@ -51,6 +51,7 @@
     <Compile Include="Composition\ArgumentContainer.cs" />
     <Compile Include="Enums\InjectionFlags.cs" />
     <Compile Include="Exceptions\ArgumentNotDefinedException.cs" />
+    <Compile Include="Extensions\EnsureExtensions.cs" />
     <Compile Include="Resolving\BindingResolver.cs" />
     <Compile Include="Resolving\IResolver.cs" />
     <Compile Include="Resolving\ResolverFactory.cs" />
@@ -70,7 +71,6 @@
     <Compile Include="IMappingProvider.cs" />
     <Compile Include="IMappingComponent.cs" />
     <Compile Include="IMappingConfiguration.cs" />
-    <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Extensions\MappingComponentExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Components\Component.cs" />
@@ -97,6 +97,9 @@
     <None Include="..\InjectionMap.snk">
       <Link>Properties\InjectionMap.snk</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Internals\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

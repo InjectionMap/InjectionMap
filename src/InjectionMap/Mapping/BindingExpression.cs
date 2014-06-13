@@ -110,7 +110,7 @@ namespace InjectionMap.Mapping
 
         public IBindingExpression<T> OnResolved(Action<T> callback)
         {
-            Ensure.MappingTypesMatch(Component.KeyType, typeof(T));
+            Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
             var component = Component.CreateComponent<T>();
             component.OnResolvedCallback = callback;

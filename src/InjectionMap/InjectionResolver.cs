@@ -24,7 +24,7 @@ namespace InjectionMap
         /// <param name="container">The <see cref="IMappableContainer"/> to resolve the mappings from</param>
         public InjectionResolver(IMappableContainer container)
         {
-            Ensure.ArgumentNotNull(container, "container");
+            container.EnsureArgumentNotNull("container");
 
             _container = container;
         }

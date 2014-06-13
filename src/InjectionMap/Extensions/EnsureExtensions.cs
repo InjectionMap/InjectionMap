@@ -3,44 +3,42 @@ using InjectionMap.Exceptions;
 
 namespace InjectionMap.Internals
 {
-    internal static class Ensure
+    internal static class EnsureExtensions
     {
-        public static void ArgumentNotNull(object argument, string name)
+        public static void EnsureArgumentNotNull(this object argument, string name)
         {
             if (argument == null) 
                 throw new ArgumentNullException(name, "Cannot be null");
         }
 
-        public static void ArgumentNotNullOrEmpty(string argument, string name)
+        public static void EnsureArgumentNotNullOrEmpty(this string argument, string name)
         {
             if (String.IsNullOrEmpty(argument)) 
                 throw new ArgumentException("Cannot be null or empty", name);
         }
 
-        public static void MappingTypesMatch(Type keyType, Type mappedType)
+        public static void EnsureMappingTypeMatches(this Type keyType, Type mappedType)
         {
             if (!keyType.IsAssignableFrom(mappedType))
                 throw new MappingMismatchException(mappedType, keyType);
         }
 
-        public static void TypeImplements(Type type, Type basetype)
+        public static void EnsureTypeIsImplemented(this Type type, Type basetype)
         {
-            MappingTypesMatch(basetype, type);
+            EnsureMappingTypeMatches(basetype, type);
         }
 
-        public static void CanBeInstantiated(Type type)
+        public static void EnsureTypeCanBeInstantiated(this Type type)
         {
             if (type.IsAbstract || type.IsInterface)
                 throw new TypeCompositionException(type);
         }
 
-        public static void CanBeDefaultInstantiated(Type type)
+        public static void EnsureTypeCanBeDefaultInstantiated(this Type type)
         {
             if (type.IsAbstract || type.IsInterface)
                 throw new TypeCompositionException(type);
 
-            //if (type.GetConstructor(Type.EmptyTypes) == null)
-            //if (type.GetConstructors().Any(c => c.GetParameters().Length == 0))
             if (type.GetConstructor(new Type[0]) == null)
                 throw new TypeCompositionException(type);
         }

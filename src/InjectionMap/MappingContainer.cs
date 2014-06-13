@@ -29,7 +29,7 @@ namespace InjectionMap
         /// <param name="component"></param>
         public void AddOrReplace(IMappingComponent component)
         {
-            Ensure.ArgumentNotNull(component, "component");
+            component.EnsureArgumentNotNull("component");
 
             var remove = Components.FirstOrDefault(c => c.ID == component.ID);
             if (Components.Contains(remove))
@@ -44,7 +44,7 @@ namespace InjectionMap
         /// <param name="component"></param>
         public void Add(IMappingComponent component)
         {
-            Ensure.ArgumentNotNull(component, "component");
+            component.EnsureArgumentNotNull("component");
 
             Components.Add(component);
         }
@@ -55,7 +55,7 @@ namespace InjectionMap
         /// <param name="component"></param>
         public void ReplaceAll(IMappingComponent component)
         {
-            Ensure.ArgumentNotNull(component, "component");
+            component.EnsureArgumentNotNull("component");
 
             var lst = Components.Where(c => c.KeyType == component.KeyType).ToList();
             foreach (var comp in lst)
@@ -70,7 +70,7 @@ namespace InjectionMap
         /// <param name="component"></param>
         public void Remove(IMappingComponent component)
         {
-            Ensure.ArgumentNotNull(component, "component");
+            component.EnsureArgumentNotNull("component");
 
             if (Components.Contains(component))
                 Components.Remove(component);
@@ -177,7 +177,7 @@ namespace InjectionMap
 
         internal static IMappingExpression<T> MapInternal<T>(IComponentCollection container)
         {
-            Ensure.ArgumentNotNull(container, "container");
+            container.EnsureArgumentNotNull("container");
 
             if (container.Get<T>(m => m.MappingConfiguration.AsSingleton).Any())
             {

@@ -7,8 +7,8 @@ namespace InjectionMap.Components
     {
         public ComponentExpression(IComponentCollection container, IMappingComponent component)
         {
-            Ensure.ArgumentNotNull(container, "container");
-            Ensure.ArgumentNotNull(component, "component");
+            container.EnsureArgumentNotNull("container");
+            component.EnsureArgumentNotNull("component");
 
             _container = container;
             _component = component;
