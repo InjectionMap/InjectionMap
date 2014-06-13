@@ -1,5 +1,5 @@
 ﻿
-namespace InjectionMap.Mapping
+namespace InjectionMap.Internal
 {
     internal class MappingConfiguration : IMappingConfiguration
     {

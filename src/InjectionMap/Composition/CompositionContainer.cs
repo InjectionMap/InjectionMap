@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using InjectionMap.Internals;
+using InjectionMap.Extensions;
 
 namespace InjectionMap.Composition
 {

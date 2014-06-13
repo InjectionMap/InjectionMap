@@ -1,7 +1,7 @@
 ﻿using InjectionMap.Expressions;
-using InjectionMap.Internals;
+using InjectionMap.Extensions;
 
-namespace InjectionMap.Components
+namespace InjectionMap.Internal
 {
     internal abstract class ComponentExpression : IComponentExpression
     {

@@ -1,6 +1,6 @@
 ﻿using InjectionMap.Expressions;
-using InjectionMap.Internals;
-using InjectionMap.Mapping;
+using InjectionMap.Extensions;
+using InjectionMap.Internal;
 
 namespace InjectionMap
 {

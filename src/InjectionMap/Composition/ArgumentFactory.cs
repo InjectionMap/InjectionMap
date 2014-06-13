@@ -1,5 +1,4 @@
-﻿using InjectionMap.Components;
-using InjectionMap.Resolving;
+﻿using InjectionMap.Internal;
 using System;
 using System.Linq;
 using System.Reflection;

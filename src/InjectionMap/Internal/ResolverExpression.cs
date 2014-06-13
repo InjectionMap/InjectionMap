@@ -3,10 +3,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using InjectionMap.Composition;
 using InjectionMap.Expressions;
-using InjectionMap.Components;
-using InjectionMap.Mapping;
 
-namespace InjectionMap.Resolving
+namespace InjectionMap.Internal
 {
     /// <summary>
     /// The ResolverExpression gets called when resolving existing maps. With this Expression the map can be extended with further arguments

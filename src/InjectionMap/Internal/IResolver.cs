@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace InjectionMap.Resolving
+namespace InjectionMap.Internal
 {
     interface IResolver : IDisposable
     {

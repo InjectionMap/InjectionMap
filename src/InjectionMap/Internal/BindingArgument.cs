@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Internal
 {
     internal class BindingArgument<T> : IBindingArgument
     {

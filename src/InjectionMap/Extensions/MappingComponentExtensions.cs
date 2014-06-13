@@ -1,8 +1,5 @@
-﻿using InjectionMap.Components;
+﻿using InjectionMap.Internal;
 using InjectionMap.Expressions;
-using InjectionMap.Internals;
-using InjectionMap.Mapping;
-using InjectionMap.Resolving;
 
 namespace InjectionMap.Extensions
 {

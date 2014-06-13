@@ -1,8 +1,7 @@
-﻿using InjectionMap.Mapping;
-using System;
+﻿using System;
 using System.Linq;
 
-namespace InjectionMap.Resolving
+namespace InjectionMap.Internal
 {
     static class ResolverFactory
     {

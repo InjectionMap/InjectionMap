@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using InjectionMap.Expressions;
-using InjectionMap.Internals;
 using InjectionMap.Extensions;
-using InjectionMap.Components;
-using InjectionMap.Resolving;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Internal
 {
     internal class BindingExpression<T> : ComponentExpression, IBindingExpression<T>, IComponentExpression
     {

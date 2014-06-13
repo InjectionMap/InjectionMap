@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace InjectionMap.Components
+namespace InjectionMap.Internal
 {
     internal class MappingComponent : Component, IMappingComponent
     {

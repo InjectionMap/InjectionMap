@@ -1,10 +1,9 @@
-﻿using InjectionMap.Components;
-using InjectionMap.Composition;
+﻿using InjectionMap.Composition;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace InjectionMap.Resolving
+namespace InjectionMap.Internal
 {
     internal class BindingResolver : IResolver, IDisposable
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using InjectionMap.Exceptions;
 
-namespace InjectionMap.Internals
+namespace InjectionMap.Extensions
 {
     internal static class EnsureExtensions
     {

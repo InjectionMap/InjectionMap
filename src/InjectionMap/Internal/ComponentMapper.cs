@@ -1,7 +1,7 @@
 ﻿using System;
 using InjectionMap.Expressions;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Internal
 {
     internal class ComponentMapper : IDisposable
     {

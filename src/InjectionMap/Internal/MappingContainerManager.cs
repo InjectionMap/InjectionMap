@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Internal
 {
     internal static class MappingContainerManager
     {

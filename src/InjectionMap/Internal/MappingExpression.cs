@@ -2,10 +2,8 @@
 using System.Linq.Expressions;
 using InjectionMap.Expressions;
 using InjectionMap.Extensions;
-using InjectionMap.Internals;
-using InjectionMap.Components;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Internal
 {
     internal class MappingExpression<T> : ComponentExpression, IMappingExpression<T>, IComponentExpression
     {

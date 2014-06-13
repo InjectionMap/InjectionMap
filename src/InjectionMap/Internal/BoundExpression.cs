@@ -1,10 +1,8 @@
 ﻿using System;
-using InjectionMap.Components;
 using InjectionMap.Expressions;
 using InjectionMap.Extensions;
-using InjectionMap.Internals;
 
-namespace InjectionMap.Mapping
+namespace InjectionMap.Internal
 {
     internal class BoundExpression<T> : ComponentExpression, IBoundExpression<T>, IComponentExpression
     {
