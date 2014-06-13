@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using InjectionMap.Expressions;
+using NUnit.Framework;
 using System.Linq;
 
 namespace InjectionMap.Test.Unit
@@ -29,10 +30,14 @@ namespace InjectionMap.Test.Unit
             {
                 var map = resolver.ExtendMap<IResolverExpressionMock>();
                 var re = map.WithArgument("id", () => 2);
+                Assert.IsNotNull(re);
 
-                Assert.IsTrue(re.Component.Arguments.Count == 1);
-                Assert.IsTrue((int)re.Component.Arguments.First().Callback.Compile().Invoke() == 2);
-                Assert.AreSame(re.Component.Arguments.First().Name, "id");
+                var ce = re as IComponentExpression;
+                Assert.IsNotNull(ce);
+
+                Assert.IsTrue(ce.Component.Arguments.Count == 1);
+                Assert.IsTrue((int)ce.Component.Arguments.First().Callback.Compile().Invoke() == 2);
+                Assert.AreSame(ce.Component.Arguments.First().Name, "id");
             }
         }
 
@@ -49,11 +54,15 @@ namespace InjectionMap.Test.Unit
             {
                 var map = resolver.ExtendMap<IResolverExpressionMock>();
                 var re = map.WithArgument(() => 2);
+                Assert.IsNotNull(re);
 
-                Assert.IsTrue(re.Component.Arguments.Count == 2);
-                Assert.IsTrue((int)re.Component.Arguments.First().Callback.Compile().Invoke() == 1);
-                Assert.AreSame(re.Component.Arguments.First().Name, "id");
-                Assert.IsNull(re.Component.Arguments.Last().Name);
+                var ce = re as IComponentExpression;
+                Assert.IsNotNull(ce);
+
+                Assert.IsTrue(ce.Component.Arguments.Count == 2);
+                Assert.IsTrue((int)ce.Component.Arguments.First().Callback.Compile().Invoke() == 1);
+                Assert.AreSame(ce.Component.Arguments.First().Name, "id");
+                Assert.IsNull(ce.Component.Arguments.Last().Name);
             }
         }
 
@@ -70,9 +79,13 @@ namespace InjectionMap.Test.Unit
             {
                 var map = resolver.ExtendMap<IResolverExpressionMock>();
                 var re = map.WithArgument(() => 2);
+                Assert.IsNotNull(re);
 
-                Assert.IsTrue(re.Component.Arguments.Count == 2);
-                Assert.IsTrue((int)re.Component.Arguments.First().Callback.Compile().Invoke() == 1);
+                var ce = re as IComponentExpression;
+                Assert.IsNotNull(ce);
+
+                Assert.IsTrue(ce.Component.Arguments.Count == 2);
+                Assert.IsTrue((int)ce.Component.Arguments.First().Callback.Compile().Invoke() == 1);
             }
         }
 
@@ -91,10 +104,14 @@ namespace InjectionMap.Test.Unit
             {
                 var map = resolver.ExtendMap<IResolverExpressionMock>();
                 var re = map.WithArgument(1);
+                Assert.IsNotNull(re);
 
-                Assert.IsTrue((int)re.Component.Arguments.First().Value == 1);
-                Assert.IsNull(re.Component.Arguments.First().Name);
-                Assert.IsNull(re.Component.Arguments.First().Callback);
+                var ce = re as IComponentExpression;
+                Assert.IsNotNull(ce);
+
+                Assert.IsTrue((int)ce.Component.Arguments.First().Value == 1);
+                Assert.IsNull(ce.Component.Arguments.First().Name);
+                Assert.IsNull(ce.Component.Arguments.First().Callback);
             }
         }
 
@@ -111,10 +128,14 @@ namespace InjectionMap.Test.Unit
             {
                 var map = resolver.ExtendMap<IResolverExpressionMock>();
                 var re = map.WithArgument("id", 2);
+                Assert.IsNotNull(re);
 
-                Assert.IsTrue((int)re.Component.Arguments.First().Value == 2);
-                Assert.AreSame(re.Component.Arguments.First().Name, "id");
-                Assert.IsNull(re.Component.Arguments.First().Callback);
+                var ce = re as IComponentExpression;
+                Assert.IsNotNull(ce);
+
+                Assert.IsTrue((int)ce.Component.Arguments.First().Value == 2);
+                Assert.AreSame(ce.Component.Arguments.First().Name, "id");
+                Assert.IsNull(ce.Component.Arguments.First().Callback);
             }
         }
 
@@ -131,9 +152,13 @@ namespace InjectionMap.Test.Unit
             {
                 var map = resolver.ExtendMap<IResolverExpressionMock>();
                 var re = map.WithArgument(() => 3);
+                Assert.IsNotNull(re);
 
-                Assert.IsTrue((int)re.Component.Arguments.First().Callback.Compile().Invoke() == 3);
-                Assert.IsNull(re.Component.Arguments.First().Name);
+                var ce = re as IComponentExpression;
+                Assert.IsNotNull(ce);
+
+                Assert.IsTrue((int)ce.Component.Arguments.First().Callback.Compile().Invoke() == 3);
+                Assert.IsNull(ce.Component.Arguments.First().Name);
             }
         }
 
@@ -150,9 +175,13 @@ namespace InjectionMap.Test.Unit
             {
                 var map = resolver.ExtendMap<IResolverExpressionMock>();
                 var re = map.WithArgument("id", () => 4);
+                Assert.IsNotNull(re);
 
-                Assert.IsTrue((int)re.Component.Arguments.First().Callback.Compile().Invoke() == 4);
-                Assert.AreSame(re.Component.Arguments.First().Name, "id");
+                var ce = re as IComponentExpression;
+                Assert.IsNotNull(ce);
+
+                Assert.IsTrue((int)ce.Component.Arguments.First().Callback.Compile().Invoke() == 4);
+                Assert.AreSame(ce.Component.Arguments.First().Name, "id");
             }
         }
 

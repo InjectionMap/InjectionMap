@@ -7,7 +7,7 @@ namespace InjectionMap.Expressions
     /// The ResolverExpression gets called when resolving existing maps. With this Expression the map can be extended with further arguments
     /// </summary>
     /// <typeparam name="T">Key type</typeparam>
-    public interface IResolverExpression<T> : IComponentExpression
+    public interface IResolverExpression<T>
     {
         /// <summary>
         /// Adds an argument that will be passed as a parameter

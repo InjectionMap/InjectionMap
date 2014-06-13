@@ -12,7 +12,7 @@ namespace InjectionMap.Resolving
     /// The ResolverExpression gets called when resolving existing maps. With this Expression the map can be extended with further arguments
     /// </summary>
     /// <typeparam name="T">Key type</typeparam>
-    internal class ResolverExpression<T> : ComponentExpression, IResolverExpression<T>
+    internal class ResolverExpression<T> : ComponentExpression, IResolverExpression<T>, IComponentExpression
     {
         public ResolverExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)

@@ -1,8 +1,9 @@
-﻿using InjectionMap.Internals;
+﻿using InjectionMap.Expressions;
+using InjectionMap.Internals;
 
 namespace InjectionMap.Components
 {
-    internal abstract class ComponentExpression
+    internal abstract class ComponentExpression : IComponentExpression
     {
         public ComponentExpression(IComponentCollection container, IMappingComponent component)
         {

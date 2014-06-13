@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using InjectionMap.Expressions;
 
 namespace InjectionMap.Test.Unit
 {
@@ -27,13 +28,15 @@ namespace InjectionMap.Test.Unit
             {
                 var be = mapper.Map<IBoundExpressionMock, BoundExpression>().WithConfiguration(InjectionFlags.None);
                 be = be.OnResolved(m => m.ID = 5);
+                var ce = be as IComponentExpression;
+                Assert.IsNotNull(ce);
 
                 var map = new BoundExpression
                 {
                     ID = 2
                 };
 
-                be.Component.OnResolvedCallback.Invoke(map);
+                ce.Component.OnResolvedCallback.Invoke(map);
 
                 Assert.IsTrue(map.ID == 5);
             }

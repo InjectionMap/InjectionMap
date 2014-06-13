@@ -1,12 +1,12 @@
 ﻿using System;
+using InjectionMap.Components;
 using InjectionMap.Expressions;
 using InjectionMap.Extensions;
 using InjectionMap.Internals;
-using InjectionMap.Components;
 
 namespace InjectionMap.Mapping
 {
-    internal class BoundExpression<T> : ComponentExpression, IBoundExpression<T>
+    internal class BoundExpression<T> : ComponentExpression, IBoundExpression<T>, IComponentExpression
     {
         public BoundExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)

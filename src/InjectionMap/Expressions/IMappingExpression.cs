@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace InjectionMap.Expressions
 {
-    public interface IMappingExpression<T> : IComponentExpression
+    public interface IMappingExpression<T>
     {
         /// <summary>
         /// Creates a mapping to the type TMap that gets composed when resolving

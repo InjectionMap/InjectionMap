@@ -35,40 +35,55 @@ namespace InjectionMap.Test.Unit
         public void MapFor()
         {
             var me = GetMap();
-            Assert.IsTrue(me.Component.ValueType == typeof(IMappingExpressionMap));
+            var ce = me as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(IMappingExpressionMap));
 
             var be = me.For<MappingExpression>();
+            Assert.IsNotNull(be);
 
-            Assert.IsTrue(be.Component.ValueType == typeof(MappingExpression));
-            Assert.IsNull(be.Component.ValueCallback);
+            ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(MappingExpression));
+            Assert.IsNull(ce.Component.ValueCallback);
         }
 
         [Test]
         public void MapForWithValue()
         {
             var me = GetMap();
-            Assert.IsTrue(me.Component.ValueType == typeof(IMappingExpressionMap));
+            var ce = me as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(IMappingExpressionMap));
 
             var mock = new MappingExpression();
             var be = me.For<MappingExpression>(mock);
+            Assert.IsNotNull(be);
 
-            Assert.IsTrue(be.Component.ValueType == typeof(MappingExpression));
-            Assert.IsNotNull(be.Component.ValueCallback);
-            Assert.AreSame(be.Component.ValueCallback.Compile().Invoke(), mock);
+            ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(MappingExpression));
+            Assert.IsNotNull(ce.Component.ValueCallback);
+            Assert.AreSame(ce.Component.ValueCallback.Compile().Invoke(), mock);
         }
 
         [Test]
         public void MapForWithFunc()
         {
             var me = GetMap();
-            Assert.IsTrue(me.Component.ValueType == typeof(IMappingExpressionMap));
+            var ce = me as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(IMappingExpressionMap));
 
             var mock = new MappingExpression();
             var be = me.For(() => mock);
+            Assert.IsNotNull(be);
 
-            Assert.IsTrue(be.Component.ValueType == typeof(MappingExpression));
-            Assert.IsNotNull(be.Component.ValueCallback);
-            Assert.AreSame(be.Component.ValueCallback.Compile().Invoke(), mock);
+            ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(MappingExpression));
+            Assert.IsNotNull(ce.Component.ValueCallback);
+            Assert.AreSame(ce.Component.ValueCallback.Compile().Invoke(), mock);
         }
 
         [Test]
@@ -77,10 +92,16 @@ namespace InjectionMap.Test.Unit
             using (var mapper = new InjectionMapper())
             {
                 var me = mapper.Map<MappingExpression>();
-                Assert.IsTrue(me.Component.ValueType == typeof(MappingExpression));
+                var ce = me as IComponentExpression;
+                Assert.IsNotNull(ce);
+                Assert.IsTrue(ce.Component.ValueType == typeof(MappingExpression));
 
                 var be = me.ToSelf();
-                Assert.IsTrue(be.Component.ValueType == typeof(MappingExpression));
+                Assert.IsNotNull(be);
+
+                ce = be as IComponentExpression;
+                Assert.IsNotNull(ce);
+                Assert.IsTrue(ce.Component.ValueType == typeof(MappingExpression));
             }
         }
 
@@ -92,9 +113,11 @@ namespace InjectionMap.Test.Unit
                 var me = mapper.Map<IMappingExpressionMap, MappingExpression>();
                 var be = me.OnResolved(e => e.ID = 5);
                 var mock = new MappingExpression();
-                be.Component.OnResolvedCallback.Invoke(mock);
+                var ce = be as IComponentExpression;
+                Assert.IsNotNull(ce);
+                ce.Component.OnResolvedCallback.Invoke(mock);
 
-                Assert.IsTrue(be.Component.ValueType == typeof(MappingExpression));
+                Assert.IsTrue(ce.Component.ValueType == typeof(MappingExpression));
                 Assert.IsTrue((mock as IMappingExpressionMap).ID == 5);
             }
         }
@@ -103,29 +126,38 @@ namespace InjectionMap.Test.Unit
         public void MapSubstitute()
         {
             var me = GetMap();
-            Assert.IsTrue(me.Component.ValueType == typeof(IMappingExpressionMap));
+            var ce = me as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(IMappingExpressionMap));
 
             var be = me.Substitute<MappingExpression>();
+            Assert.IsNotNull(be);
 
-            Assert.IsTrue(be.Component.ValueType == typeof(MappingExpression));
-            Assert.IsTrue(be.Component.IsSubstitute);
+            ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(MappingExpression));
+            Assert.IsTrue(ce.Component.IsSubstitute);
         }
 
         [Test]
         public void MapSubstituteWithFunc()
         {
             var me = GetMap();
-            Assert.IsTrue(me.Component.ValueType == typeof(IMappingExpressionMap));
+            var ce = me as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.ValueType == typeof(IMappingExpressionMap));
 
             var mock = new MappingExpression();
             var be = me.Substitute(() => mock);
+            Assert.IsNotNull(be);
 
-            Assert.AreSame(be.Component.ValueCallback.Compile().Invoke(), mock);
-            Assert.IsTrue(be.Component.IsSubstitute);
+            ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.AreSame(ce.Component.ValueCallback.Compile().Invoke(), mock);
+            Assert.IsTrue(ce.Component.IsSubstitute);
         }
 
-
-
+        #region Mocks
 
         internal interface IMappingExpressionMap
         {
@@ -136,5 +168,7 @@ namespace InjectionMap.Test.Unit
         {
             public int ID { get; set; }
         }
+
+        #endregion
     }
 }

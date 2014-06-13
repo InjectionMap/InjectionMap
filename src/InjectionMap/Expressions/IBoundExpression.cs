@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace InjectionMap.Expressions
 {
-    public interface IBoundExpression<T> : IComponentExpression
+    public interface IBoundExpression<T>
     {
         /// <summary>
         /// Gets the configuration for the mapping

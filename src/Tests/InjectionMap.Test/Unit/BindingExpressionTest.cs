@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using System.Linq;
 using InjectionMap.Expressions;
+using NUnit.Framework;
 
 namespace InjectionMap.Test.Unit
 {
@@ -43,10 +39,13 @@ namespace InjectionMap.Test.Unit
             var be = GetMap();
             var argument = new BindingArgument();
             be = be.WithArgument<BindingArgument>(argument);
+            Assert.IsNotNull(be);
 
-            Assert.IsInstanceOf<BindingArgument>(be.Component.Arguments.First().Value);
-            Assert.AreSame(be.Component.Arguments.First().Value, argument);
-            Assert.AreSame(be.Component.Arguments.First().Name, null);
+            var ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsInstanceOf<BindingArgument>(ce.Component.Arguments.First().Value);
+            Assert.AreSame(ce.Component.Arguments.First().Value, argument);
+            Assert.AreSame(ce.Component.Arguments.First().Name, null);
         }
 
         [Test]
@@ -56,10 +55,13 @@ namespace InjectionMap.Test.Unit
             var be = GetMap();
             var argument = new BindingArgument();
             be = be.WithArgument<BindingArgument>("id", argument);
+            Assert.IsNotNull(be);
 
-            Assert.IsInstanceOf<BindingArgument>(be.Component.Arguments.First().Value);
-            Assert.AreSame(be.Component.Arguments.First().Value, argument);
-            Assert.AreSame(be.Component.Arguments.First().Name, "id");
+            var ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsInstanceOf<BindingArgument>(ce.Component.Arguments.First().Value);
+            Assert.AreSame(ce.Component.Arguments.First().Value, argument);
+            Assert.AreSame(ce.Component.Arguments.First().Name, "id");
         }
 
         [Test]
@@ -69,10 +71,13 @@ namespace InjectionMap.Test.Unit
             var be = GetMap();
             var argument = new BindingArgument();
             be = be.WithArgument<BindingArgument>(() => argument);
+            Assert.IsNotNull(be);
 
-            Assert.IsInstanceOf<BindingArgument>(be.Component.Arguments.First().Callback.Compile().Invoke());
-            Assert.AreSame(be.Component.Arguments.First().Callback.Compile().Invoke(), argument);
-            Assert.AreSame(be.Component.Arguments.First().Name, null);
+            var ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsInstanceOf<BindingArgument>(ce.Component.Arguments.First().Callback.Compile().Invoke());
+            Assert.AreSame(ce.Component.Arguments.First().Callback.Compile().Invoke(), argument);
+            Assert.AreSame(ce.Component.Arguments.First().Name, null);
         }
 
         [Test]
@@ -82,10 +87,13 @@ namespace InjectionMap.Test.Unit
             var be = GetMap();
             var argument = new BindingArgument();
             be = be.WithArgument<BindingArgument>("id", () => argument);
+            Assert.IsNotNull(be);
 
-            Assert.IsInstanceOf<BindingArgument>(be.Component.Arguments.First().Callback.Compile().Invoke());
-            Assert.AreSame(be.Component.Arguments.First().Callback.Compile().Invoke(), argument);
-            Assert.AreSame(be.Component.Arguments.First().Name, "id");
+            var ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsInstanceOf<BindingArgument>(ce.Component.Arguments.First().Callback.Compile().Invoke());
+            Assert.AreSame(ce.Component.Arguments.First().Callback.Compile().Invoke(), argument);
+            Assert.AreSame(ce.Component.Arguments.First().Name, "id");
         }
 
         [Test]
@@ -95,8 +103,11 @@ namespace InjectionMap.Test.Unit
             var be = GetMap();
             var map = new BindingExpression();
             be = be.As(() => map);
+            Assert.IsNotNull(be);
 
-            Assert.AreSame(be.Component.ValueCallback.Compile().Invoke(), map);
+            var ce = be as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.AreSame(ce.Component.ValueCallback.Compile().Invoke(), map);
         }
 
         [Test]
@@ -105,10 +116,12 @@ namespace InjectionMap.Test.Unit
         {
             var be = GetMap();
             var bound = be.WithConfiguration(InjectionFlags.AsConstant);
+            var ce = bound as IComponentExpression;
 
-            Assert.IsTrue(bound.Component.MappingConfiguration.AsConstant);
-            Assert.IsFalse(bound.Component.MappingConfiguration.AsSingleton);
-            Assert.IsFalse(bound.Component.MappingConfiguration.ResolveValueOnMapping);
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.MappingConfiguration.AsConstant);
+            Assert.IsFalse(ce.Component.MappingConfiguration.AsSingleton);
+            Assert.IsFalse(ce.Component.MappingConfiguration.ResolveValueOnMapping);
         }
 
         [Test]
@@ -117,10 +130,12 @@ namespace InjectionMap.Test.Unit
         {
             var be = GetMap();
             var bound = be.WithConfiguration(InjectionFlags.AsSingleton);
+            var ce = bound as IComponentExpression;
 
-            Assert.IsFalse(bound.Component.MappingConfiguration.AsConstant);
-            Assert.IsTrue(bound.Component.MappingConfiguration.AsSingleton);
-            Assert.IsFalse(bound.Component.MappingConfiguration.ResolveValueOnMapping);
+            Assert.IsNotNull(ce);
+            Assert.IsFalse(ce.Component.MappingConfiguration.AsConstant);
+            Assert.IsTrue(ce.Component.MappingConfiguration.AsSingleton);
+            Assert.IsFalse(ce.Component.MappingConfiguration.ResolveValueOnMapping);
         }
 
         [Test]
@@ -129,10 +144,12 @@ namespace InjectionMap.Test.Unit
         {
             var be = GetMap();
             var bound = be.WithConfiguration(InjectionFlags.ResolveValueOnMapping);
+            var ce = bound as IComponentExpression;
 
-            Assert.IsTrue(bound.Component.MappingConfiguration.AsConstant);
-            Assert.IsFalse(bound.Component.MappingConfiguration.AsSingleton);
-            Assert.IsTrue(bound.Component.MappingConfiguration.ResolveValueOnMapping);
+            Assert.IsNotNull(ce);
+            Assert.IsTrue(ce.Component.MappingConfiguration.AsConstant);
+            Assert.IsFalse(ce.Component.MappingConfiguration.AsSingleton);
+            Assert.IsTrue(ce.Component.MappingConfiguration.ResolveValueOnMapping);
         }
 
         [Test]
@@ -145,12 +162,15 @@ namespace InjectionMap.Test.Unit
             {
                 ID = 2
             };
+            var ce = be as IComponentExpression;
 
-            be.Component.OnResolvedCallback.Invoke(map);
+            Assert.IsNotNull(ce);
+            ce.Component.OnResolvedCallback.Invoke(map);
             
             Assert.IsTrue(map.ID == 5);
         }
 
+        #region Mocks
 
         internal interface IBindingExpressionMap
         {
@@ -175,5 +195,7 @@ namespace InjectionMap.Test.Unit
         {
             public int ID { get; set; }
         }
+
+        #endregion
     }
 }

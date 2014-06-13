@@ -7,7 +7,7 @@ using InjectionMap.Components;
 
 namespace InjectionMap.Mapping
 {
-    internal class MappingExpression<T> : ComponentExpression, IMappingExpression<T>
+    internal class MappingExpression<T> : ComponentExpression, IMappingExpression<T>, IComponentExpression
     {
         public MappingExpression(IComponentCollection container, IMappingComponent component)
             : base(container, component)

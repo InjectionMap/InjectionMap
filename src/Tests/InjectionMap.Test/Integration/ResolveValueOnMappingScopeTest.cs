@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using InjectionMap.Expressions;
+using NUnit.Framework;
 
 namespace InjectionMap.Test.Integration
 {
@@ -15,10 +16,11 @@ namespace InjectionMap.Test.Integration
         public void ResolveValueOnMapping()
         {
             var map = Mapper.Map<IResolveOnMapping, ResolveOnMappingMock>().WithConfiguration(InjectionFlags.ResolveValueOnMapping);
+            var ce = map as IComponentExpression;
+            Assert.IsNotNull(ce);
+            Assert.IsNotNull(ce.Component.ValueCallback);
 
-            Assert.IsNotNull(map.Component.ValueCallback);
-
-            var value1 = map.Component.ValueCallback.Compile().Invoke();
+            var value1 = ce.Component.ValueCallback.Compile().Invoke();
 
             var map2 = Resolver.Resolve<IResolveOnMapping>();
 
