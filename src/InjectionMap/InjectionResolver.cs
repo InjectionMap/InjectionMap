@@ -83,23 +83,57 @@ namespace InjectionMap
             }
         }
 
+        /// <summary>
+        /// Extends a existing map
+        /// </summary>
+        /// <typeparam name="T">The key type of the registered map to</typeparam>
+        /// <returns>IResolverExpression{T}</returns>
         public IResolverExpression<T> ExtendMap<T>()
         {
             // create a IResolverExpression with the values
             return ExtendMap<T>(_container);
         }
 
+        /// <summary>
+        /// Extends a existing map
+        /// </summary>
+        /// <typeparam name="T">The key type of the registered map to</typeparam>
+        /// <param name="container">The container containing the map</param>
+        /// <returns>IResolverExpression{T}</returns>
         public IResolverExpression<T> ExtendMap<T>(IMappableContainer container)
         {
             // create a IResolverExpression with the values
-            //using (var resolver = new ComponentResolver(container))
-            //{
-            //    var map = resolver.GetComponent<T>();
+            using (var resolver = ResolverFactory.GetResolver<T>(container))
+            {
+                var map = resolver.GetComponent<T>();
+                if (map == null)
+                    throw new ResolverException(typeof (T));
 
-            //    // map to new container
-            //    return map.CreateResolverExpression<T>(new MappingContainer());
-            //}
+                // map to new container
+                return map.CreateExtendedResolverExpression<T>(new MappingContainer());
+            }
+        }
 
+        /// <summary>
+        /// Creates a new IResolverExpression for the given type
+        /// </summary>
+        /// <typeparam name="T">The key type of the registered map to</typeparam>
+        /// <returns>IResolverExpression{T}</returns>
+        public IResolverExpression<T> For<T>()
+        {
+            // create a IResolverExpression with the values
+            return For<T>(_container);
+        }
+
+        /// <summary>
+        /// Creates a new IResolverExpression for the given type
+        /// </summary>
+        /// <typeparam name="T">The key type of the registered map to</typeparam>
+        /// <param name="container">The container containing the map</param>
+        /// <returns>IResolverExpression{T}</returns>
+        public IResolverExpression<T> For<T>(IMappableContainer container)
+        {
+            // create a IResolverExpression with the values
             using (var resolver = ResolverFactory.GetResolver<T>(container))
             {
                 var map = resolver.GetComponent<T>();

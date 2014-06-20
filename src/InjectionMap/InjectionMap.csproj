@@ -51,6 +51,7 @@
     <Compile Include="Composition\ArgumentContainer.cs" />
     <Compile Include="Enums\InjectionFlags.cs" />
     <Compile Include="Exceptions\ArgumentNotDefinedException.cs" />
+    <Compile Include="Exceptions\ResolverException.cs" />
     <Compile Include="Extensions\EnsureExtensions.cs" />
     <Compile Include="Internal\BindingResolver.cs" />
     <Compile Include="Internal\IResolver.cs" />

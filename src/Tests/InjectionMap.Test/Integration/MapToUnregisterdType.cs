@@ -28,7 +28,7 @@ namespace InjectionMap.Test.Integration
         {
             Mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(a => a.ID = 5);
 
-            var map = Resolver.ExtendMap<UnregisteredType>().Resolve();
+            var map = Resolver.For<UnregisteredType>().Resolve();
 
             Assert.IsNotNull(map);
             Assert.IsTrue(map.ID == 5);
@@ -39,7 +39,7 @@ namespace InjectionMap.Test.Integration
         {
             Mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(a => a.ID = 1);
 
-            var map = Resolver.ExtendMap<UnregisteredMapMultyConstructor>().WithArgument("id", () => 5).Resolve();
+            var map = Resolver.For<UnregisteredMapMultyConstructor>().WithArgument("id", () => 5).Resolve();
 
             // the maped constructor is taken
             Assert.IsTrue(map.ID == 1);
@@ -50,7 +50,7 @@ namespace InjectionMap.Test.Integration
         {
             Mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(a => a.ID = 1);
 
-            var map = Resolver.ExtendMap<UnregisteredMapInjectionConstructor>().WithArgument("id", () => 5).Resolve();
+            var map = Resolver.For<UnregisteredMapInjectionConstructor>().WithArgument("id", () => 5).Resolve();
 
             // the injectionconstructor is taken
             Assert.IsTrue(map.ID == 5);
@@ -66,9 +66,19 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
+        public void MapArgumentToUnregisteredClassWithoutDefaultConstructor()
+        {
+            Mapper.Map<IUnregisteredTypeArgument, UnregisteredTypeArgument>().OnResolved(uta => uta.ID = 5);
+            var map = Resolver.Resolve<UnregisteredType>();
+
+            // the defaultconstructor is taken
+            Assert.IsTrue(map.ID == 5);
+        }
+
+        [Test]
         public void MapArgumentToUnregisteredClassWithDefaultAndInjectionConstructor()
         {
-            var map = Resolver.ExtendMap<UnregisteredMapDefaultConstructor>().WithArgument("id", () => 5).Resolve();
+            var map = Resolver.For<UnregisteredMapDefaultConstructor>().WithArgument("id", () => 5).Resolve();
 
             // the defaultconstructor is taken
             Assert.IsTrue(map.ID == 5);
