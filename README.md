@@ -25,4 +25,4 @@ Bugs, issues and features
 Bugs, issues or feature wishes can submitted on the [issues](https://github.com/InjectionMap/InjectionMap/issues) page or feel free to fork the project and send a pull request.
 
 
-InjectionMap is developed by [wickedflame](http://wicked-flame.blogspot.ch/) under the [Ms-RL License](License.txt).
+InjectionMap is developed by [wickedflame](http://wicked-flame.blogspot.ch/) under the [Ms-PL License](License.txt).
