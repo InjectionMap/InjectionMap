@@ -56,7 +56,7 @@ namespace InjectionMap.Test.Integration
         public void IBindingExpressionGenericOnResolved()
         {
             Mapper.Map<IOnResolved, OnResolvedMock>().OnResolved(m => m.ID = 5).WithArgument(() => 1);
-
+            
             var map = Resolver.Resolve<IOnResolved>();
             Assert.IsTrue(map.ID == 5);
         }
