@@ -1,4 +1,7 @@
 ﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace InjectionMap.Test.Integration
 {
@@ -63,12 +66,16 @@ namespace InjectionMap.Test.Integration
             // property name is not provided. id should still be 2 and name test2
             Assert.IsFalse(value.ID == 3);
             Assert.IsFalse(value.Name == "test3");
+            Assert.IsTrue(value.ID == 2);
+            Assert.IsTrue(value.Name == "test2");
 
             value = Resolver.ExtendMap<IExtendMap>().WithArgument(4).WithArgument("test4").Resolve();
 
             // property name is not provided. id should still be 2 and name test2
             Assert.IsFalse(value.ID == 4);
             Assert.IsFalse(value.Name == "test4");
+            Assert.IsTrue(value.ID == 2);
+            Assert.IsTrue(value.Name == "test2");
         }
 
         [Test]
@@ -98,6 +105,36 @@ namespace InjectionMap.Test.Integration
             Assert.IsTrue(value.Name == "test");
         }
 
+        [Test]
+        public void ResolverExpressionExtendAllWithResolveMultipe()
+        {
+            using (var mapper = new InjectionMapper())
+            {
+                mapper.Map<IExtendMap, ExtendMapMock>();
+                mapper.Map<IExtendMap, ExtendMapMockTwo>();
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                var expression = resolver.ExtendAll<IExtendMap>();
+                var re = expression.WithArgument("name", () => "test").WithArgument("id", () => 2);
+                var maps = re.ResolveMultiple();
+
+                var types = new List<Type>();
+
+                Assert.IsTrue(maps.Count() == 2);
+                foreach (var map in maps)
+                {
+                    Assert.IsTrue(map.ID == 2);
+                    Assert.IsTrue(map.Name == "test");
+
+                    if (!types.Contains(map.GetType()))
+                        types.Add(map.GetType());
+                }
+                Assert.IsTrue(types.Count == 2);
+            }
+        }
+
         #region Mocks
 
         private interface IExtendMap
@@ -110,6 +147,19 @@ namespace InjectionMap.Test.Integration
         private class ExtendMapMock : IExtendMap
         {
             public ExtendMapMock(int id, string name)
+            {
+                ID = id;
+                Name = name;
+            }
+
+            public int ID { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        private class ExtendMapMockTwo : IExtendMap
+        {
+            public ExtendMapMockTwo(int id, string name)
             {
                 ID = id;
                 Name = name;

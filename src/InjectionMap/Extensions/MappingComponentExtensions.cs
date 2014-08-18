@@ -100,6 +100,14 @@ namespace InjectionMap.Extensions
             return new ResolverExpression<T>(container, component);
         }
 
+        internal static IMultiResolverExpression<T> CreateExtendedMultiResolverExpression<T>(this IMappingComponent component, IComponentCollection container)
+        {
+            typeof(T).EnsureMappingTypeMatches(component.KeyType);
+
+            // create the ResolverExpression
+            return new MultiResolverExpression<T>(container);
+        }
+
         internal static IResolverExpression<T> CreateResolverExpression<T>(this IMappingComponent component, IComponentCollection container)
         {
             typeof(T).EnsureMappingTypeMatches(component.KeyType);

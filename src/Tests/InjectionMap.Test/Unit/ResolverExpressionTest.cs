@@ -1,5 +1,7 @@
 ﻿using InjectionMap.Expressions;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace InjectionMap.Test.Unit
@@ -203,6 +205,59 @@ namespace InjectionMap.Test.Unit
                 Assert.IsTrue(value.ID == 5);
             }
         }
+        
+        [Test]
+        [Description("T ExtendAll() with Resolve();")]
+        public void ResolverExpressionExtendAllWithResolve()
+        {
+            using (var mapper = new InjectionMapper())
+            {
+                mapper.Map<IResolverExpressionMock, ResolverExpression>();
+                mapper.Map<IResolverExpressionMock, ResolverExpressionTwo>();
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                var expression = resolver.ExtendAll<IResolverExpressionMock>();
+                var re = expression.WithArgument("id", () => 5);
+                var map = re.Resolve();
+
+                Assert.IsTrue(map.ID == 5);
+                // the resolved map has to be the first registered
+                Assert.IsTrue(map is ResolverExpression);
+            }
+        }
+
+        [Test]
+        [Description("T ExtendAll() with ResolveMultiple();")]
+        public void ResolverExpressionExtendAllWithResolveMultipe()
+        {
+            using (var mapper = new InjectionMapper())
+            {
+                mapper.Map<IResolverExpressionMock, ResolverExpression>();
+                mapper.Map<IResolverExpressionMock, ResolverExpressionTwo>();
+                mapper.Map<IResolverExpressionMock, ResolverExpression>();
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                var map = resolver.ExtendAll<IResolverExpressionMock>();
+                var re = map.WithArgument("id", () => 5);
+                var maps = re.ResolveMultiple();
+
+                var types = new List<Type>();
+
+                Assert.IsTrue(maps.Count() == 3);
+                foreach (var value in maps)
+                {
+                    Assert.IsTrue(value.ID == 5);
+
+                    if (!types.Contains(value.GetType()))
+                        types.Add(value.GetType());
+                }
+                Assert.IsTrue(types.Count == 2);
+            }
+        }
 
 
         internal interface IResolverExpressionMock
@@ -216,6 +271,19 @@ namespace InjectionMap.Test.Unit
             {
             }
             public ResolverExpression(int id)
+            {
+                ID = id;
+            }
+
+            public int ID { get; set; }
+        }
+
+        internal class ResolverExpressionTwo : IResolverExpressionMock
+        {
+            public ResolverExpressionTwo()
+            {
+            }
+            public ResolverExpressionTwo(int id)
             {
                 ID = id;
             }

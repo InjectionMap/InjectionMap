@@ -32,5 +32,12 @@ namespace InjectionMap.Internal
         /// <typeparam name="T">The mapped type</typeparam>
         /// <returns>The first IMappingComponent of T</returns>
         IMappingComponent GetComponent<T>();
+
+        /// <summary>
+        /// Gets all IMappingComponents mapped to T
+        /// </summary>
+        /// <typeparam name="T">The mapped type</typeparam>
+        /// <returns>All IMappingComonents of T</returns>
+        IEnumerable<IMappingComponent> GetAllComponents<T>();
     }
 }

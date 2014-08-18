@@ -52,6 +52,20 @@ namespace InjectionMap.Internal
             };
         }
 
+        /// <summary>
+        /// Gets all IMappingComponents mapped to T
+        /// </summary>
+        /// <typeparam name="T">The mapped type</typeparam>
+        /// <returns>All IMappingComonents of T</returns>
+        public IEnumerable<IMappingComponent> GetAllComponents<T>()
+        {
+            return new List<IMappingComponent>{
+                new MappingComponent<T>()
+                {
+                    KeyType = typeof(T)
+                }};
+        }
+
         #endregion
 
         #region IDisposeable Implementation

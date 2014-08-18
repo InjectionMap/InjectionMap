@@ -151,7 +151,7 @@ var mapper = new InjectionMapper();
 mapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>().WithArgument("parameter", () => 5);
 ```
 
-#### Resolve Arguments by resolving registered maps
+#### Inject arguments by resolving registered maps
 If parameters are mapped objects, they will automatically be resolved 
 ```csharp
 public class ConstructorParameter : IConstructorParameter { }

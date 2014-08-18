@@ -107,15 +107,52 @@ namespace InjectionMap
             {
                 var map = resolver.GetComponent<T>();
                 if (map == null)
-                    throw new ResolverException(typeof (T));
+                    throw new ResolverException(typeof(T));
+                
+                var cont = container as IComponentCollection;
+                if (cont == null)
+                    cont = MappingContainerManager.MappingContainer;
 
-                // map to new container
-                return map.CreateExtendedResolverExpression<T>(new MappingContainer());
+                return map.CreateExtendedResolverExpression<T>(cont);
             }
         }
 
         /// <summary>
-        /// Creates a new IResolverExpression for the given type
+        /// Extends all existing maps
+        /// </summary>
+        /// <typeparam name="T">The key type of the registered map to</typeparam>
+        /// <returns>IMultiResolverExpression{T}</returns>
+        public IMultiResolverExpression<T> ExtendAll<T>()
+        {
+            return ExtendAll<T>(_container);
+        }
+
+        /// <summary>
+        /// Extends all existing maps
+        /// </summary>
+        /// <typeparam name="T">The key type of the registered map to</typeparam>
+        /// <param name="container">The container containing the maps</param>
+        /// <returns>IMultiResolverExpression{T}</returns>
+        public IMultiResolverExpression<T> ExtendAll<T>(IMappableContainer container)
+        {
+            // create a IMultiResolverExpression with the values
+            using (var resolver = ResolverFactory.GetResolver<T>(container))
+            {
+                var map = resolver.GetComponent<T>();
+
+                if (map == null)
+                    throw new ResolverException(typeof(T));
+
+                var cont = container as IComponentCollection;
+                if (cont == null)
+                    cont = MappingContainerManager.MappingContainer;
+
+                return map.CreateExtendedMultiResolverExpression<T>(cont);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new IResolverExpression for the given type by copying the original map
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
         /// <returns>IResolverExpression{T}</returns>
@@ -137,6 +174,8 @@ namespace InjectionMap
             using (var resolver = ResolverFactory.GetResolver<T>(container))
             {
                 var map = resolver.GetComponent<T>();
+                if (map == null)
+                    throw new ResolverException(typeof(T));
 
                 // map to new container
                 return map.CreateResolverExpression<T>(new MappingContainer());

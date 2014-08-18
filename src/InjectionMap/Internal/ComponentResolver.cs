@@ -52,6 +52,16 @@ namespace InjectionMap.Internal
         }
 
         /// <summary>
+        /// Gets all accurances of T
+        /// </summary>
+        /// <typeparam name="T">The mapped type</typeparam>
+        /// <returns>All T</returns>
+        public IEnumerable<T> GetAll<T>()
+        {
+            return _container.Get<T>().Select(c => CompositionService.Compose<T>(c));
+        }
+
+        /// <summary>
         /// Gets the IMappingComponent of the first occurance of T
         /// </summary>
         /// <typeparam name="T">The mapped type</typeparam>
@@ -69,16 +79,6 @@ namespace InjectionMap.Internal
         public IEnumerable<IMappingComponent> GetAllComponents<T>()
         {
             return _container.Get<T>().Where(c => c.KeyType == typeof(T));
-        }
-
-        /// <summary>
-        /// Gets all accurances of T
-        /// </summary>
-        /// <typeparam name="T">The mapped type</typeparam>
-        /// <returns>All T</returns>
-        public IEnumerable<T> GetAll<T>()
-        {
-            return _container.Get<T>().Select(c => CompositionService.Compose<T>(c));
         }
 
         #endregion
