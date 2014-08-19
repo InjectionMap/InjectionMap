@@ -46,7 +46,8 @@ This example demonstrates the simplest form of mapping. An interface and a class
 interface IInjectionMappingTest { }
 class InjectionMappingTestMock : IInjectionMappingTest { }
 
-// IInjectionMapping implementation that is used to register objects/mappings in InjectionMap
+// IInjectionMapping implementation that is used 
+// to register objects/mappings in InjectionMap
 class InjectionMapperMock : IInjectionMapping
 {
     public void InitializeMap(IMappingProvider container)
@@ -111,10 +112,10 @@ using (var resolver = new InjectionResolver())
 
 ### Resolving the constructor
 InjectionMap uses the following Order to resolve the correct constructor.
-1. Find the contructor marked with the _InjectionConstructorAttribute_
-2. Try to resolve the constructor that matches the passed arguments
-3. Try to resolve the default constructor
-4. Try to resolve any constructor using the passed arguments and by resolving mappings 
+1. Find the contructor marked with the _InjectionConstructorAttribute_. 
+2. Try to resolve the constructor that matches the passed arguments. 
+3. Try to resolve the default constructor. 
+4. Try to resolve any constructor using the passed arguments and by resolving mappings.
 
 #### InjectionConstructor
 In classes with multiple constructor, the constructor that has to be used can be marked with the _InjectionConsturctoAttribute_.
@@ -130,7 +131,7 @@ public class ConstructorInjectionMock : IConstructorInjectionMock
 }
 ```
 
-#### Passing Arguments to the mapping
+#### Passing Arguments to the mapping that will be injected into the constructor
 Parameters that have to be used can be passed as Arguments to the mapping.
 ```csharp
 // class that needs a parameter in the constructor
@@ -143,12 +144,14 @@ public class ConstructorInjectionMock : IConstructorInjectionMock
 Add the argument while registering
 ```csharp
 var mapper = new InjectionMapper();
-mapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>().WithArgument(() => 5);
+mapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>()
+      .WithArgument(() => 5);
 ```
 Optionaly the argument can be passed to a named parameter
 ```csharp
 var mapper = new InjectionMapper();
-mapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>().WithArgument("parameter", () => 5);
+mapper.Map<IConstructorInjectionMock, ConstructorInjectionMock>()
+      .WithArgument("parameter", () => 5);
 ```
 
 #### Inject arguments by resolving registered maps
@@ -173,12 +176,15 @@ var obj = resolver.Resolve<IConstructorInjectionMock>();
 The parameter IConstructorParameter will automaticaly be resolved and passed to the constructor.
 
 #### Pass Arguments to Resolver
-The Resolver exposes the Methods _ExtendMap&lt;T&gt;()_ and _For&lt;T&gt;()_ which return a _IResolverExpression&lt;T&gt;_ which provides Methods to extend the map with Arguments. These extensions won't be stored in the mapping and will be lost if _Resolve()_ is not called.
+The Resolver exposes the Methods _ExtendMap&lt;T&gt;()_ and _For&lt;T&gt;()_ which return a _IResolverExpression&lt;T&gt;_ which provides Methods to extend the map with Arguments. 
+While ExtendMap extends existing mappings, For will create and extend a copy of the mapping. Mappings extended with For will be lost if _Resolve()_ is not called.
 
 ```csharp
 using (var resolver = new InjectionResolver())
 {
+    // Extend a map
     var value1 = resolver.ExtendMap<IMapKey>().WithArgument<int>(() => 1).Resolve();
+	// Conpy and extend a map
     var value2 = resolver.For<IMapKey>().WithArgument<int>(() => 1).Resolve();
 }
 ```
@@ -205,7 +211,7 @@ using (var mapper = new InjectionMapper())
    mapper.Map<ITypeArgument, TypeArgument>();
 }
 ```
-Pass the Unmapped type to the resolver. InjectionMap will resolve the object and resolve the argument to the parameter even though the type was not registered previously.
+Pass the type that has to be resolved to the resolver. InjectionMap will resolve the object, resolve the argument and inject these to the parameter even though the type was not registered previously.
 ```csharp
 using (var resolver = new InjectionResolver())
 {
