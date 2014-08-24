@@ -111,11 +111,11 @@ using (var resolver = new InjectionResolver())
 ```
 
 ### Resolving the constructor
-InjectionMap uses the following Order to resolve the correct constructor.
-1. Find the contructor marked with the _InjectionConstructorAttribute_. 
-2. Try to resolve the constructor that matches the passed arguments. 
-3. Try to resolve the default constructor. 
-4. Try to resolve any constructor using the passed arguments and by resolving mappings.
+InjectionMap uses the following Order to resolve the correct constructor.  
+1. Find the contructor marked with the _InjectionConstructorAttribute_.  
+2. Try to resolve the constructor that matches the passed arguments.  
+3. Try to resolve the default constructor.  
+4. Try to resolve any constructor using the passed arguments and by resolving mappings.  
 
 #### InjectionConstructor
 In classes with multiple constructor, the constructor that has to be used can be marked with the _InjectionConsturctoAttribute_.

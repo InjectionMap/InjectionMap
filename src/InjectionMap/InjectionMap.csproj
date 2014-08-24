@@ -38,10 +38,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\InjectionMap.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\..\InjectionMap.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="Composition\CompositionService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\InjectionMap.snk">
+    <None Include="..\..\..\InjectionMap.snk">
       <Link>Properties\InjectionMap.snk</Link>
     </None>
   </ItemGroup>
