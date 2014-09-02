@@ -92,7 +92,7 @@ namespace InjectionMap
         /// <returns>The expression for the mapping</returns>
         public IMappingExpression<TKey> Map<TKey>()
         {
-            using (var provider = new ComponentMapper())
+            using (var provider = new ComponentMapper(_container))
             {
                 return provider.Map<TKey>();
             }
