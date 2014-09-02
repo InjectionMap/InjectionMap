@@ -76,7 +76,7 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Internal\Component.cs" />
     <Compile Include="Internal\ComponentResolver.cs" />
-    <Compile Include="Internal\ComponentMapper.cs" />
+    <Compile Include="ComponentMapper.cs" />
     <Compile Include="Internal\ComponentExpression.cs" />
     <Compile Include="Internal\BindingExpression.cs" />
     <Compile Include="Internal\BindingArgument.cs" />
