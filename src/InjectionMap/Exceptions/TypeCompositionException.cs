@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InjectionMap.Exceptions
+namespace InjectionMap
 {
     public class TypeCompositionException : Exception
     {

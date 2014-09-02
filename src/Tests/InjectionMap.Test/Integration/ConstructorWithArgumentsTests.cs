@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using InjectionMap.Test.Mock;
-using InjectionMap.Exceptions;
 using System.Reflection;
 
 namespace InjectionMap.Test.Integration
