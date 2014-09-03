@@ -53,6 +53,7 @@
     <Compile Include="Exceptions\ArgumentNotDefinedException.cs" />
     <Compile Include="Exceptions\ResolverException.cs" />
     <Compile Include="Extensions\EnsureExtensions.cs" />
+    <Compile Include="IMapInitializer.cs" />
     <Compile Include="Internal\BindingResolver.cs" />
     <Compile Include="Internal\IResolver.cs" />
     <Compile Include="Internal\ResolverFactory.cs" />
@@ -68,7 +69,6 @@
     <Compile Include="IComponentProvider.cs" />
     <Compile Include="IMappableContainer.cs" />
     <Compile Include="Expressions\IMappingExpression.cs" />
-    <Compile Include="IInjectionMapping.cs" />
     <Compile Include="IMappingProvider.cs" />
     <Compile Include="IMappingComponent.cs" />
     <Compile Include="IMappingConfiguration.cs" />

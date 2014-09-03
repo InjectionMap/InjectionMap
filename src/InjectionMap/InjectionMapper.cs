@@ -32,10 +32,10 @@ namespace InjectionMap
         #region Static Implementation
 
         /// <summary>
-        /// Initializes all mappings in the <see cref="IInjectionMapping"/>
+        /// Initializes all mappings in the <see cref="IMapInitializer"/>
         /// </summary>
         /// <param name="mapper"></param>
-        public static void Initialize(IInjectionMapping mapper)
+        public static void Initialize(IMapInitializer mapper)
         {
             mapper.EnsureArgumentNotNull("mapper");
             
@@ -43,7 +43,7 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Initializes all implementations of <see cref="IInjectionMapping"/> in the assembly
+        /// Initializes all implementations of <see cref="IMapInitializer"/> in the assembly
         /// </summary>
         /// <param name="assemblyFile"></param>
         public static void Initialize(string assemblyFile)
@@ -55,7 +55,7 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Initializes all implementations of <see cref="IInjectionMapping"/> in the assembly
+        /// Initializes all implementations of <see cref="IMapInitializer"/> in the assembly
         /// </summary>
         /// <param name="assembly"></param>
         public static void Initialize(Assembly assembly)
@@ -66,17 +66,17 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Initializes the <see cref="IInjectionMapping"/>
+        /// Initializes the <see cref="IMapInitializer"/>
         /// </summary>
         /// <param name="type"></param>
-        public static void Initialize<T>() where T : IInjectionMapping
+        public static void Initialize<T>() where T : IMapInitializer
         {
             var type = typeof(T);
 
             type.EnsureTypeCanBeDefaultInstantiated();
-            type.EnsureTypeIsImplemented(typeof(IInjectionMapping));
+            type.EnsureTypeIsImplemented(typeof(IMapInitializer));
 
-            var obj = Activator.CreateInstance(type) as IInjectionMapping;
+            var obj = Activator.CreateInstance(type) as IMapInitializer;
             if (obj != null)
                 obj.InitializeMap(MappingContainerManager.MappingContainer);
         }
@@ -130,14 +130,14 @@ namespace InjectionMap
 
         internal static void InitializeInternal(Assembly assembly)
         {
-            var mappingtype = typeof(IInjectionMapping);
+            var mappingtype = typeof(IMapInitializer);
             var types = assembly.GetTypes().Where(p => mappingtype.IsAssignableFrom(p) && !p.IsInterface);
 
             foreach (var type in types)
             {
                 type.EnsureTypeCanBeDefaultInstantiated();
 
-                var obj = Activator.CreateInstance(type) as IInjectionMapping;
+                var obj = Activator.CreateInstance(type) as IMapInitializer;
                 if (obj == null)
                     continue;
 

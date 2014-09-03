@@ -207,7 +207,7 @@ namespace InjectionMap.Test.Integration
             public int ID { get; set; }
         }
 
-        private class InjectionMapperMock : IInjectionMapping
+        private class InjectionMapperMock : IMapInitializer
         {
             public void InitializeMap(IMappingProvider container)
             {
