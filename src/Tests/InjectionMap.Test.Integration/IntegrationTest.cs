@@ -109,7 +109,7 @@ namespace InjectionMap.Test.Integration
             int ID { get; }
         }
 
-        internal class InjectionMapperMock : IInjectionMapping
+        internal class InjectionMapperMock : IMapInitializer
         {
             public void InitializeMap(IMappingProvider container)
             {
