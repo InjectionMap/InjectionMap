@@ -37,9 +37,20 @@ namespace InjectionMap
         /// <param name="mapper"></param>
         public static void Initialize(IMapInitializer mapper)
         {
+            Initialize(mapper, MappingContainerManager.MappingContainer);
+        }
+
+        /// <summary>
+        /// Initializes all mappings in the <see cref="IMapInitializer"/>
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="container">The IMappingProvider to store the mappings</param>
+        public static void Initialize(IMapInitializer mapper, IMappingProvider container)
+        {
             mapper.EnsureArgumentNotNull("mapper");
-            
-            mapper.InitializeMap(MappingContainerManager.MappingContainer);
+            container.EnsureArgumentNotNull("container");
+
+            mapper.InitializeMap(container);
         }
 
         /// <summary>
@@ -48,10 +59,19 @@ namespace InjectionMap
         /// <param name="assemblyFile"></param>
         public static void Initialize(string assemblyFile)
         {
+            Initialize(Assembly.Load(assemblyFile), MappingContainerManager.MappingContainer);
+        }
+
+        /// <summary>
+        /// Initializes all implementations of <see cref="IMapInitializer"/> in the assembly to the provided MappingProvider
+        /// </summary>
+        /// <param name="assemblyFile"></param>
+        /// <param name="container"></param>
+        public static void Initialize(string assemblyFile, IMappingProvider container)
+        {
             assemblyFile.EnsureArgumentNotNullOrEmpty("assemblyFile");
 
-            //Initialize(Assembly.LoadFrom(assemblyFile));
-            Initialize(Assembly.Load(assemblyFile));
+            Initialize(Assembly.Load(assemblyFile), container);
         }
 
         /// <summary>
@@ -60,16 +80,46 @@ namespace InjectionMap
         /// <param name="assembly"></param>
         public static void Initialize(Assembly assembly)
         {
-            assembly.EnsureArgumentNotNull("assembly");
+            Initialize(assembly, MappingContainerManager.MappingContainer);
+        }
 
-            InitializeInternal(assembly);
+        /// <summary>
+        /// Initializes all implementations of <see cref="IMapInitializer"/> in the assembly to the provided MappingProvider
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <param name="container"></param>
+        public static void Initialize(Assembly assembly, IMappingProvider container)
+        {
+            assembly.EnsureArgumentNotNull("assembly");
+            container.EnsureArgumentNotNull("container");
+
+            InitializeInternal(assembly, container);
         }
 
         /// <summary>
         /// Initializes the <see cref="IMapInitializer"/>
         /// </summary>
-        /// <param name="type"></param>
+        /// <typeparam name="T"></typeparam>
         public static void Initialize<T>() where T : IMapInitializer
+        {
+            //var type = typeof(T);
+
+            //type.EnsureTypeCanBeDefaultInstantiated();
+            //type.EnsureTypeIsImplemented(typeof(IMapInitializer));
+
+            //var obj = Activator.CreateInstance(type) as IMapInitializer;
+            //if (obj != null)
+            //    obj.InitializeMap(MappingContainerManager.MappingContainer);
+
+            Initialize<T>(MappingContainerManager.MappingContainer);
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="IMapInitializer"/> to the provided MappingProvider
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="container"></param>
+        public static void Initialize<T>(IMappingProvider container) where T : IMapInitializer
         {
             var type = typeof(T);
 
@@ -78,9 +128,9 @@ namespace InjectionMap
 
             var obj = Activator.CreateInstance(type) as IMapInitializer;
             if (obj != null)
-                obj.InitializeMap(MappingContainerManager.MappingContainer);
+                obj.InitializeMap(container);
         }
-
+        
         #endregion
 
         #region Implementation
@@ -128,7 +178,7 @@ namespace InjectionMap
 
         #region Internal Implementation
 
-        internal static void InitializeInternal(Assembly assembly)
+        internal static void InitializeInternal(Assembly assembly, IMappingProvider container)
         {
             var mappingtype = typeof(IMapInitializer);
             var types = assembly.GetTypes().Where(p => mappingtype.IsAssignableFrom(p) && !p.IsInterface);
@@ -141,7 +191,7 @@ namespace InjectionMap
                 if (obj == null)
                     continue;
 
-                obj.InitializeMap(MappingContainerManager.MappingContainer);
+                obj.InitializeMap(container);
             }
         }
 

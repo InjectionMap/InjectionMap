@@ -5,12 +5,13 @@
 InjectionMap is a very small and extremely lightweight IoC/DI container for .NET. 
 InjectionMap allows loose coupling betweeen a client's dependencies and its own behaviour. InjectionMap promotes reusability, testability and maintainability of any part of an application.
 
+- InjectionMap is a very lightweith IoC Framework that leaves no traces in the client code
 - InjectionMap uses type mapping to reference the key/reference and the implementation. 
-- Instances are resolved using reflection or can be provided through a callback whitch allows you to create the instance in your own code.
+- Instances are resolved using reflection or can be provided through a callback whitch allows the creation of instances in your own code.
 - It suports a fluent syntax to help keep the code simple, small and clean.
-- The desired Constructors can be marked with attributes or will be selected according to the passed arguments.
 - Parameters for constructors can be injected or passed at the time of mapping as objects or as delegate expressions.
 - InjectionMap is very simple and straightforward.
+- Allows mapping to a custom MappinContainer to prevent the ServiceLocator Anti-Pattern
 
 InjectionMap supports .Net 4.5, Silverlight 5, Windows Phone 8 or higher and Windows Store apps for Windows 8 or higher.
 
@@ -24,7 +25,7 @@ InjectionMap can be installed from [NuGet](http://docs.nuget.org/docs/start-here
 ------------------------------
 There are different ways to register types/objects in InjectionMap.
 The best practice is to create all mappings in one place and only once per AppDomain. The best place to do this is the application startup. In an WPF application it would be the App.xaml.cs Startup and in a ASP.NET application it would be the Global.asax file. To achieve this, you have to create a class that implements _IInjectionMapping_.
-### Register Mappings using the IInjectionMapping interface
+### Register Mappings using the IMapInitializer interface
 IInjectionMapping only provides one Method that has to be implemented:  
 ```csharp
 void InitializeMap(IMappingProvider container)
@@ -48,7 +49,7 @@ class InjectionMappingTestMock : IInjectionMappingTest { }
 
 // IInjectionMapping implementation that is used 
 // to register objects/mappings in InjectionMap
-class InjectionMapperMock : IInjectionMapping
+class InjectionMapperMock : IMapInitializer
 {
     public void InitializeMap(IMappingProvider container)
     {
@@ -59,11 +60,28 @@ class InjectionMapperMock : IInjectionMapping
 ```
 #### Initialization
 In the application startup you only call _InjectionMap.InitializeMap(...)_ with the Assembly that contains _IInjectionMapping_ implementations.
-
+All classes that implement _IMapInitializer_ will automaticaly be created and called after _InjectionMap.InitializeMap()_ gets executed. 
+##### Map to the default MappingContainer
 ```csharp
-InjectionMap.InitializeMap(Assembly assembly)
+InjectionMap.InitializeMap(Assembly assembly);
+// resolve the mappings
+using (var resolver = new InjectionResolver())
+{
+    var map = resolver.Resolve<IInjectionMappingTest>();
+}
 ```
-All classes that implement _IInjectionMapping_ will automaticaly get created and called after _InjectionMap.InitializeMap()_ gets executed. 
+
+##### Map to a custom MappingContainer
+```csharp
+var container = new MappingContainer();
+InjectionMap.InitializeMap(Assembly assembly, container);
+// resolve the mappings
+using (var resolver = new InjectionResolver(container))
+{
+    var map = resolver.Resolve<IInjectionMappingTest>();
+}
+```
+
 ### Register Mappings using InjectionMapper
 Besides registering mappings using the _IInjectionMapping_ interface, mappings can be registered using a instance of _InjectionMapper_.
 #### Simple mapping
@@ -184,7 +202,7 @@ using (var resolver = new InjectionResolver())
 {
     // Extend a map
     var value1 = resolver.ExtendMap<IMapKey>().WithArgument<int>(() => 1).Resolve();
-	// Conpy and extend a map
+	// Copy and extend a map
     var value2 = resolver.For<IMapKey>().WithArgument<int>(() => 1).Resolve();
 }
 ```

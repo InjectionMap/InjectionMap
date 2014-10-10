@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace InjectionMap.Test.Integration
 {
     [TestFixture]
-    public class InjectionMappingTests
+    public class MapInitializerTests
     {
         [SetUp]
         public void Initialize()
@@ -17,7 +17,7 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
-        public void IInjectionMapping_InitializeWithAssembly()
+        public void MapInitializer_InitializeWithAssembly()
         {
             InjectionMapper.Initialize(this.GetType().Assembly);
 
@@ -32,7 +32,7 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
-        public void IInjectionMapping_InitializeWithDirectInjectionMappingCall()
+        public void MapInitializer_InitializeWithDirectInjectionMappingCall()
         {
             InjectionMapper.Initialize(new InjectionMapperMock());
 
@@ -47,7 +47,7 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
-        public void IInjectionMapping_InitializeByType()
+        public void MapInitializer_InitializeByType()
         {
             InjectionMapper.Initialize<InjectionMapperMock>();
 
@@ -62,7 +62,7 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
-        public void IInjectionMapping_InitializeByAssemblyName()
+        public void MapInitializer_InitializeByAssemblyName()
         {
 
             var fullAssemblyName = this.GetType().Assembly.FullName;
@@ -85,111 +85,121 @@ namespace InjectionMap.Test.Integration
             }
         }
 
+
+
+
+
+
+
         [Test]
-        public void InjectionMapperWithValueTest()
+        public void MapInitializer_InitializeWithAssembly_WithMappingProvider()
         {
-            using (var mapper = new InjectionMapper())
-            {
-                // clean all previous mappings to ensure test
-                mapper.Clean<ICustomMock>();
+            var container = new MappingContainer();
+            InjectionMapper.Initialize(this.GetType().Assembly, container);
 
-                //InjectionMapper.Map<ITestMock1, TestMock1>(m => m.For(new TestMock1()));
-                mapper.Map<ICustomMock, CustomMock>().As(() => new CustomMock());
-            }
-
+            // get mappings from default container
             using (var resolver = new InjectionResolver())
             {
-                var map1 = resolver.Resolve<ICustomMock>();
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.IsNull(mapp1);
 
-                Assert.AreEqual(map1.ID, 1);
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.IsNull(mapp2);
+            }
+
+            // get mappings from custom container
+            using (var resolver = new InjectionResolver(container))
+            {
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.AreEqual(mapp1.ID, 1);
+
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.AreEqual(mapp2.ID, 2);
             }
         }
 
         [Test]
-        public void InjectionMapperWithManyTest()
+        public void MapInitializer_InitializeWithDirectInjectionMappingCall_WithMappingProvider()
         {
-            using (var mapper = new InjectionMapper())
-            {
-                // clean all previous mappings to ensure test
-                mapper.Clean<ICustomMock>();
+            var container = new MappingContainer();
+            InjectionMapper.Initialize(new InjectionMapperMock(), container);
 
-                //InjectionMapper.Map<ITestMock1, TestMock1>(m => m.For(new TestMock1(), o => o.WithOptions(InjectionOption.WithoutOverwrite)));
-                mapper.Map<ICustomMock, CustomMock>().As(() => new CustomMock());
-                mapper.Map<ICustomMock, CustomMock>().As(() => new CustomMock());
-            }
-
+            // get mappings from default container
             using (var resolver = new InjectionResolver())
             {
-                // resolve
-                var map1 = resolver.ResolveMultiple<ICustomMock>();
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.IsNull(mapp1);
 
-                Assert.IsTrue(map1.Count() == 2);
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.IsNull(mapp2);
+            }
+
+            // get mappings from custom container
+            using (var resolver = new InjectionResolver(container))
+            {
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.AreEqual(mapp1.ID, 1);
+
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.AreEqual(mapp2.ID, 2);
             }
         }
 
         [Test]
-        public void InjectionMapperWithOverrideTest()
+        public void MapInitializer_InitializeByType_WithMappingProvider()
         {
-            using (var mapper = new InjectionMapper())
-            {
-                // clean all previous mappings to ensure test
-                mapper.Clean<ICustomMock>();
+            var container = new MappingContainer();
+            InjectionMapper.Initialize<InjectionMapperMock>(container);
 
-                //InjectionMapper.Map<ITestMock1, TestMock1>(m => m.For(new TestMock1(), o => o.WithOptions(InjectionOption.WithoutOverwrite)));
-                mapper.Map<ICustomMock>().For(() => new CustomMock());
-                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.AsSingleton);
-            }
-
+            // get mappings from default container
             using (var resolver = new InjectionResolver())
             {
-                // resolve
-                var map1 = resolver.ResolveMultiple<ICustomMock>();
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.IsNull(mapp1);
 
-                Assert.IsTrue(map1.Count() == 1);
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.IsNull(mapp2);
+            }
+
+            // get mappings from custom container
+            using (var resolver = new InjectionResolver(container))
+            {
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.AreEqual(mapp1.ID, 1);
+
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.AreEqual(mapp2.ID, 2);
             }
         }
 
         [Test]
-        public void InjectionMapperWithValueCallbackTest()
+        public void MapInitializer_InitializeByAssemblyName_WithMappingProvider()
         {
-            using (var mapper = new InjectionMapper())
-            {
-                // clean all previous mappings to ensure test
-                mapper.Clean<ICustomMock>();
+            var container = new MappingContainer();
+            InjectionMapper.Initialize(this.GetType().Assembly.FullName, container);
+            //InjectionMapper.Initialize("InjectionMap.Test.dll");
 
-                mapper.Map<ICustomMock>().For(() => new CustomMock());
-            }
-
+            // get mappings from default container
             using (var resolver = new InjectionResolver())
             {
-                // resolve
-                var map1 = resolver.ResolveMultiple<ICustomMock>();
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.IsNull(mapp1);
 
-                Assert.IsTrue(map1.Count() == 1);
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.IsNull(mapp2);
+            }
+
+            // get mappings from custom container
+            using (var resolver = new InjectionResolver(container))
+            {
+                var mapp1 = resolver.Resolve<IInjectionMapperMock1>();
+                Assert.AreEqual(mapp1.ID, 1);
+
+                var mapp2 = resolver.Resolve<IInjectionMapperMock2>();
+                Assert.AreEqual(mapp2.ID, 2);
             }
         }
-
-        [Test]
-        public void InjectionMapperWithValueCallbackAndOptionTest()
-        {
-            using (var mapper = new InjectionMapper())
-            {
-                // clean all previous mappings to ensure test
-                mapper.Clean<ICustomMock>();
-
-                //InjectionMapper.Map<ITestMock1>().For(() => new TestMock1(), o => o.WithOptions(InjectionOption.WithOverwrite).WithOptions(InjectionOption.ResolveInstanceOnMapping));
-                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.AsSingleton | InjectionFlags.ResolveValueOnMapping);
-            }
-
-            using (var resolver = new InjectionResolver())
-            {
-                // resolve
-                var map1 = resolver.ResolveMultiple<ICustomMock>();
-
-                Assert.IsTrue(map1.Count() == 1);
-            }
-        }
-
+        
         #region Mocks
 
         public interface ICustomMock
