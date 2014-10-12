@@ -35,7 +35,7 @@ namespace InjectionMap.Expressions
         IBindingExpression<T> ToSelf();
 
         /// <summary>
-        /// Mapps a expression that gets executed when the component has been resolved
+        /// Maps a expression that gets executed when the component has been resolved
         /// </summary>
         /// <param name="callback">The Action to execute after resolving</param>
         /// <returns>A IMappingExpression of T</returns>

@@ -43,6 +43,11 @@ namespace InjectionMap.Expressions
 
         IBoundExpression<T> WithConfiguration(InjectionFlags option);
 
+        /// <summary>
+        /// Maps a expression that gets executed when the component has been resolved
+        /// </summary>
+        /// <param name="callback">The implementing type of the substitue</param>
+        /// <returns>New IBindingExpression with the substitute</returns>
         IBindingExpression<T> OnResolved(Action<T> callback);
     }
 }

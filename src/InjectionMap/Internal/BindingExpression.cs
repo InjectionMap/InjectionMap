@@ -105,6 +105,11 @@ namespace InjectionMap.Internal
             };
         }
 
+        /// <summary>
+        /// Maps a expression that gets executed when the component has been resolved
+        /// </summary>
+        /// <param name="callback">The implementing type of the substitue</param>
+        /// <returns>New IBindingExpression with the substitute</returns>
         public IBindingExpression<T> OnResolved(Action<T> callback)
         {
             Component.KeyType.EnsureMappingTypeMatches(typeof(T));

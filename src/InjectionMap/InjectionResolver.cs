@@ -84,7 +84,7 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Extends a existing map
+        /// Extends the first occurance of a existing map of the given type. This affects the stored mapping and all future resolvings. 
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
         /// <returns>IResolverExpression{T}</returns>
@@ -95,7 +95,7 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Extends a existing map
+        /// Extends the first occurance of a existing map of the given type. This affects the stored mapping and all future resolvings. 
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
         /// <param name="container">The container containing the map</param>
@@ -118,7 +118,7 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Extends all existing maps
+        /// Extends all occurances of existing mappings of the given type. This affects the stored mapping and all future resolvings. 
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
         /// <returns>IMultiResolverExpression{T}</returns>
@@ -128,7 +128,7 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Extends all existing maps
+        /// Extends all occurances of existing mappings of the given type. This affects the stored mapping and all future resolvings. 
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
         /// <param name="container">The container containing the maps</param>
@@ -152,7 +152,7 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Creates a new IResolverExpression for the given type by copying the original map
+        /// Creates a new IResolverExpression for the given type by copying the original map and allows extendig the mapping. This will not affect the stored mapping.
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
         /// <returns>IResolverExpression{T}</returns>
@@ -163,7 +163,7 @@ namespace InjectionMap
         }
 
         /// <summary>
-        /// Creates a new IResolverExpression for the given type
+        /// Creates a new IResolverExpression for the given type by copying the original map and allows extendig the mapping. This will not affect the stored mapping.
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
         /// <param name="container">The container containing the map</param>
