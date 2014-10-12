@@ -85,9 +85,14 @@ namespace InjectionMap.Composition
         {
             if (component.ConstructorDefinition != null)
             {
-                var container = CreateArgumentContainer(component, component.ConstructorDefinition.ConstructorInfo);
-                if (container != null)
-                    return container;
+                // TODO: remove cast! Try to define the selected constructor without using ConstructorInfo!
+                var definition = component.ConstructorDefinition as ConstructorDefinition;
+                if (definition != null)
+                {
+                    var container = CreateArgumentContainer(component, definition.ConstructorInfo);
+                    if (container != null)
+                        return container;
+                }
             }
 
             var ctors = component.ValueType.GetConstructors();

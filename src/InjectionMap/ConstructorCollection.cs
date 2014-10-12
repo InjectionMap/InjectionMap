@@ -43,7 +43,7 @@ namespace InjectionMap
 
     public interface IConstructorDefinition
     {
-        ConstructorInfo ConstructorInfo { get; }
+        //ConstructorInfo ConstructorInfo { get; }
     }
 
     public class ConstructorDefinition : IEnumerable<ConstructorArgument>, IConstructorDefinition
@@ -75,7 +75,7 @@ namespace InjectionMap
             _items.Add(argument);
         }
 
-        public ConstructorInfo ConstructorInfo { get; internal set; }
+        internal ConstructorInfo ConstructorInfo { get; set; }
 
         public IEnumerator<ConstructorArgument> GetEnumerator()
         {
