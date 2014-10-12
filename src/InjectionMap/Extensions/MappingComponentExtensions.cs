@@ -14,7 +14,8 @@ namespace InjectionMap.Extensions
                 //OnResolvedCallback = component.OnResolvedCallback,
                 //ValueType = component.ValueType,
                 MappingConfiguration = component.MappingConfiguration,
-                IsSubstitute = component.IsSubstitute
+                IsSubstitute = component.IsSubstitute,
+                ConstructorDefinition = component.ConstructorDefinition
             };
 
             var cast = component as MappingComponent<T>;
@@ -44,7 +45,8 @@ namespace InjectionMap.Extensions
                 KeyType = component.KeyType,
                 ValueType = component.ValueType,
                 MappingConfiguration = component.MappingConfiguration,
-                IsSubstitute = component.IsSubstitute
+                IsSubstitute = component.IsSubstitute,
+                ConstructorDefinition = component.ConstructorDefinition
             };
 
             copy.ValueCallback = component.ValueCallback;

@@ -17,7 +17,7 @@ namespace InjectionMap.Test.Integration
         public void ConstuctParameterWithMixedConstuctor()
         {
             // create mapping
-            Mapper.Map<IConstuctorParameter, ConstuctorParameter>();
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, MixedConstuctor>().WithArgument(() => 3);
 
             // resolve
@@ -32,7 +32,7 @@ namespace InjectionMap.Test.Integration
         public void ConstuctParameterWithMixedWitTwoConstuctor()
         {
             // create mapping
-            Mapper.Map<IConstuctorParameter, ConstuctorParameter>();
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, MixedWitTwoConstuctor>().WithArgument(() => 4);
 
             // resolve
@@ -47,7 +47,7 @@ namespace InjectionMap.Test.Integration
         public void ConstuctParameterWithMixedWitDefaultConstuctor()
         {
             // create mapping
-            Mapper.Map<IConstuctorParameter, ConstuctorParameter>();
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>().WithArgument(() => 5);
 
             // resolve
@@ -62,7 +62,7 @@ namespace InjectionMap.Test.Integration
         public void ConstuctParameterWithMixedWitMarkedConstuctor()
         {
             // create mapping
-            Mapper.Map<IConstuctorParameter, ConstuctorParameter>();
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, MixedWitMarkedConstuctor>().WithArgument(() => 6);
 
             // resolve
@@ -77,7 +77,7 @@ namespace InjectionMap.Test.Integration
         public void ConstuctParameterWithOnlyMapedParameter()
         {
             // create mapping
-            Mapper.Map<IConstuctorParameter, ConstuctorParameter>();
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, WitOnlyMappableParameter>();
 
             // resolve
@@ -92,7 +92,7 @@ namespace InjectionMap.Test.Integration
         public void ConstuctParameterWithOnlyMapedParameterAndArgument()
         {
             // create mapping
-            Mapper.Map<IConstuctorParameter, ConstuctorParameter>();
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, WitOnlyMappableParameter>().WithArgument(() => 5);
 
             // resolve
@@ -102,6 +102,115 @@ namespace InjectionMap.Test.Integration
             Assert.AreEqual(map.ID, 2);
         }
 
+        [Test]
+        public void MappingConstructorSelection()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
+                .ForConstructor(cc => cc[2])
+                .WithArgument(() => 2);
+
+            var map = Resolver.Resolve<IMixedConstuctor>();
+
+            Assert.AreEqual(map.ID, 4);
+        }
+
+        [Test]
+        public void MappingConstructorSelectionWithEditingArgumentsByIndex()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
+                .ForConstructor(cc =>
+                {
+                    var constr = cc[2];
+
+                    constr[1].Value = 2;
+
+                    return constr;
+                });
+
+            var map = Resolver.Resolve<IMixedConstuctor>();
+
+            Assert.AreEqual(map.ID, 4);
+        }
+
+        [Test]
+        public void MappingConstructorSelectionWithEditingArgumentsByName()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
+                .ForConstructor(cc =>
+                {
+                    var constr = cc[2];
+
+                    constr["value"].Value = 2;
+
+                    return constr;
+                });
+
+            var map = Resolver.Resolve<IMixedConstuctor>();
+
+            Assert.AreEqual(map.ID, 4);
+        }
+
+
+
+        [Test]
+        public void ResolvingConstructorSelection()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
+
+            var map = Resolver.For<IMixedConstuctor>()
+                .ForConstructor(cc => cc[2])
+                .WithArgument(() => 2)
+                .Resolve();
+
+            Assert.AreEqual(map.ID, 4);
+        }
+
+        [Test]
+        public void ResolvingConstructorSelectionWithEditingArgumentsByIndex()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
+
+            var map = Resolver.For<IMixedConstuctor>()
+                .ForConstructor(cc =>
+                {
+                    var constr = cc[2];
+
+                    constr[1].Value = 2;
+
+                    return constr;
+                })
+                .Resolve();
+
+            Assert.AreEqual(map.ID, 4);
+        }
+
+        [Test]
+        public void ResolvingConstructorSelectionWithEditingArgumentsByName()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
+
+            var map = Resolver.For<IMixedConstuctor>()
+                .ForConstructor(cc =>
+                {
+                    var constr = cc[2];
+
+                    constr["value"].Value = 2;
+
+                    return constr;
+                })
+                .Resolve();
+
+            Assert.AreEqual(map.ID, 4);
+        }
+
+
+
         #region Mocks
 
         internal interface IConstuctorParameter
@@ -110,7 +219,7 @@ namespace InjectionMap.Test.Integration
         }
 
 
-        internal class ConstuctorParameter : IConstuctorParameter
+        internal class ConstructorParameter : IConstuctorParameter
         {
             public int ID
             {

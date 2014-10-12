@@ -45,6 +45,13 @@ namespace InjectionMap.Expressions
         IResolverExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate);
 
         /// <summary>
+        /// Defines the constructor that has to be used when resolving.
+        /// </summary>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        IResolverExpression<T> ForConstructor(Func<ConstructorCollection, ConstructorDefinition> selector);
+
+        /// <summary>
         /// Resolves the map
         /// </summary>
         /// <returns>The resolved value</returns>

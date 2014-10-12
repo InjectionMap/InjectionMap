@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using InjectionMap.Expressions;
 using InjectionMap.Extensions;
@@ -118,6 +119,31 @@ namespace InjectionMap.Internal
             component.OnResolvedCallback = callback;
 
             return component.CreateBindingExpression<T>(Container);
+        }
+
+        /// <summary>
+        /// Defines the constructor that has to be used when resolving.
+        /// </summary>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        public IBindingExpression<T> ForConstructor(Func<ConstructorCollection, ConstructorDefinition> selector)
+        {
+            // get all constructors of the mapped type
+            var constructors = Component.ValueType.GetConststructorCollection();
+            // get the selected constructor from the map
+            var definition = selector.Invoke(constructors);
+            foreach (var item in definition.Where(c => c.Value != null))
+            {
+                // add all arguments that were added in the mapping
+                AddArgument(item.Name, item.Value, null);
+            }
+
+            // mark the constructor to be selected
+            var component = Component.CreateComponent<T>();
+            component.ConstructorDefinition = definition;
+            Container.AddOrReplace(component);
+
+            return new BindingExpression<T>(Container, component);
         }
 
         #endregion

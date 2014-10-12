@@ -16,5 +16,7 @@ namespace InjectionMap
         IList<IBindingArgument> Arguments { get; }
 
         bool IsSubstitute { get; }
+
+        IConstructorDefinition ConstructorDefinition { get; }
     }
 }

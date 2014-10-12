@@ -83,6 +83,13 @@ namespace InjectionMap.Composition
         /// <returns>An ArgumentContainer containing all arguments</returns>
         private ArgumentContainer GetComposeableConstructor(IMappingComponent component)
         {
+            if (component.ConstructorDefinition != null)
+            {
+                var container = CreateArgumentContainer(component, component.ConstructorDefinition.ConstructorInfo);
+                if (container != null)
+                    return container;
+            }
+
             var ctors = component.ValueType.GetConstructors();
             
             // try get InjectionConstructors

@@ -49,5 +49,12 @@ namespace InjectionMap.Expressions
         /// <param name="callback">The implementing type of the substitue</param>
         /// <returns>New IBindingExpression with the substitute</returns>
         IBindingExpression<T> OnResolved(Action<T> callback);
+
+        /// <summary>
+        /// Defines the constructor that has to be used when resolving.
+        /// </summary>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        IBindingExpression<T> ForConstructor(Func<ConstructorCollection, ConstructorDefinition> selector);
     }
 }

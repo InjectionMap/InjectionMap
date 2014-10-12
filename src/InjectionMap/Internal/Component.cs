@@ -40,6 +40,8 @@ namespace InjectionMap.Internal
 
         public bool IsSubstitute { get; internal set; }
 
+        public IConstructorDefinition ConstructorDefinition { get; internal set; }
+
         #endregion
 
         #region Implementation
