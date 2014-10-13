@@ -160,6 +160,7 @@ Select constructor.
 Resolver.For<IMixedConstuctor>()
 	  .ForConstructor(cc => cc[2]) // select constructor nr. 3
 	  .Resolve();
+```
 Select the constructor and set Argument values.
 ```csharp
 Resolver.For<IMixedConstuctor>()
