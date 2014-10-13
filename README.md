@@ -11,7 +11,7 @@ InjectionMap allows loose coupling betweeen a client's dependencies and its own 
 - It suports a fluent syntax to help keep the code simple, small and clean.
 - Parameters for constructors can be injected or passed at the time of mapping as objects or as delegate expressions.
 - InjectionMap is very simple and straightforward.
-- Allows mapping to a custom MappinContainer to prevent the ServiceLocator Anti-Pattern
+- Allows mapping to a custom MappinContainer. This can help to prevent the ServiceLocator anti-pattern
 
 InjectionMap supports .Net 4.5, Silverlight 5, Windows Phone 8 or higher and Windows Store apps for Windows 8 or higher.
 
@@ -129,13 +129,52 @@ using (var resolver = new InjectionResolver())
 ```
 
 ### Resolving the constructor
-InjectionMap uses the following Order to resolve the correct constructor.  
-1. Find the contructor marked with the _InjectionConstructorAttribute_.  
-2. Try to resolve the constructor that matches the passed arguments.  
-3. Try to resolve the default constructor.  
-4. Try to resolve any constructor using the passed arguments and by resolving mappings.  
+1.  Find the Constructor defined in the Mapping or the Resolver  
+2. Find the contructor marked with the _InjectionConstructorAttribute_.  
+3. Try to resolve the constructor that matches the passed arguments.  
+4. Try to resolve the default constructor.  
+5. Try to resolve any constructor using the passed arguments and by resolving mappings.  
 
-#### InjectionConstructor
+#### Select the Constructor when Mapping
+Select the constructor.
+```csharp
+Mapper.Map<IConstuctorTest, ClassWithThreeConstuctors>()
+	 .ForConstructor(cc => cc[2]) // select constructor nr. 3
+	 .WithArgument(() => 2);
+```
+Select the constructor and set Argument values.
+```csharp
+Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
+	.ForConstructor(cc =>
+	{
+		var constr = cc[2]; // select constructor nr. 3
+		constr["StringParam"].Value = "String value" // select parameter by name
+		constr[1].Value = 2; // select parameter by index
+		return constr;
+	});
+```
+
+#### Select the Constructor when Resolving
+Select constructor.
+```csharp
+Resolver.For<IMixedConstuctor>()
+	  .ForConstructor(cc => cc[2]) // select constructor nr. 3
+	  .Resolve();
+Select the constructor and set Argument values.
+```csharp
+Resolver.For<IMixedConstuctor>()
+	.ForConstructor(cc =>
+
+	{
+		var constr = cc[2]; // select constructor nr. 3
+		constr["StringParam"].Value = "String value" // select parameter by name
+		constr[1].Value = 2; // select parameter by index
+		return constr;
+	})
+	.Resolve();
+```
+
+#### Select the Constructor with Attribute (InjectionConstructorAttribute)
 In classes with multiple constructor, the constructor that has to be used can be marked with the _InjectionConsturctoAttribute_.
 The parameters can be past as arguments or can be resolved from mappings.
 
