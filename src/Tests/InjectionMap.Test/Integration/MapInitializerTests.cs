@@ -94,7 +94,7 @@ namespace InjectionMap.Test.Integration
         [Test]
         public void MapInitializer_InitializeWithAssembly_WithMappingProvider()
         {
-            var container = new MappingContainer();
+            var container = new MappingContext();
             InjectionMapper.Initialize(this.GetType().Assembly, container);
 
             // get mappings from default container
@@ -121,7 +121,7 @@ namespace InjectionMap.Test.Integration
         [Test]
         public void MapInitializer_InitializeWithDirectInjectionMappingCall_WithMappingProvider()
         {
-            var container = new MappingContainer();
+            var container = new MappingContext();
             InjectionMapper.Initialize(new InjectionMapperMock(), container);
 
             // get mappings from default container
@@ -148,7 +148,7 @@ namespace InjectionMap.Test.Integration
         [Test]
         public void MapInitializer_InitializeByType_WithMappingProvider()
         {
-            var container = new MappingContainer();
+            var container = new MappingContext();
             InjectionMapper.Initialize<InjectionMapperMock>(container);
 
             // get mappings from default container
@@ -175,7 +175,7 @@ namespace InjectionMap.Test.Integration
         [Test]
         public void MapInitializer_InitializeByAssemblyName_WithMappingProvider()
         {
-            var container = new MappingContainer();
+            var container = new MappingContext();
             InjectionMapper.Initialize(this.GetType().Assembly.FullName, container);
             //InjectionMapper.Initialize("InjectionMap.Test.dll");
 

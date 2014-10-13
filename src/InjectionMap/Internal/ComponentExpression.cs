@@ -5,21 +5,21 @@ namespace InjectionMap.Internal
 {
     internal abstract class ComponentExpression : IComponentExpression
     {
-        public ComponentExpression(IComponentCollection container, IMappingComponent component)
+        public ComponentExpression(IComponentCollection context, IMappingComponent component)
         {
-            container.EnsureArgumentNotNull("container");
+            context.EnsureArgumentNotNull("context");
             component.EnsureArgumentNotNull("component");
 
-            _container = container;
+            _context = context;
             _component = component;
         }
 
-        readonly IComponentCollection _container;
-        public IComponentCollection Container
+        readonly IComponentCollection _context;
+        public IComponentCollection Context
         {
             get
             {
-                return _container;
+                return _context;
             }
         }
 

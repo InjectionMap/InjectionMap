@@ -69,7 +69,7 @@
     <Compile Include="IComponent.cs" />
     <Compile Include="IComponentCollection.cs" />
     <Compile Include="IComponentProvider.cs" />
-    <Compile Include="IMappableContainer.cs" />
+    <Compile Include="IMappingContext.cs" />
     <Compile Include="Expressions\IMappingExpression.cs" />
     <Compile Include="IMappingProvider.cs" />
     <Compile Include="IMappingComponent.cs" />
@@ -88,8 +88,8 @@
     <Compile Include="InjectionResolver.cs" />
     <Compile Include="Expressions\IBoundExpression.cs" />
     <Compile Include="Internal\MappingComponent.cs" />
-    <Compile Include="MappingContainer.cs" />
-    <Compile Include="Internal\MappingContainerManager.cs" />
+    <Compile Include="MappingContext.cs" />
+    <Compile Include="Internal\MappingContextManager.cs" />
     <Compile Include="Internal\MappingConfiguration.cs" />
     <Compile Include="Internal\BoundExpression.cs" />
     <Compile Include="Internal\ResolverExpression.cs" />

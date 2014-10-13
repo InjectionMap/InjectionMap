@@ -56,17 +56,17 @@ namespace InjectionMap.Test.Integration
         [Test]
         public void MapToCustomContainer()
         {
-            var container = new MappingContainer();
+            var container = new MappingContext();
             using (var defMapper = new InjectionMapper())
             {
                 // register the container to the default container so it can be retrieved later
-                defMapper.Map<IMappableContainer>().For(() => container);
+                defMapper.Map<IMappingContext>().For(() => container);
             }
 
             using (var mapper = new InjectionMapper(container))
             {
                 // add the container to the mapping
-                mapper.Map<IMappableContainer>().For(() => container);
+                mapper.Map<IMappingContext>().For(() => container);
 
                 // create a complex map (map doesn't make sense... but it's complexer)
                 mapper.Map<IInjectionMappingTest, SecondInjectionMappingTestMock>().WithArgument("id", () => 5).OnResolved(m => m.ID = 6);
@@ -75,7 +75,7 @@ namespace InjectionMap.Test.Integration
             using (var defResolver = new InjectionResolver())
             {
                 // retrieve the original container
-                var resolvedContainer = defResolver.Resolve<IMappableContainer>();
+                var resolvedContainer = defResolver.Resolve<IMappingContext>();
                 using (var resolver = new InjectionResolver(resolvedContainer))
                 {
                     // resolve the mapping

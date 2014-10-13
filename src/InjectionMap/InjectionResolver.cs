@@ -8,10 +8,10 @@ namespace InjectionMap
 {
     public class InjectionResolver : IDisposable
     {
-        IMappableContainer _container;
+        readonly IMappingContext _context;
 
         /// <summary>
-        /// Creates a InjectionResolver to resolve from the common mappingcontainer
+        /// Creates a InjectionResolver to resolve from the common mappingcontext
         /// </summary>
         public InjectionResolver()
         {
@@ -20,12 +20,12 @@ namespace InjectionMap
         /// <summary>
         /// Creates a InjectionResolver with a custom container to resolve from
         /// </summary>
-        /// <param name="container">The <see cref="IMappableContainer"/> to resolve the mappings from</param>
-        public InjectionResolver(IMappableContainer container)
+        /// <param name="context">The <see cref="IMappingContext"/> to resolve the mappings from</param>
+        public InjectionResolver(IMappingContext context)
         {
-            container.EnsureArgumentNotNull("container");
+            context.EnsureArgumentNotNull("context");
 
-            _container = container;
+            _context = context;
         }
 
         #region Implementation
@@ -37,7 +37,7 @@ namespace InjectionMap
         /// <returns>First found mapping of T</returns>
         public T Resolve<T>()
         {
-            using (var resolver = ResolverFactory.GetResolver<T>(_container))
+            using (var resolver = ResolverFactory.GetResolver<T>(_context))
             {
                 return resolver.Get<T>();
             }
@@ -50,7 +50,7 @@ namespace InjectionMap
         /// <returns>First found mappinf of type</returns>
         public object Resolve(Type type)
         {
-            using (var resolver = ResolverFactory.GetResolver(type, _container))
+            using (var resolver = ResolverFactory.GetResolver(type, _context))
             {
                 return resolver.Get(type);
             }
@@ -63,21 +63,21 @@ namespace InjectionMap
         /// <returns>All mappings of T</returns>
         public IEnumerable<T> ResolveMultiple<T>()
         {
-            using (var resolver = ResolverFactory.GetResolver<T>(_container))
+            using (var resolver = ResolverFactory.GetResolver<T>(_context))
             {
                 return resolver.GetAll<T>();
             }
         }
 
         /// <summary>
-        /// Resolves T from the given container
+        /// Resolves T from the given context
         /// </summary>
         /// <typeparam name="T">The type to resolve</typeparam>
-        /// <param name="container">The container to resolve from</param>
+        /// <param name="context">The container to resolve from</param>
         /// <returns>A instance of T</returns>
-        public T Resolve<T>(IMappableContainer container)
+        public T Resolve<T>(IMappingContext context)
         {
-            using (var resolver = ResolverFactory.GetResolver<T>(container))
+            using (var resolver = ResolverFactory.GetResolver<T>(context))
             {
                 return resolver.Get<T>();
             }
@@ -91,27 +91,27 @@ namespace InjectionMap
         public IResolverExpression<T> ExtendMap<T>()
         {
             // create a IResolverExpression with the values
-            return ExtendMap<T>(_container);
+            return ExtendMap<T>(_context);
         }
 
         /// <summary>
         /// Extends the first occurance of a existing map of the given type. This affects the stored mapping and all future resolvings. 
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
-        /// <param name="container">The container containing the map</param>
+        /// <param name="context">The container containing the map</param>
         /// <returns>IResolverExpression{T}</returns>
-        public IResolverExpression<T> ExtendMap<T>(IMappableContainer container)
+        public IResolverExpression<T> ExtendMap<T>(IMappingContext context)
         {
             // create a IResolverExpression with the values
-            using (var resolver = ResolverFactory.GetResolver<T>(container))
+            using (var resolver = ResolverFactory.GetResolver<T>(context))
             {
                 var map = resolver.GetComponent<T>();
                 if (map == null)
                     throw new ResolverException(typeof(T));
-                
-                var cont = container as IComponentCollection;
+
+                var cont = context as IComponentCollection;
                 if (cont == null)
-                    cont = MappingContainerManager.MappingContainer;
+                    cont = MappingContextManager.MappingContext;
 
                 return map.CreateExtendedResolverExpression<T>(cont);
             }
@@ -124,28 +124,28 @@ namespace InjectionMap
         /// <returns>IMultiResolverExpression{T}</returns>
         public IMultiResolverExpression<T> ExtendAll<T>()
         {
-            return ExtendAll<T>(_container);
+            return ExtendAll<T>(_context);
         }
 
         /// <summary>
         /// Extends all occurances of existing mappings of the given type. This affects the stored mapping and all future resolvings. 
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
-        /// <param name="container">The container containing the maps</param>
+        /// <param name="context">The container containing the maps</param>
         /// <returns>IMultiResolverExpression{T}</returns>
-        public IMultiResolverExpression<T> ExtendAll<T>(IMappableContainer container)
+        public IMultiResolverExpression<T> ExtendAll<T>(IMappingContext context)
         {
             // create a IMultiResolverExpression with the values
-            using (var resolver = ResolverFactory.GetResolver<T>(container))
+            using (var resolver = ResolverFactory.GetResolver<T>(context))
             {
                 var map = resolver.GetComponent<T>();
 
                 if (map == null)
                     throw new ResolverException(typeof(T));
 
-                var cont = container as IComponentCollection;
+                var cont = context as IComponentCollection;
                 if (cont == null)
-                    cont = MappingContainerManager.MappingContainer;
+                    cont = MappingContextManager.MappingContext;
 
                 return map.CreateExtendedMultiResolverExpression<T>(cont);
             }
@@ -159,26 +159,26 @@ namespace InjectionMap
         public IResolverExpression<T> For<T>()
         {
             // create a IResolverExpression with the values
-            return For<T>(_container);
+            return For<T>(_context);
         }
 
         /// <summary>
         /// Creates a new IResolverExpression for the given type by copying the original map and allows extendig the mapping. This will not affect the stored mapping.
         /// </summary>
         /// <typeparam name="T">The key type of the registered map to</typeparam>
-        /// <param name="container">The container containing the map</param>
+        /// <param name="context">The container containing the map</param>
         /// <returns>IResolverExpression{T}</returns>
-        public IResolverExpression<T> For<T>(IMappableContainer container)
+        public IResolverExpression<T> For<T>(IMappingContext context)
         {
             // create a IResolverExpression with the values
-            using (var resolver = ResolverFactory.GetResolver<T>(container))
+            using (var resolver = ResolverFactory.GetResolver<T>(context))
             {
                 var map = resolver.GetComponent<T>();
                 if (map == null)
                     throw new ResolverException(typeof(T));
 
-                // map to new container
-                return map.CreateResolverExpression<T>(new MappingContainer());
+                // map to new context
+                return map.CreateResolverExpression<T>(new MappingContext());
             }
         }
 

@@ -7,8 +7,8 @@ namespace InjectionMap.Internal
 {
     internal class MappingExpression<T> : ComponentExpression, IMappingExpression<T>, IComponentExpression
     {
-        public MappingExpression(IComponentCollection container, IMappingComponent component)
-            : base(container, component)
+        public MappingExpression(IComponentCollection context, IMappingComponent component)
+            : base(context, component)
         {
         }
 
@@ -65,7 +65,7 @@ namespace InjectionMap.Internal
             var component = Component.CreateComponent<T>();
             component.OnResolvedCallback = callback;
 
-            return component.CreateMappingExpression<T>(Container);
+            return component.CreateMappingExpression<T>(Context);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace InjectionMap.Internal
             var component = Component.CreateComponent<TMap>();
             component.IsSubstitute = true;
 
-            return component.CreateBindingExpression<TMap>(Container);
+            return component.CreateBindingExpression<TMap>(Context);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace InjectionMap.Internal
             component.IsSubstitute = true;
             component.ValueCallback = predicate;
 
-            return component.CreateBindingExpression<T>(Container);
+            return component.CreateBindingExpression<T>(Context);
         }
 
 
@@ -111,7 +111,7 @@ namespace InjectionMap.Internal
 
             var component = Component.CreateComponent<TMap>();
             component.ValueCallback = predicate;
-            return component.CreateBindingExpression<TMap>(Container);
+            return component.CreateBindingExpression<TMap>(Context);
         }
 
         internal IBindingExpression<T> CreateBinding()
@@ -119,7 +119,7 @@ namespace InjectionMap.Internal
             Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
             var component = Component.CreateComponent<T>();
-            return component.CreateBindingExpression<T>(Container);
+            return component.CreateBindingExpression<T>(Context);
         }
 
         #endregion

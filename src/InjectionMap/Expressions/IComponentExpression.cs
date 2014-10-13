@@ -3,7 +3,7 @@ namespace InjectionMap.Expressions
 {
     public interface IComponentExpression
     {
-        IComponentCollection Container { get; }
+        IComponentCollection Context { get; }
 
         IMappingComponent Component { get; }
     }

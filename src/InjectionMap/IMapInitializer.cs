@@ -13,8 +13,8 @@ namespace InjectionMap
         /// <summary>
         /// Gets called to register all mappings
         /// </summary>
-        /// <param name="container">The <see cref="IMappingProvider"/> that is used to register the mappings</param>
-        void InitializeMap(IMappingProvider container);
+        /// <param name="context">The <see cref="IMappingProvider"/> that is used to register the mappings</param>
+        void InitializeMap(IMappingProvider context);
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ namespace InjectionMap
         /// <summary>
         /// Gets called to register all mappings
         /// </summary>
-        /// <param name="container">The <see cref="IMappingProvider"/> that is used to register the mappings</param>
-        void InitializeMap(IMappingProvider container);
+        /// <param name="context">The <see cref="IMappingProvider"/> that is used to register the mappings</param>
+        void InitializeMap(IMappingProvider context);
     }
 }

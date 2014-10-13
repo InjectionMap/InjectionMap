@@ -6,26 +6,26 @@ namespace InjectionMap
 {
     public class ComponentMapper : IDisposable
     {
-        IMappingProvider _container;
+        IMappingProvider _context;
 
         /// <summary>
         /// Creates a componentmapper to add mappings
         /// </summary>
         public ComponentMapper()
         {
-            _container = MappingContainerManager.MappingContainer;
+            _context = MappingContextManager.MappingContext;
         }
 
         /// <summary>
-        /// Creates a componentmapper with a custom container
+        /// Creates a componentmapper with a custom context
         /// </summary>
-        /// <param name="container">The <see cref="IMappingProvider"/> to resolve the mappings from</param>
-        public ComponentMapper(IMappingProvider container)
+        /// <param name="context">The <see cref="IMappingProvider"/> to resolve the mappings from</param>
+        public ComponentMapper(IMappingProvider context)
         {
-            _container = container;
+            _context = context;
 
-            if (_container == null)
-                _container = MappingContainerManager.MappingContainer;
+            if (_context == null)
+                _context = MappingContextManager.MappingContext;
         }
 
         #region Implementation
@@ -37,7 +37,7 @@ namespace InjectionMap
         /// <returns>The expression for the mapping</returns>
         public IMappingExpression<TKey> Map<TKey>()
         {
-            return _container.Map<TKey>();
+            return _context.Map<TKey>();
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace InjectionMap
         /// <returns>The expression for the mapping</returns>
         public IBindingExpression<TMap> Map<TKey, TMap>() where TMap : TKey
         {
-            return _container.Map<TKey, TMap>();
+            return _context.Map<TKey, TMap>();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace InjectionMap
         /// <typeparam name="T">The type of mappings to remove</typeparam>
         public void Clean<T>()
         {
-            _container.Clean<T>();
+            _context.Clean<T>();
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace InjectionMap
             {
                 if (disposing && !IsDisposed)
                 {
-                    _container = null;
+                    _context = null;
 
                     IsDisposed = true;
                     GC.SuppressFinalize(this);

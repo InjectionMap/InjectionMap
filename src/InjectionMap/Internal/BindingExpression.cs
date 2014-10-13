@@ -63,7 +63,7 @@ namespace InjectionMap.Internal
 
         public IBindingExpression<T> As(Expression<Func<T>> predicate)
         {
-            return new MappingExpression<T>(Container, Component).For<T>(predicate);
+            return new MappingExpression<T>(Context, Component).For<T>(predicate);
         }
 
         public IBoundExpression<T> WithConfiguration(InjectionFlags option)
@@ -84,15 +84,15 @@ namespace InjectionMap.Internal
             };
 
             // remove previous instances...
-            Container.AddOrReplace(component);
+            Context.AddOrReplace(component);
             if (asSingleton)
             {
-                Container.ReplaceAll(component);
+                Context.ReplaceAll(component);
             }
 
             if (resolveValueOnMapping)
             {
-                var provider = Container as IComponentProvider;
+                var provider = Context as IComponentProvider;
                 using (var resolver = new ComponentResolver(provider))
                 {
                     var value = resolver.Get(component.KeyType);
@@ -100,7 +100,7 @@ namespace InjectionMap.Internal
                 }
             }
 
-            return new BoundExpression<T>(Container, component)
+            return new BoundExpression<T>(Context, component)
             {
                 MappingConfiguration = component.MappingConfiguration
             };
@@ -118,7 +118,7 @@ namespace InjectionMap.Internal
             var component = Component.CreateComponent<T>();
             component.OnResolvedCallback = callback;
 
-            return component.CreateBindingExpression<T>(Container);
+            return component.CreateBindingExpression<T>(Context);
         }
 
         /// <summary>
@@ -141,9 +141,9 @@ namespace InjectionMap.Internal
             // mark the constructor to be selected
             var component = Component.CreateComponent<T>();
             component.ConstructorDefinition = definition;
-            Container.AddOrReplace(component);
+            Context.AddOrReplace(component);
 
-            return new BindingExpression<T>(Container, component);
+            return new BindingExpression<T>(Context, component);
         }
 
         #endregion
@@ -159,7 +159,7 @@ namespace InjectionMap.Internal
                 Callback = predicate
             });
 
-            return new BindingExpression<T>(Container, Component);
+            return new BindingExpression<T>(Context, Component);
         }
 
         #endregion

@@ -23,7 +23,7 @@ namespace InjectionMap.Internal
             var component = Component.CreateComponent<T>();
             component.OnResolvedCallback = callback;
 
-            return component.CreateBoundExpression<T>(Container);
+            return component.CreateBoundExpression<T>(Context);
         }
     }
 }

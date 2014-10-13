@@ -14,7 +14,7 @@ namespace InjectionMap
         /// <returns>A IBindingExpression of TMap</returns>
         public static IBindingExpression<TKey> MapTo<TKey>(this object obj)
         {
-            return MapTo<TKey>(obj, MappingContainerManager.MappingContainer);
+            return MapTo<TKey>(obj, MappingContextManager.MappingContext);
         }
 
         /// <summary>
@@ -22,13 +22,13 @@ namespace InjectionMap
         /// </summary>
         /// <typeparam name="TKey">The mapped type</typeparam>
         /// <param name="obj">The object to extend</param>
-        /// <param name="container">The IComponentCollection to map to</param>
+        /// <param name="context">The IComponentCollection to map to</param>
         /// <returns>A IBindingExpression of TMap</returns>
-        public static IBindingExpression<TKey> MapTo<TKey>(this object obj, IComponentCollection container)
+        public static IBindingExpression<TKey> MapTo<TKey>(this object obj, IComponentCollection context)
         {
             typeof(TKey).EnsureMappingTypeMatches(obj.GetType());
 
-            return MappingContainer.MapInternal<TKey>(container).For(() => (TKey)obj);
+            return MappingContext.MapInternal<TKey>(context).For(() => (TKey)obj);
         }
     }
 }

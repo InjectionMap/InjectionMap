@@ -7,26 +7,26 @@ namespace InjectionMap.Internal
 {
     internal class ComponentResolver : IResolver, IDisposable
     {
-        IComponentProvider _container;
+        IComponentProvider _context;
 
         /// <summary>
         /// Creates a componentresolver
         /// </summary>
         public ComponentResolver()
         {
-            _container = MappingContainerManager.MappingContainer;
+            _context = MappingContextManager.MappingContext;
         }
 
         /// <summary>
         /// Creates a componentresolver with a custom container
         /// </summary>
-        /// <param name="container">The <see cref="IMappingProvider"/> to resolve the mappings from</param>
-        public ComponentResolver(IComponentProvider container)
+        /// <param name="context">The <see cref="IMappingProvider"/> to resolve the mappings from</param>
+        public ComponentResolver(IComponentProvider context)
         {
-            _container = container;
+            _context = context;
 
-            if (_container == null)
-                _container = MappingContainerManager.MappingContainer;
+            if (_context == null)
+                _context = MappingContextManager.MappingContext;
         }
 
         #region Implementation
@@ -38,7 +38,7 @@ namespace InjectionMap.Internal
         /// <returns>The first occurance of T</returns>
         public T Get<T>()
         {
-            return _container.Get<T>().Select(c => CompositionService.Compose<T>(c)).FirstOrDefault();
+            return _context.Get<T>().Select(c => CompositionService.Compose<T>(c)).FirstOrDefault();
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace InjectionMap.Internal
         /// <returns>The first occurance of the mapped type</returns>
         public object Get(Type type)
         {
-            return _container.Get(type).Select(c => CompositionService.Compose(c)).FirstOrDefault();
+            return _context.Get(type).Select(c => CompositionService.Compose(c)).FirstOrDefault();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace InjectionMap.Internal
         /// <returns>All T</returns>
         public IEnumerable<T> GetAll<T>()
         {
-            return _container.Get<T>().Select(c => CompositionService.Compose<T>(c));
+            return _context.Get<T>().Select(c => CompositionService.Compose<T>(c));
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace InjectionMap.Internal
         /// <returns>The first IMappingComponent of T</returns>
         public IMappingComponent GetComponent<T>()
         {
-            return _container.Get<T>().FirstOrDefault();
+            return _context.Get<T>().FirstOrDefault();
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace InjectionMap.Internal
         /// <returns>All IMappingComonents of T</returns>
         public IEnumerable<IMappingComponent> GetAllComponents<T>()
         {
-            return _container.Get<T>().Where(c => c.KeyType == typeof(T));
+            return _context.Get<T>().Where(c => c.KeyType == typeof(T));
         }
 
         #endregion
@@ -107,7 +107,7 @@ namespace InjectionMap.Internal
             {
                 if (disposing && !IsDisposed)
                 {
-                    _container = null;
+                    _context = null;
 
                     IsDisposed = true;
                     GC.SuppressFinalize(this);

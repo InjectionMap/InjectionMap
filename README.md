@@ -6,7 +6,7 @@ InjectionMap is a very small and extremely lightweight IoC/DI container for .NET
 InjectionMap allows loose coupling betweeen a client's dependencies and its own behaviour. InjectionMap promotes reusability, testability and maintainability of any part of an application.
 
 - InjectionMap is a very lightweith IoC Framework that leaves no traces in the client code
-- InjectionMap uses type mapping to reference the key/reference and the implementation. 
+- InjectionMap uses type mapping to reference the contract and the implementation. 
 - Instances are resolved using reflection or can be provided through a callback whitch allows the creation of instances in your own code.
 - It suports a fluent syntax to help keep the code simple, small and clean.
 - Parameters for constructors can be injected or passed at the time of mapping as objects or as delegate expressions.
@@ -119,11 +119,11 @@ using (var resolver = new InjectionResolver())
     var map = resolver.Resolve<IInjectionMappingTest>();
 }
 ```
-This will resolve the last map that was registered to the key type from InjectionMap. To resolve all mappings that have been registered to the key type _InjectionResolver_ provides the Method _ResolveMultiple&lt;TKey&gt;()_
+This will resolve the last map that was registered to the contract type from InjectionMap. To resolve all mappings that have been registered to the contract type _InjectionResolver_ provides the Method _ResolveMultiple&lt;TKey&gt;()_
 ```csharp
 using (var resolver = new InjectionResolver())
 {
-    // resolve all mappings that were registered with the key type from InjectionMap
+    // resolve all mappings that were registered with the contract type from InjectionMap
     var map = resolver.ResolveMultiple<IInjectionMappingTest>();
 }
 ```
@@ -241,16 +241,16 @@ While ExtendMap extends existing mappings, For will create and extend a copy of 
 using (var resolver = new InjectionResolver())
 {
     // Extend a map
-    var value1 = resolver.ExtendMap<IMapKey>().WithArgument<int>(() => 1).Resolve();
+    var value1 = resolver.ExtendMap<IMapContract>().WithArgument<int>(() => 1).Resolve();
 	// Copy and extend a map
-    var value2 = resolver.For<IMapKey>().WithArgument<int>(() => 1).Resolve();
+    var value2 = resolver.For<IMapContract>().WithArgument<int>(() => 1).Resolve();
 }
 ```
 
 ### Resolve unmappped types and Inject arguments
 If a type has a constructor with parameters of a type that previously were mapped to InjectionMap, the type can be created with the parameters resolved from InjectionMap without first having to register it.
 ```csharp
-// the key type for the argument to be passed
+// the contract type for the argument to be passed
 public interface ITypeArgument { }
 
 // the type that should be resolved to the constructor

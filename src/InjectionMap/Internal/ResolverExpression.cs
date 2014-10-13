@@ -14,8 +14,8 @@ namespace InjectionMap.Internal
     /// <typeparam name="T">Key type</typeparam>
     internal class ResolverExpression<T> : ComponentExpression, IResolverExpression<T>, IComponentExpression
     {
-        public ResolverExpression(IComponentCollection container, IMappingComponent component)
-            : base(container, component)
+        public ResolverExpression(IComponentCollection context, IMappingComponent component)
+            : base(context, component)
         {
         }
 
@@ -86,7 +86,7 @@ namespace InjectionMap.Internal
             var component = Component.CreateComponent<T>();
             component.ConstructorDefinition = definition;
 
-            return new ResolverExpression<T>(Container, component);
+            return new ResolverExpression<T>(Context, component);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace InjectionMap.Internal
                 Callback = predicate
             });
 
-            return new ResolverExpression<T>(Container, Component);
+            return new ResolverExpression<T>(Context, Component);
         }
 
         #endregion
@@ -124,19 +124,19 @@ namespace InjectionMap.Internal
     /// <typeparam name="T">Key type</typeparam>
     internal class MultiResolverExpression<T> : IMultiResolverExpression<T>
     {
-        public MultiResolverExpression(IComponentCollection container)
+        public MultiResolverExpression(IComponentCollection context)
         {
-            container.EnsureArgumentNotNull("container");
+            context.EnsureArgumentNotNull("context");
 
-            _container = container;
+            _context = context;
         }
 
-        readonly IComponentCollection _container;
-        public IComponentCollection Container
+        readonly IComponentCollection _context;
+        public IComponentCollection Context
         {
             get
             {
-                return _container;
+                return _context;
             }
         }
         
@@ -193,7 +193,7 @@ namespace InjectionMap.Internal
         public T Resolve()
         {
             //return CompositionService.Compose<T>();
-            using (var resolver = ResolverFactory.GetResolver<T>(Container as IComponentProvider))
+            using (var resolver = ResolverFactory.GetResolver<T>(Context as IComponentProvider))
             {
                 return resolver.Get<T>();
             }
@@ -206,7 +206,7 @@ namespace InjectionMap.Internal
         public IEnumerable<T> ResolveMultiple()
         {
             //return CompositionService.Compose<T>();
-            using (var resolver = ResolverFactory.GetResolver<T>(Container as IComponentProvider))
+            using (var resolver = ResolverFactory.GetResolver<T>(Context as IComponentProvider))
             {
                 return resolver.GetAll<T>();
             }
@@ -216,7 +216,7 @@ namespace InjectionMap.Internal
 
         private IMultiResolverExpression<T> AddArgument<TArg>(string name, TArg value, Expression<Func<TArg>> predicate)
         {
-            foreach (var component in Container.Get<T>())
+            foreach (var component in Context.Get<T>())
             {
                 if (!string.IsNullOrEmpty(name) && component.Arguments.Any(a => a.Name == name))
                     component.Arguments.Remove(component.Arguments.First(a => a.Name == name));
@@ -229,7 +229,7 @@ namespace InjectionMap.Internal
                 });
             }
 
-            return new MultiResolverExpression<T>(Container);
+            return new MultiResolverExpression<T>(Context);
         }
 
         #endregion

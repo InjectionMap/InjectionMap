@@ -9,24 +9,32 @@ namespace InjectionMap
 {
     public class InjectionMapper : IDisposable
     {
-        IMappableContainer _container;
+        IMappingContext _context;
 
         /// <summary>
-        /// Creates a InjectionMapper that mapps to the common mappingcontainer
+        /// Creates a InjectionMapper that mapps to the common mappingcontext
         /// </summary>
         public InjectionMapper()
         {
         }
 
         /// <summary>
-        /// Creates a InjectionMapper with a custom container to map to
+        /// Creates a InjectionMapper with a custom context to map to
         /// </summary>
-        /// <param name="container">The <see cref="IMappableContainer"/> to add the mappings to</param>
-        public InjectionMapper(IMappableContainer container)
+        /// <param name="context">The <see cref="IMappingContext"/> to add the mappings to</param>
+        public InjectionMapper(IMappingContext context)
         {
-            container.EnsureArgumentNotNull("container");
+            context.EnsureArgumentNotNull("context");
 
-            _container = container;
+            _context = context;
+        }
+
+        public IMappingContext Context
+        {
+            get
+            {
+                return _context;
+            }
         }
 
         #region Static Implementation
@@ -37,20 +45,20 @@ namespace InjectionMap
         /// <param name="mapper"></param>
         public static void Initialize(IMapInitializer mapper)
         {
-            Initialize(mapper, MappingContainerManager.MappingContainer);
+            Initialize(mapper, MappingContextManager.MappingContext);
         }
 
         /// <summary>
         /// Initializes all mappings in the <see cref="IMapInitializer"/>
         /// </summary>
         /// <param name="mapper"></param>
-        /// <param name="container">The IMappingProvider to store the mappings</param>
-        public static void Initialize(IMapInitializer mapper, IMappingProvider container)
+        /// <param name="context">The IMappingProvider to store the mappings</param>
+        public static void Initialize(IMapInitializer mapper, IMappingProvider context)
         {
             mapper.EnsureArgumentNotNull("mapper");
-            container.EnsureArgumentNotNull("container");
+            context.EnsureArgumentNotNull("context");
 
-            mapper.InitializeMap(container);
+            mapper.InitializeMap(context);
         }
 
         /// <summary>
@@ -59,19 +67,19 @@ namespace InjectionMap
         /// <param name="assemblyFile"></param>
         public static void Initialize(string assemblyFile)
         {
-            Initialize(Assembly.Load(assemblyFile), MappingContainerManager.MappingContainer);
+            Initialize(Assembly.Load(assemblyFile), MappingContextManager.MappingContext);
         }
 
         /// <summary>
         /// Initializes all implementations of <see cref="IMapInitializer"/> in the assembly to the provided MappingProvider
         /// </summary>
         /// <param name="assemblyFile"></param>
-        /// <param name="container"></param>
-        public static void Initialize(string assemblyFile, IMappingProvider container)
+        /// <param name="context"></param>
+        public static void Initialize(string assemblyFile, IMappingProvider context)
         {
             assemblyFile.EnsureArgumentNotNullOrEmpty("assemblyFile");
 
-            Initialize(Assembly.Load(assemblyFile), container);
+            Initialize(Assembly.Load(assemblyFile), context);
         }
 
         /// <summary>
@@ -80,20 +88,20 @@ namespace InjectionMap
         /// <param name="assembly"></param>
         public static void Initialize(Assembly assembly)
         {
-            Initialize(assembly, MappingContainerManager.MappingContainer);
+            Initialize(assembly, MappingContextManager.MappingContext);
         }
 
         /// <summary>
         /// Initializes all implementations of <see cref="IMapInitializer"/> in the assembly to the provided MappingProvider
         /// </summary>
         /// <param name="assembly"></param>
-        /// <param name="container"></param>
-        public static void Initialize(Assembly assembly, IMappingProvider container)
+        /// <param name="context"></param>
+        public static void Initialize(Assembly assembly, IMappingProvider context)
         {
             assembly.EnsureArgumentNotNull("assembly");
-            container.EnsureArgumentNotNull("container");
+            context.EnsureArgumentNotNull("context");
 
-            InitializeInternal(assembly, container);
+            InitializeInternal(assembly, context);
         }
 
         /// <summary>
@@ -111,15 +119,15 @@ namespace InjectionMap
             //if (obj != null)
             //    obj.InitializeMap(MappingContainerManager.MappingContainer);
 
-            Initialize<T>(MappingContainerManager.MappingContainer);
+            Initialize<T>(MappingContextManager.MappingContext);
         }
 
         /// <summary>
         /// Initializes the <see cref="IMapInitializer"/> to the provided MappingProvider
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="container"></param>
-        public static void Initialize<T>(IMappingProvider container) where T : IMapInitializer
+        /// <param name="context"></param>
+        public static void Initialize<T>(IMappingProvider context) where T : IMapInitializer
         {
             var type = typeof(T);
 
@@ -128,7 +136,7 @@ namespace InjectionMap
 
             var obj = Activator.CreateInstance(type) as IMapInitializer;
             if (obj != null)
-                obj.InitializeMap(container);
+                obj.InitializeMap(context);
         }
         
         #endregion
@@ -142,7 +150,7 @@ namespace InjectionMap
         /// <returns>The expression for the mapping</returns>
         public IMappingExpression<TKey> Map<TKey>()
         {
-            using (var provider = new ComponentMapper(_container))
+            using (var provider = new ComponentMapper(_context))
             {
                 return provider.Map<TKey>();
             }
@@ -156,7 +164,7 @@ namespace InjectionMap
         /// <returns>The expression for the mapping</returns>
         public IBindingExpression<TMap> Map<TKey, TMap>() where TMap : TKey
         {
-            using (var provider = new ComponentMapper(_container))
+            using (var provider = new ComponentMapper(_context))
             {
                 return provider.Map<TKey, TMap>();
             }
@@ -168,7 +176,7 @@ namespace InjectionMap
         /// <typeparam name="T">The type of mappings to remove</typeparam>
         public void Clean<T>()
         {
-            using (var provider = new ComponentMapper(_container))
+            using (var provider = new ComponentMapper(_context))
             {
                 provider.Clean<T>();
             }
@@ -221,7 +229,7 @@ namespace InjectionMap
             {
                 if (disposing && !IsDisposed)
                 {
-                    _container = null;
+                    _context = null;
 
                     IsDisposed = true;
                     GC.SuppressFinalize(this);

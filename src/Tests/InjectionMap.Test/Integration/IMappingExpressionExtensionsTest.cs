@@ -39,7 +39,7 @@ namespace InjectionMap.Test.Integration
         [Description("Creates a mapping to a custom container with the Extenisonmethods")]
         public void MappingExpressionExtensionWithCustomContainer()
         {
-            var container = new MappingContainer();
+            var container = new MappingContext();
 
             // create map
             var obj = new MappingExpressionExtensionMock(1);
@@ -61,7 +61,7 @@ namespace InjectionMap.Test.Integration
         [ExpectedException(typeof (MappingMismatchException))]
         public void MappingExpressionExtensionWithCustomContainer_Fail()
         {
-            var container = new MappingContainer();
+            var container = new MappingContext();
 
             // create map
             var obj = new NonMappingExpressionExtensionMock(1);

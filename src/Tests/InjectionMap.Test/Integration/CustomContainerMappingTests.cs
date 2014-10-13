@@ -16,7 +16,7 @@ namespace InjectionMap.Test.Integration
         public void MapToCustomContainer()
         {
             // create contaienrs and mappers
-            var container = new MappingContainer();
+            var container = new MappingContext();
             var customMapper = new InjectionMapper(container);
 
             // mapping
@@ -37,7 +37,7 @@ namespace InjectionMap.Test.Integration
         public void MapToDefaultContainer()
         {
             // create contaienrs and mappers
-            var container = new MappingContainer();
+            var container = new MappingContext();
             var defaultMapper = new InjectionMapper();
 
             // mapping
@@ -58,7 +58,7 @@ namespace InjectionMap.Test.Integration
         public void MapToCustomAndDefaultContainer()
         {
             // create contaienrs and mappers
-            var container = new MappingContainer();
+            var container = new MappingContext();
             var customMapper = new InjectionMapper(container);
             var defaultMapper = new InjectionMapper();
 
@@ -81,7 +81,7 @@ namespace InjectionMap.Test.Integration
         public void ResolveDirectlyFromCustomContainer()
         {
             // create contaienrs and mappers
-            var container = new MappingContainer();
+            var container = new MappingContext();
             var customMapper = new InjectionMapper(container);
             var defaultMapper = new InjectionMapper();
 
