@@ -43,7 +43,8 @@ namespace InjectionMap
 
     public interface IConstructorDefinition
     {
-        //ConstructorInfo ConstructorInfo { get; }
+        // TODO: hide this? don't show to public?
+        ConstructorInfo ConstructorInfo { get; }
     }
 
     public class ConstructorDefinition : IEnumerable<ConstructorArgument>, IConstructorDefinition
@@ -75,7 +76,8 @@ namespace InjectionMap
             _items.Add(argument);
         }
 
-        internal ConstructorInfo ConstructorInfo { get; set; }
+        // TODO: hide this? don't show to public?
+        public ConstructorInfo ConstructorInfo { get; set; }
 
         public IEnumerator<ConstructorArgument> GetEnumerator()
         {

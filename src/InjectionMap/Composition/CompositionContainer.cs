@@ -85,16 +85,18 @@ namespace InjectionMap.Composition
         {
             if (component.ConstructorDefinition != null)
             {
-                // TODO: remove cast! Try to define the selected constructor without using ConstructorInfo!
-                var definition = component.ConstructorDefinition as ConstructorDefinition;
-                if (definition != null)
+                // Check if a constructor was defined in the mapping
+                if (component.ConstructorDefinition != null)
                 {
-                    var container = CreateArgumentContainer(component, definition.ConstructorInfo);
+                    //TODO: is it wise to present the constructorinfo to public in the constructordefinition?
+                    //TODO: try hide this from public
+                    var container = CreateArgumentContainer(component, component.ConstructorDefinition.ConstructorInfo);
                     if (container != null)
                         return container;
                 }
             }
 
+            // get all constructors from the value type
             var ctors = component.ValueType.GetConstructors();
             
             // try get InjectionConstructors
