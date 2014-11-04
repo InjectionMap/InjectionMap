@@ -17,7 +17,8 @@ namespace InjectionMap.Test.Integration
             }
 
             // relocate mappings
-            InjectionMapper.Initialize(this.GetType().Assembly);
+            var initializer = new MapInitializer();
+            initializer.Initialize(this.GetType().Assembly);
         }
 
         [Test]

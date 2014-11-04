@@ -60,6 +60,7 @@
     <Compile Include="Internal\BindingResolver.cs" />
     <Compile Include="Internal\IResolver.cs" />
     <Compile Include="Internal\ResolverFactory.cs" />
+    <Compile Include="MapInitializer.cs" />
     <Compile Include="ObjectMappingExtensions.cs" />
     <Compile Include="Exceptions\MappingMismatchException.cs" />
     <Compile Include="Exceptions\TypeCompositionException.cs" />

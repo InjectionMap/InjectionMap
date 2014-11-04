@@ -44,6 +44,7 @@ namespace InjectionMap
         /// Initializes all mappings in the <see cref="IMapInitializer"/>
         /// </summary>
         /// <param name="mapper"></param>
+        [Obsolete("Use InjectionMap.MapInitializer instead", true)]
         public static void Initialize(IMapInitializer mapper)
         {
             Initialize(mapper, MappingContextManager.MappingContext);
@@ -54,6 +55,7 @@ namespace InjectionMap
         /// </summary>
         /// <param name="mapper"></param>
         /// <param name="context">The IMappingProvider to store the mappings</param>
+        [Obsolete("Use InjectionMap.MapInitializer instead", true)]
         public static void Initialize(IMapInitializer mapper, IMappingProvider context)
         {
             mapper.EnsureArgumentNotNull("mapper");
@@ -66,6 +68,7 @@ namespace InjectionMap
         /// Initializes all implementations of <see cref="IMapInitializer"/> in the assembly
         /// </summary>
         /// <param name="assemblyFile"></param>
+        [Obsolete("Use InjectionMap.MapInitializer instead", true)]
         public static void Initialize(string assemblyFile)
         {
             Initialize(Assembly.Load(assemblyFile), MappingContextManager.MappingContext);
@@ -76,6 +79,7 @@ namespace InjectionMap
         /// </summary>
         /// <param name="assemblyFile"></param>
         /// <param name="context"></param>
+        [Obsolete("Use InjectionMap.MapInitializer instead", true)]
         public static void Initialize(string assemblyFile, IMappingProvider context)
         {
             assemblyFile.EnsureArgumentNotNullOrEmpty("assemblyFile");
@@ -87,6 +91,7 @@ namespace InjectionMap
         /// Initializes all implementations of <see cref="IMapInitializer"/> in the assembly
         /// </summary>
         /// <param name="assembly"></param>
+        [Obsolete("Use InjectionMap.MapInitializer instead", true)]
         public static void Initialize(Assembly assembly)
         {
             Initialize(assembly, MappingContextManager.MappingContext);
@@ -97,29 +102,22 @@ namespace InjectionMap
         /// </summary>
         /// <param name="assembly"></param>
         /// <param name="context"></param>
+        [Obsolete("Use InjectionMap.MapInitializer instead", true)]
         public static void Initialize(Assembly assembly, IMappingProvider context)
         {
             assembly.EnsureArgumentNotNull("assembly");
             context.EnsureArgumentNotNull("context");
 
-            InitializeInternal(assembly, context);
+            //InitializeInternal(assembly, context);
         }
 
         /// <summary>
         /// Initializes the <see cref="IMapInitializer"/>
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        [Obsolete("Use InjectionMap.MapInitializer instead", true)]
         public static void Initialize<T>() where T : IMapInitializer
         {
-            //var type = typeof(T);
-
-            //type.EnsureTypeCanBeDefaultInstantiated();
-            //type.EnsureTypeIsImplemented(typeof(IMapInitializer));
-
-            //var obj = Activator.CreateInstance(type) as IMapInitializer;
-            //if (obj != null)
-            //    obj.InitializeMap(MappingContainerManager.MappingContainer);
-
             Initialize<T>(MappingContextManager.MappingContext);
         }
 
@@ -128,6 +126,7 @@ namespace InjectionMap
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="context"></param>
+        [Obsolete("Use InjectionMap.MapInitializer instead", true)]
         public static void Initialize<T>(IMappingProvider context) where T : IMapInitializer
         {
             var type = typeof(T);
@@ -139,7 +138,7 @@ namespace InjectionMap
             if (obj != null)
                 obj.InitializeMap(context);
         }
-        
+
         #endregion
 
         #region Implementation
@@ -196,27 +195,6 @@ namespace InjectionMap
             using (var provider = new ComponentMapper(_context))
             {
                 provider.Clean<T>();
-            }
-        }
-
-        #endregion
-
-        #region Internal Implementation
-
-        internal static void InitializeInternal(Assembly assembly, IMappingProvider container)
-        {
-            var mappingtype = typeof(IMapInitializer);
-            var types = assembly.GetTypes().Where(p => mappingtype.IsAssignableFrom(p) && !p.IsInterface);
-
-            foreach (var type in types)
-            {
-                type.EnsureTypeCanBeDefaultInstantiated();
-
-                var obj = Activator.CreateInstance(type) as IMapInitializer;
-                if (obj == null)
-                    continue;
-
-                obj.InitializeMap(container);
             }
         }
 
