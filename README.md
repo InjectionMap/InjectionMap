@@ -59,11 +59,12 @@ class InjectionMapperMock : IMapInitializer
 }
 ```
 #### Initialization
-In the application startup you only call _InjectionMap.InitializeMap(...)_ with the Assembly that contains _IInjectionMapping_ implementations.
-All classes that implement _IMapInitializer_ will automaticaly be created and called after _InjectionMap.InitializeMap()_ gets executed. 
+In the application startup you only create an instance of _MapInitializer_ and call _initializer.Initialize(...)_ with the Assembly that contains _IInjectionMapping_ implementations.
+All classes that implement _IMapInitializer_ will automaticaly be created and called after _Initialize()_ on _MapInitializer_ gets executed. 
 ##### Map to the default MappingContainer
 ```csharp
-InjectionMap.InitializeMap(Assembly assembly);
+var initializer = new MapInitializer();
+initializer.Initialize(Assembly assembly);
 // resolve the mappings
 using (var resolver = new InjectionResolver())
 {
@@ -102,12 +103,14 @@ using (var mapper = new InjectionMapper())
 }
 ```
 #### Mapping with expression extensions
-Mappings can be created to a predefined instance of an object using _IMappingExpression&lt;TSvc&gt;.For&lt;TImpl&gt;(Func&lt;TImpl&gt; predicate);_
+Mappings can be created to a predefined instance of an object using _IMappingExpression&lt;TSvc&gt;(Func&lt;TSvc&gt; predicate);_ or _IMappingExpression&lt;TSvc&gt;().For&lt;TImpl&gt;(Func&lt;TImpl&gt; predicate);_
 ```csharp
 using (var mapper = new InjectionMapper())
 {
     // create mapping to a specific instance
-    mapper.Map<IInjectionMappingTest>.For(() => new InjectionMappingTestMock());
+    mapper.Map<IInjectionMappingTest>(() => new InjectionMappingTestMock());
+    // or with the For expression
+    mapper.Map<IInjectionMappingTest>().For(() => new InjectionMappingTestMock());
 }
 ```
 ### Resolving values
@@ -125,6 +128,50 @@ using (var resolver = new InjectionResolver())
 {
     // resolve all mappings that were registered with the contract type from InjectionMap
     var map = resolver.ResolveMultiple<IInjectionMappingTest>();
+}
+```
+### Mapping to custom Context
+The InjectionMapper can be instanitated by passing a instance of the IMappingContext (MappingContext). All Mappings that are mapped to the custom MappingContext will only be avaliabe when resolving from that context.
+```csharp
+var context = new MappingContext();
+using (var mapper = new InjectionMapper(context))
+{
+    mapper.Map<IInjectionMappingTest>(() => new InjectionMappingTestMock());
+}
+using (var resolver = new InjectionResolver(context))
+{
+    // resolve the registered mapping from InjectionMap
+    var map = resolver.Resolve<IInjectionMappingTest>();
+}
+```
+The drawback ist that the mappings are only alive as long as the MappingContext lives.
+Alternatively a MappingContext can be named. All mapping expressions will be stored internaly to a named container. 
+```csharp
+var context = new MappingContext("contextname");
+using (var mapper = new InjectionMapper(context))
+{
+    mapper.Map<IInjectionMappingTest>(() => new InjectionMappingTestMock());
+}
+```
+To resolve from the named context, a new MappingContext can be created with the same context name. This recreates the expressions to the MappingContext.
+```csharp
+// create a new MappingContext with the same contextname as when mapping
+var resolverContext = new MappingContext("contextname");
+using (var resolver = new InjectionResolver(resolverContext))
+{
+    var map = resolver.Resolve<IInjectionMappingTest>();
+}
+```
+Alternatively this can directly be done in the constructors of InjectionMapper and InjectionResolver.
+```csharp
+using (var mapper = new InjectionMapper("contextname"))
+{
+    mapper.Map<IInjectionMappingTest>(() => new InjectionMappingTestMock());
+}
+
+using (var resolver = new InjectionResolver("contextname"))
+{
+    var map = resolver.Resolve<IInjectionMappingTest>();
 }
 ```
 
@@ -165,7 +212,6 @@ Select the constructor and set Argument values.
 ```csharp
 Resolver.For<IMixedConstuctor>()
 	.ForConstructor(cc =>
-
 	{
 		var constr = cc[2]; // select constructor nr. 3
 		constr["StringParam"].Value = "String value" // select parameter by name
