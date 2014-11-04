@@ -12,6 +12,15 @@ namespace InjectionMap
     /// </summary>
     public class MappingContext : IMappingContext, IComponentCollection, IComponentProvider, IMappingProvider
     {
+        public MappingContext()
+        {
+        }
+
+        public MappingContext(string context)
+        {
+            _components = MappingContextManager.GetComponents(context).Components;
+        }
+
         #region IComponentContainer Implementation
 
         IList<IMappingComponent> _components;

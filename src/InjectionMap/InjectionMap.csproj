@@ -58,6 +58,7 @@
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="IMapInitializer.cs" />
     <Compile Include="Internal\BindingResolver.cs" />
+    <Compile Include="Internal\ComponentContainer.cs" />
     <Compile Include="Internal\IResolver.cs" />
     <Compile Include="Internal\ResolverFactory.cs" />
     <Compile Include="MapInitializer.cs" />

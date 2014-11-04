@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace InjectionMap.Internal
 {
+    /// <summary>
+    /// Represents a baseclass for components that contain mappingexpression
+    /// </summary>
     internal abstract class Component : IComponent
     {
         internal Component(Guid id)

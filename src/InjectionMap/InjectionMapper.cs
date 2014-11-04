@@ -20,6 +20,17 @@ namespace InjectionMap
         }
 
         /// <summary>
+        /// Creates a InjectionMapper that mapps to the common mappingcontext
+        /// </summary>
+        /// <param name="context">the name of the stored context</param>
+        public InjectionMapper(string context)
+        {
+            context.EnsureArgumentNotNullOrEmpty("context");
+
+            _context = new MappingContext(context);
+        }
+
+        /// <summary>
         /// Creates a InjectionMapper with a custom context to map to
         /// </summary>
         /// <param name="context">The <see cref="IMappingContext"/> to add the mappings to</param>

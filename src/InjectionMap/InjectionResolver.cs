@@ -18,6 +18,17 @@ namespace InjectionMap
         }
 
         /// <summary>
+        /// Creates a InjectionResolver to resolve from the common mappingcontext
+        /// </summary>
+        /// <param name="context">Name of the context that containes the mappings</param>
+        public InjectionResolver(string context)
+        {
+            context.EnsureArgumentNotNullOrEmpty("context");
+
+            _context = new MappingContext(context);
+        }
+
+        /// <summary>
         /// Creates a InjectionResolver with a custom container to resolve from
         /// </summary>
         /// <param name="context">The <see cref="IMappingContext"/> to resolve the mappings from</param>

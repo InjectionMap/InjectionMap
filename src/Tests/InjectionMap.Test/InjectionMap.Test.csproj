@@ -81,6 +81,7 @@
     <Compile Include="Integration\InjectionConstructorTests.cs" />
     <Compile Include="Integration\InjectionMapperTests.cs" />
     <Compile Include="Integration\MapInitializerTests.cs" />
+    <Compile Include="Integration\MappingContextTests.cs" />
     <Compile Include="Integration\MapToUnregisterdType.cs" />
     <Compile Include="Integration\OnResolvedExpressionTests.cs" />
     <Compile Include="Integration\Mock\ConstructorInjectionMock.cs" />
