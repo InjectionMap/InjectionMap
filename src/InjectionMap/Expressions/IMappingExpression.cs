@@ -3,6 +3,10 @@ using System.Linq.Expressions;
 
 namespace InjectionMap.Expressions
 {
+    /// <summary>
+    /// Represents a expression for a mapping that containes a mapping key but does not containe a mapped type.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IMappingExpression<T>
     {
         /// <summary>

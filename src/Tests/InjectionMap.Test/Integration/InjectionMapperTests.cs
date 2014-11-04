@@ -39,6 +39,7 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
+        [Description("Adds a instance that gets returned to the complete mapping")]
         public void InjectionMapperWithManyTest()
         {
             using (var mapper = new InjectionMapper())
@@ -61,6 +62,7 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
+        [Description("Setting a map to singleton replaces all other maps")]
         public void InjectionMapperWithOverrideTest()
         {
             using (var mapper = new InjectionMapper())
@@ -79,6 +81,51 @@ namespace InjectionMap.Test.Integration
                 var map1 = resolver.ResolveMultiple<ICustomMock>();
 
                 Assert.IsTrue(map1.Count() == 1);
+            }
+        }
+
+        [Test]
+        [Description("Creates a map and adds a predicate that returnes the mapping")]
+        public void InjectionMapperWithPredicateInMap()
+        {
+            using (var mapper = new InjectionMapper())
+            {
+                // clean all previous mappings to ensure test
+                mapper.Clean<ICustomMock>();
+
+                mapper.Map<ICustomMock>(() => new CustomMock { ID = 5 });
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                // resolve
+                var map = resolver.Resolve<ICustomMock>();
+
+                Assert.IsTrue(map.ID == 5);
+            }
+        }
+
+        [Test]
+        [Description("Creates a map and adds a instance that returnes the mapping")]
+        public void InjectionMapperWithInstanceInMap()
+        {
+            var mappedObject = new CustomMock { ID = 5 };
+
+            using (var mapper = new InjectionMapper())
+            {
+                // clean all previous mappings to ensure test
+                mapper.Clean<ICustomMock>();
+
+                mapper.Map<ICustomMock>(mappedObject);
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                // resolve
+                var map = resolver.Resolve<ICustomMock>();
+
+                Assert.AreSame(map, mappedObject);
+                Assert.IsTrue(map.ID == 5);
             }
         }
 

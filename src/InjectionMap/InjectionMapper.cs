@@ -4,6 +4,7 @@ using System.Reflection;
 using InjectionMap.Expressions;
 using InjectionMap.Internal;
 using InjectionMap.Extensions;
+using System.Linq.Expressions;
 
 namespace InjectionMap
 {
@@ -144,7 +145,7 @@ namespace InjectionMap
         #region Implementation
 
         /// <summary>
-        /// Creates a Mapping to TKey
+        /// Creates a Mapping to TKey without defining the mapped type or object
         /// </summary>
         /// <typeparam name="TKey">The type to map</typeparam>
         /// <returns>The expression for the mapping</returns>
@@ -167,6 +168,22 @@ namespace InjectionMap
             using (var provider = new ComponentMapper(_context))
             {
                 return provider.Map<TKey, TMap>();
+            }
+        }
+
+        public IBindingExpression<TKey> Map<TKey>(Expression<Func<TKey>> predicate)
+        {
+            using (var provider = new ComponentMapper(_context))
+            {
+                return provider.Map<TKey>().For(predicate);
+            }
+        }
+
+        public IBindingExpression<TKey> Map<TKey>(TKey value)
+        {
+            using (var provider = new ComponentMapper(_context))
+            {
+                return provider.Map<TKey>().For(value);
             }
         }
 

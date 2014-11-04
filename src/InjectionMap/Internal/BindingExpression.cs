@@ -61,11 +61,21 @@ namespace InjectionMap.Internal
             return AddArgument<TArg>(name, default(TArg), predicate);
         }
 
+        /// <summary>
+        /// Appends a instance of the mapped object to the mapping of the same type as the mapped type. This can be used when the mapped type containes multiple constructors.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public IBindingExpression<T> As(Expression<Func<T>> predicate)
         {
             return new MappingExpression<T>(Context, Component).For<T>(predicate);
         }
 
+        /// <summary>
+        /// Provides the ability to define configurations  
+        /// </summary>
+        /// <param name="option"></param>
+        /// <returns></returns>
         public IBoundExpression<T> WithConfiguration(InjectionFlags option)
         {
             var resolveValueOnMapping = (option & InjectionFlags.ResolveValueOnMapping) == InjectionFlags.ResolveValueOnMapping;

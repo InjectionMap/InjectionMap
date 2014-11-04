@@ -3,6 +3,10 @@ using System.Linq.Expressions;
 
 namespace InjectionMap.Expressions
 {
+    /// <summary>
+    /// Represents a expression that containes a key and a mapped type or object.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IBindingExpression<T>
     {
         /// <summary>
@@ -39,8 +43,18 @@ namespace InjectionMap.Expressions
         /// <returns><see cref="IBindingExpression{T}"/></returns>
         IBindingExpression<T> WithArgument<TArg>(string name, Expression<Func<TArg>> predicate);
 
+        /// <summary>
+        /// Appends a instanitated object to the mapping of the same type as the mapped type
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         IBindingExpression<T> As(Expression<Func<T>> predicate);
 
+        /// <summary>
+        /// Provides the ability to define configurations  
+        /// </summary>
+        /// <param name="option"></param>
+        /// <returns></returns>
         IBoundExpression<T> WithConfiguration(InjectionFlags option);
 
         /// <summary>
