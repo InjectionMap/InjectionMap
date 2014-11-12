@@ -98,6 +98,10 @@
     <Compile Include="Internal\ResolverExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Composition\CompositionService.cs" />
+    <Compile Include="Tracing\ILogger.cs" />
+    <Compile Include="Tracing\ILoggerFactory.cs" />
+    <Compile Include="Tracing\Logger.cs" />
+    <Compile Include="Tracing\LoggerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\InjectionMap.snk">
