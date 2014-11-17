@@ -27,7 +27,9 @@ namespace InjectionMap
             _context = context;
         }
 
-
+        /// <summary>
+        /// The IMappingContext that containes the Mapdefinitions
+        /// </summary>
         public IMappingContext Context
         {
             get

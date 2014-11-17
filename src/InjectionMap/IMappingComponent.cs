@@ -10,6 +10,9 @@ namespace InjectionMap
         /// </summary>
         Expression<Func<object>> ValueCallback { get; set; }
 
+        /// <summary>
+        /// A delegate that gets called when the mapping is resolved
+        /// </summary>
         Action<object> OnResolvedCallback { get; }
     }
 }

@@ -8,7 +8,9 @@ using InjectionMap.Extensions;
 namespace InjectionMap
 {
     /// <summary>
-    /// Represents the context that is mapped to. A mapping only exists in a distinct context.
+    /// Represents a distinct context that containes the map definitions. 
+    /// A map definition only exists in one context. The context that is mapped to can be provided by the developer/user or by the system. If no context is provided, InjectionMap creates a default context.
+    /// There can be multipel contexts in a application.
     /// </summary>
     public class MappingContext : IMappingContext, IComponentCollection, IComponentProvider, IMappingProvider
     {
