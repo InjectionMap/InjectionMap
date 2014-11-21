@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>InjectionMap</id>
+        <version>1.5.4</version>
+        <title>InjectionMap</title>
+        <authors>Christian Walpen</authors>
+        <owners>Christian Walpen</owners>
+        <licenseUrl>https://github.com/InjectionMap/InjectionMap/raw/master/License.txt</licenseUrl>
+        <projectUrl>http://wicked-flame.blogspot.ch/p/injectionmap.html</projectUrl>
+        <iconUrl>https://github.com/InjectionMap/InjectionMap/raw/master/assets/InjectionMap.ico</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>InjectionMap is a very small and extremely lightweight IoC/DI container for .NET.  
+InjectionMap allows loose coupling betweeen a client's dependencies and its own behaviour. InjectionMap promotes reusability, testability and maintainability of any part of an application.
+InjectionMap supports .Net 4.5, Silverlight 5, Windows Phone 8 or higher and Windows Store apps for Windows 8 or higher.
+
+- InjectionMap uses type mapping to reference the key/reference and the implementation. 
+- Instances are resolved using reflection or can be provided through a callback whitch allows you to create the instance in your own code.
+- It suports a fluent syntax to help keep the code simple, small and clean.
+- The desired Constructors can be marked with attributes or will be selected according to the passed arguments.
+- Parameters for constructors can be injected or passed at the time of mapping as objects or as delegate expressions.
+- InjectionMap is very simple and straightforward.
+
+Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/InjectionMap on the issues page or feel free to fork the project and send a pull request.</description>
+        <summary>A small and lightweight IoC/DI container for .NET.</summary>
+        <releaseNotes>1.5.4
+- Map to and reslove from a named context
+- Add delegate or instance directly to Map&lt;T&gt;()
+- Moved Initializer methods from InjectionMapper to MapInitializer
+1.5.1
+- Rename MappingContainer to MappingContext
+- Added public accessor to MappingContext in InjectionMap
+1.5.0
+- Allow to pass a MappingContainer to InjectionMapper.Initialize(...)
+- Constructors that have to be used can be defined when creating the map or when resolving.
+1.4.8
+- Renamed IInjectionMapper to IMapInitializer
+- Moved Exceptions to base namespace
+- Moved ComponentMapper to public
+- InjectionMapper.Map&lt;T&gt;() now also maps to custom containers
+- Added ExtendAll&lt;T&gt;() to InjectionResolver to extend all registered mappings of the type
+- Changed License to Ms-PL
+- Added InjectionResolver.For&lt;T&gt;() to resolve and extend unmapped types 
+- Refactored InjectionResolver.ExtendMap&lt;T&gt;() to simply extend existing mappings
+- Added CLSComplient Attribute to assembly
+- Expression Interfaces don't inherit from IComponentExpression to prevent return values showing component properties. Expression implementaitons additionaly inherit from IComponentExpression.
+- Converted internal Ensure implementation to Extensionmethods
+- Moved Internal implementation from Resolver, Mapping and Component to InjectionMap.Internal namespace</releaseNotes>
+        <language />
+        <tags>InjectionMap IoC DI</tags>
+    </metadata>
+    <files>
+        <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\net45\InjectionMap.dll" />
+        <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\net45\InjectionMap.XML" />
+        <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\netcore45\InjectionMap.dll" />
+        <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\netcore45\InjectionMap.XML" />
+        <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\sl50\InjectionMap.dll" />
+        <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\sl50\InjectionMap.XML" />
+        <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\wp8\InjectionMap.dll" />
+        <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\wp8\InjectionMap.XML" />
+        <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\wpa81\InjectionMap.dll" />
+        <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\wpa81\InjectionMap.XML" />
+    </files>
+</package>

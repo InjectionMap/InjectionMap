@@ -22,6 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test.SL5", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A22F770C-052C-449D-88BA-871CB38406F6}"
 	ProjectSection(SolutionItems) = preProject
+		src\InjectionMap.nuspec = src\InjectionMap.nuspec
 		License.txt = License.txt
 		README.md = README.md
 	EndProjectSection
