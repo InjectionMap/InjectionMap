@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using InjectionMap.Expressions;
 using InjectionMap.Extensions;
+using InjectionMap.Composition;
 
 namespace InjectionMap.Internal
 {
@@ -136,10 +137,11 @@ namespace InjectionMap.Internal
         /// </summary>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public IBindingExpression<T> ForConstructor(Func<ConstructorCollection, ConstructorDefinition> selector)
+        public IBindingExpression<T> WithConstructor(Func<ConstructorCollection, ConstructorDefinition> selector)
         {
             // get all constructors of the mapped type
             var constructors = Component.ValueType.GetConststructorCollection();
+
             // get the selected constructor from the map
             var definition = selector.Invoke(constructors);
             foreach (var item in definition.Where(c => c.Value != null))
@@ -155,6 +157,34 @@ namespace InjectionMap.Internal
 
             return new BindingExpression<T>(Context, component);
         }
+
+        /// <summary>
+        /// Instructs InjectionMap to inject a property when resolving
+        /// </summary>
+        /// <param name="property">The property that will be injected</param>
+        /// <returns>A bindingexpression containing the mapping definition</returns>
+        public IBindingExpression<T> InjectProperty(Expression<Func<T, object>> property)
+        {
+            var factory = new TypeDefinitionFactory();
+
+            // extract propertyinfo
+            var info = factory.ExtractProperty(property);
+            var setter = factory.GetPropertySetter(info);
+
+            var definition = new PropertyDefinition
+            {
+                KeyType = info.PropertyType,
+                Property = info,
+                Setter = setter
+            };
+
+            var component = Component.CreateComponent<T>();
+            component.Properies.Add(definition);
+            Context.AddOrReplace(component);
+
+            return new BindingExpression<T>(Context, component);
+        }
+
 
         #endregion
 

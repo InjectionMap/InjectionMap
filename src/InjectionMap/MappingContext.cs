@@ -26,6 +26,9 @@ namespace InjectionMap
         #region IComponentContainer Implementation
 
         IList<IMappingComponent> _components;
+        /// <summary>
+        /// Gets a collection of components that contain the mapping definitions
+        /// </summary>
         internal IList<IMappingComponent> Components
         {
             get

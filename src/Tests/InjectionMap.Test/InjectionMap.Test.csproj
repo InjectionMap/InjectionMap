@@ -86,6 +86,7 @@
     <Compile Include="Integration\OnResolvedExpressionTests.cs" />
     <Compile Include="Integration\Mock\ConstructorInjectionMock.cs" />
     <Compile Include="Integration\ConstantScopeTest.cs" />
+    <Compile Include="Integration\PropertyInjectionTest.cs" />
     <Compile Include="Integration\ResolveValueOnMappingScopeTest.cs" />
     <Compile Include="Integration\SingletonScopeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

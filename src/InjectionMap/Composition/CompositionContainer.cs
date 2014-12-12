@@ -3,11 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using InjectionMap.Extensions;
+using InjectionMap.Tracing;
 
 namespace InjectionMap.Composition
 {
     internal class CompositionContainer : IDisposable
     {
+        internal Lazy<ILoggerFactory> LoggerFactory { get; private set; }
+
+        internal ILogger Logger
+        {
+            get
+            {
+                return LoggerFactory.Value.CreateLogger();
+            }
+        }
+
+        public CompositionContainer()
+        {
+            LoggerFactory = new Lazy<ILoggerFactory>(() => new LoggerFactory());
+        }
+
         #region Compose Implementation
 
         public T Compose<T>()
@@ -17,6 +33,8 @@ namespace InjectionMap.Composition
 
         public object Compose(Type type)
         {
+            Logger.Write(string.Format("InjectionMap - Compose Type {0}", type), "CompositionContainer", "Resolver");
+
             // check if there is a constructor marked as InjectionConstructor
             var ctor = GetComposeableConstructor(type);
             if (ctor != null)
@@ -48,17 +66,30 @@ namespace InjectionMap.Composition
         /// <returns>The composed object</returns>
         public object Compose(IMappingComponent component)
         {
+            object instance = null;
+
             // check if there is a constructor marked as InjectionConstructor
             var ctor = GetComposeableConstructor(component);
             if (ctor != null)
             {
-                return ctor.ConstructorInfo.Invoke(ctor.Parameters.Select(p => p.Value).ToArray());
+                instance = ctor.ConstructorInfo.Invoke(ctor.Parameters.Select(p => p.Value).ToArray());
+
+                Logger.Write(string.Format("InjectionMap - Create Instance of Type {0} through composed constructor", component.KeyType), "CompositionContainer", "Resolver");
             }
 
-            component.ValueType.EnsureTypeCanBeDefaultInstantiated();
+            if (instance == null)
+            {
+                component.ValueType.EnsureTypeCanBeDefaultInstantiated();
 
-            // default constructor
-            return Activator.CreateInstance(component.ValueType);
+                // default constructor
+                instance = Activator.CreateInstance(component.ValueType);
+
+                Logger.Write(string.Format("InjectionMap - Create Instance of Type {0} through default constructor", component.KeyType), "CompositionContainer", "Resolver");
+            }
+
+            InjectProperties(component, instance);
+
+            return instance;
         }
 
         /// <summary>
@@ -139,7 +170,7 @@ namespace InjectionMap.Composition
         /// <summary>
         /// Gets a constructor where all parameters can be composed 
         /// </summary>
-        /// <param name="component">The component to compose</param>
+        /// <param name="type">The component to compose</param>
         /// <returns>An ArgumentContainer containing all arguments</returns>
         private ArgumentContainer GetComposeableConstructor(Type type)
         {
@@ -276,6 +307,28 @@ namespace InjectionMap.Composition
 
 
             return null;
+        }
+
+        #endregion
+
+        #region Properties
+
+        private void InjectProperties(IMappingComponent component, object instance)
+        {
+            if (!component.Properies.Any())
+                return;
+
+            using (var resolver = new InjectionMap.Internal.ComponentResolver())
+            {
+                foreach (var property in component.Properies)
+                {
+                    var value = resolver.Get(property.KeyType);
+                    property.Setter(instance, value);
+
+                    if (value == null)
+                        Logger.Write(string.Format("InjectionMap - Could not resolve value for Property {0}", property.Property.Name), "CompositionContainer", "Resolver");
+                }
+            }
         }
 
         #endregion

@@ -49,19 +49,20 @@ namespace InjectionMap.Expressions
         /// </summary>
         /// <param name="selector"></param>
         /// <returns></returns>
-        IResolverExpression<T> ForConstructor(Func<ConstructorCollection, ConstructorDefinition> selector);
+        IResolverExpression<T> WithConstructor(Func<ConstructorCollection, ConstructorDefinition> selector);
+
+        /// <summary>
+        /// Instructs InjectionMap to inject a property when resolving
+        /// </summary>
+        /// <param name="property">The property that will be injected</param>
+        /// <returns>A resolverexpression containing the mapping definition</returns>
+        IResolverExpression<T> InjectProperty(Expression<Func<T, object>> property);
 
         /// <summary>
         /// Resolves the map
         /// </summary>
         /// <returns>The resolved value</returns>
         T Resolve();
-
-        ///// <summary>
-        ///// Resolves all mappings of type T
-        ///// </summary>
-        ///// <returns>All mappings of T</returns>
-        //IEnumerable<T> ResolveMultiple();
     }
 
     /// <summary>

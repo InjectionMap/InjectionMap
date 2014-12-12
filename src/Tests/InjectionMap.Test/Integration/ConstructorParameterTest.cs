@@ -107,7 +107,7 @@ namespace InjectionMap.Test.Integration
         {
             Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
-                .ForConstructor(cc => cc[2])
+                .WithConstructor(cc => cc[2])
                 .WithArgument(() => 2);
 
             var map = Resolver.Resolve<IMixedConstuctor>();
@@ -120,7 +120,7 @@ namespace InjectionMap.Test.Integration
         {
             Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
-                .ForConstructor(cc =>
+                .WithConstructor(cc =>
                 {
                     var constr = cc[2];
 
@@ -139,7 +139,7 @@ namespace InjectionMap.Test.Integration
         {
             Mapper.Map<IConstuctorParameter, ConstructorParameter>();
             Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
-                .ForConstructor(cc =>
+                .WithConstructor(cc =>
                 {
                     var constr = cc[2];
 
@@ -162,9 +162,26 @@ namespace InjectionMap.Test.Integration
             Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
 
             var map = Resolver.For<IMixedConstuctor>()
-                .ForConstructor(cc => cc[2])
+                .WithConstructor(cc => cc[2])
                 .WithArgument(() => 2)
                 .Resolve();
+
+            Assert.AreEqual(map.ID, 4);
+        }
+
+        [Test]
+        public void ResolvingConstructorSelectionInExtend()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
+
+            var tmp = Resolver.ExtendMap<IMixedConstuctor>()
+                .WithConstructor(cc => cc[2])
+                .WithArgument(() => 2).Resolve();
+
+            Assert.AreEqual(tmp.ID, 4);
+
+            var map = Resolver.Resolve<IMixedConstuctor>();
 
             Assert.AreEqual(map.ID, 4);
         }
@@ -176,7 +193,7 @@ namespace InjectionMap.Test.Integration
             Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
 
             var map = Resolver.For<IMixedConstuctor>()
-                .ForConstructor(cc =>
+                .WithConstructor(cc =>
                 {
                     var constr = cc[2];
 
@@ -196,7 +213,7 @@ namespace InjectionMap.Test.Integration
             Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
 
             var map = Resolver.For<IMixedConstuctor>()
-                .ForConstructor(cc =>
+                .WithConstructor(cc =>
                 {
                     var constr = cc[2];
 

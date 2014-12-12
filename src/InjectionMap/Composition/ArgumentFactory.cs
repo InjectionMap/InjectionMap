@@ -77,7 +77,5 @@ namespace InjectionMap.Composition
 
             return argument;
         }
-
-        
     }
 }

@@ -69,6 +69,13 @@ namespace InjectionMap.Expressions
         /// </summary>
         /// <param name="selector"></param>
         /// <returns></returns>
-        IBindingExpression<T> ForConstructor(Func<ConstructorCollection, ConstructorDefinition> selector);
+        IBindingExpression<T> WithConstructor(Func<ConstructorCollection, ConstructorDefinition> selector);
+
+        /// <summary>
+        /// Instructs InjectionMap to inject a property when resolving
+        /// </summary>
+        /// <param name="property">The property that will be injected</param>
+        /// <returns>A bindingexpression containing the mapping definition</returns>
+        IBindingExpression<T> InjectProperty(Expression<Func<T, object>> property);
     }
 }

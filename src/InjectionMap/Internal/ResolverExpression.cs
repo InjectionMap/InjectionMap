@@ -70,10 +70,11 @@ namespace InjectionMap.Internal
         /// </summary>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public IResolverExpression<T> ForConstructor(Func<ConstructorCollection, ConstructorDefinition> selector)
+        public IResolverExpression<T> WithConstructor(Func<ConstructorCollection, ConstructorDefinition> selector)
         {
             // get all constructors of the mapped type
             var constructors = Component.ValueType.GetConststructorCollection();
+
             // get the selected constructor from the map
             var definition = selector.Invoke(constructors);
             foreach (var item in definition.Where(c => c.Value != null))
@@ -82,9 +83,39 @@ namespace InjectionMap.Internal
                 AddArgument(item.Name, item.Value, null);
             }
             
+            // create a copy of the component because the ConstructorDefinition has no setter in the interface
+            var component = Component.CreateComponent();
+            Context.AddOrReplace(component);
+
             // mark the constructor to be selected
-            var component = Component.CreateComponent<T>();
             component.ConstructorDefinition = definition;
+
+            return new ResolverExpression<T>(Context, component);
+        }
+
+        /// <summary>
+        /// Instructs InjectionMap to inject a property when resolving
+        /// </summary>
+        /// <param name="property">The property that will be injected</param>
+        /// <returns>A resolverexpression containing the mapping definition</returns>
+        public IResolverExpression<T> InjectProperty(Expression<Func<T, object>> property)
+        {
+            var factory = new TypeDefinitionFactory();
+
+            // extract propertyinfo
+            var info = factory.ExtractProperty(property);
+            var setter = factory.GetPropertySetter(info);
+
+            var definition = new PropertyDefinition
+            {
+                KeyType = info.PropertyType,
+                Property = info,
+                Setter = setter
+            };
+
+            var component = Component.CreateComponent();
+            component.Properies.Add(definition);
+            Context.AddOrReplace(component);
 
             return new ResolverExpression<T>(Context, component);
         }
