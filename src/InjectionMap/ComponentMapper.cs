@@ -33,6 +33,17 @@ namespace InjectionMap
         #region Implementation
 
         /// <summary>
+        /// Gets the context that the map definitions are stored in
+        /// </summary>
+        public IMappingProvider Context
+        {
+            get
+            {
+                return _context;
+            }
+        }
+
+        /// <summary>
         /// Creates a Mapping to TKey
         /// </summary>
         /// <typeparam name="TKey">The type to map</typeparam>
