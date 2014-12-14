@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using InjectionMap.Expressions;
 using NUnit.Framework;
 
 namespace InjectionMap.Test.Unit

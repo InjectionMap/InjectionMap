@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace InjectionMap.Expressions
+namespace InjectionMap
 {
     /// <summary>
     /// Represents a expression that containes a key and a mapped type or object.

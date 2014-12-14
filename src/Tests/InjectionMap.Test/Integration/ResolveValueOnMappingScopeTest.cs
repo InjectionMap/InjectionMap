@@ -1,5 +1,4 @@
-﻿using InjectionMap.Expressions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace InjectionMap.Test.Integration
 {

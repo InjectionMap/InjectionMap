@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq.Expressions;
 
-namespace InjectionMap.Expressions
+namespace InjectionMap
 {
     public interface IBoundExpression<T>
     {

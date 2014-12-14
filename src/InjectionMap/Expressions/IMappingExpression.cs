@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace InjectionMap.Expressions
+namespace InjectionMap
 {
     /// <summary>
     /// Represents a expression for a mapping that containes a mapping key but does not containe a mapped type.

@@ -1,5 +1,5 @@
 ﻿
-namespace InjectionMap.Expressions
+namespace InjectionMap
 {
     public interface IComponentExpression
     {

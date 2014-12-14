@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Linq.Expressions;
 using InjectionMap.Composition;
-using InjectionMap.Expressions;
 using InjectionMap.Extensions;
 using System.Collections.Generic;
 

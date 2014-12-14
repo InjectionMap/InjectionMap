@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using InjectionMap.Expressions;
 using InjectionMap.Extensions;
 
 namespace InjectionMap.Internal

@@ -1,9 +1,11 @@
 ﻿using System;
-using InjectionMap.Expressions;
 using InjectionMap.Internal;
 
 namespace InjectionMap
 {
+    /// <summary>
+    /// A class that provides functions to map components ta a mappingcontext
+    /// </summary>
     public class ComponentMapper : IDisposable
     {
         IMappingProvider _context;

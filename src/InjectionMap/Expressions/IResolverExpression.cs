@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace InjectionMap.Expressions
+namespace InjectionMap
 {
     /// <summary>
     /// The ResolverExpression gets called when resolving existing maps. With this Expression the map can be extended with further arguments

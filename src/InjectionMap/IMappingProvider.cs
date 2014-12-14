@@ -1,5 +1,4 @@
 ﻿using System;
-using InjectionMap.Expressions;
 
 namespace InjectionMap
 {
