@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using InjectionMap.Extensions;
+using InjectionMap.Tracing;
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using InjectionMap.Tracing;
-using InjectionMap.Extensions;
 
 namespace InjectionMap.Composition
 {
-    internal delegate void PropertySetterDelegate(object instance, object value);
+    public delegate void PropertySetterDelegate(object instance, object value);
 
-    internal class TypeDefinitionFactory
+    /// <summary>
+    /// Helper class for properties
+    /// </summary>
+    public class TypeDefinitionFactory
     {
         internal Lazy<ILoggerFactory> LoggerFactory { get; private set; }
 
@@ -28,6 +28,12 @@ namespace InjectionMap.Composition
             LoggerFactory = new Lazy<ILoggerFactory>(() => new LoggerFactory());
         }
 
+        /// <summary>
+        /// Extracts the propertyinfo from a expression
+        /// </summary>
+        /// <typeparam name="T">The type containing the property</typeparam>
+        /// <param name="propertyExpression">The expression defining the property</param>
+        /// <returns>The propertyinfo of the property</returns>
         public PropertyInfo ExtractProperty<T>(Expression<Func<T, object>> propertyExpression)
         {
             propertyExpression.EnsureArgumentNotNull("propertyExpression");
@@ -63,6 +69,11 @@ namespace InjectionMap.Composition
             return propertyInfo;
         }
 
+        /// <summary>
+        /// Creates a delegate that can be used to set a value to  a property
+        /// </summary>
+        /// <param name="propertyInfo">The propertyinfo of the property</param>
+        /// <returns>A delegate to set the value</returns>
         public PropertySetterDelegate GetPropertySetter(PropertyInfo propertyInfo)
         {
             var propertySetMethod = propertyInfo.GetSetMethod();

@@ -9,10 +9,10 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WickedFlame")]
 [assembly: AssemblyProduct("InjectionMap")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright © WickedFlame 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
 
-[assembly: AssemblyVersion("1.5.5.3")]
-[assembly: AssemblyFileVersion("1.5.5.3")]
+[assembly: AssemblyVersion("1.5.5.5")]
+[assembly: AssemblyFileVersion("1.5.5.5")]
