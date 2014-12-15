@@ -1,67 +1,44 @@
-﻿using System;
+﻿using InjectionMap.Composition;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using InjectionMap.Composition;
 
 namespace InjectionMap.Internal
 {
     /// <summary>
-    /// Resolves the value from a mapped component
+    /// Resolves the value from the passed type without using the maped components. This is used when resolving from a type that was not mapped previously.
     /// </summary>
-    internal class ComponentResolver : IResolver, IDisposable
+    internal class TypeResolver : IResolver, IDisposable
     {
-        IComponentProvider _context;
-
-        /// <summary>
-        /// Creates a componentresolver
-        /// </summary>
-        public ComponentResolver()
-        {
-            _context = MappingContextManager.MappingContext;
-        }
-
-        /// <summary>
-        /// Creates a componentresolver with a custom container
-        /// </summary>
-        /// <param name="context">The <see cref="IMappingProvider"/> to resolve the mappings from</param>
-        public ComponentResolver(IComponentProvider context)
-        {
-            _context = context;
-
-            if (_context == null)
-                _context = MappingContextManager.MappingContext;
-        }
-
         #region Implementation
 
         /// <summary>
-        /// Gets the first occurance of T
+        /// Creates an instance of T
         /// </summary>
-        /// <typeparam name="T">The mapped type</typeparam>
-        /// <returns>The first occurance of T</returns>
+        /// <typeparam name="T">The type to create</typeparam>
+        /// <returns>A new instance of T</returns>
         public T Get<T>()
         {
-            return _context.Get<T>().Select(c => CompositionService.Compose<T>(c)).FirstOrDefault();
+            return CompositionService.Compose<T>();
         }
 
         /// <summary>
-        /// Gets the first occurance of the type
+        /// Creates an instance of T
         /// </summary>
-        /// <param name="type">The mapped type</param>
-        /// <returns>The first occurance of the mapped type</returns>
+        /// <param name="type">The type to create</param>
+        /// <returns>A new instance of T</returns>
         public object Get(Type type)
         {
-            return _context.Get(type).Select(c => CompositionService.Compose(c)).FirstOrDefault();
+            return CompositionService.Compose(type);
         }
 
         /// <summary>
-        /// Gets all accurances of T
+        /// Creates all instances of T
         /// </summary>
-        /// <typeparam name="T">The mapped type</typeparam>
-        /// <returns>All T</returns>
+        /// <typeparam name="T">The type to create</typeparam>
+        /// <returns>A new instance of T</returns>
         public IEnumerable<T> GetAll<T>()
         {
-            return _context.Get<T>().Select(c => CompositionService.Compose<T>(c));
+            yield return CompositionService.Compose<T>();
         }
 
         /// <summary>
@@ -71,7 +48,10 @@ namespace InjectionMap.Internal
         /// <returns>The first IMappingComponent of T</returns>
         public IMappingComponent GetComponent<T>()
         {
-            return _context.Get<T>().FirstOrDefault();
+            return new MappingComponent<T>()
+            {
+                KeyType = typeof(T)
+            };
         }
 
         /// <summary>
@@ -81,7 +61,13 @@ namespace InjectionMap.Internal
         /// <returns>All IMappingComonents of T</returns>
         public IEnumerable<IMappingComponent> GetAllComponents<T>()
         {
-            return _context.Get<T>().Where(c => c.KeyType == typeof(T));
+            return new List<IMappingComponent>
+            {
+                new MappingComponent<T>
+                {
+                    KeyType = typeof(T)
+                }
+            };
         }
 
         #endregion
@@ -110,8 +96,6 @@ namespace InjectionMap.Internal
             {
                 if (disposing && !IsDisposed)
                 {
-                    _context = null;
-
                     IsDisposed = true;
                     GC.SuppressFinalize(this);
                 }
@@ -121,7 +105,7 @@ namespace InjectionMap.Internal
         /// <summary>
         /// Releases resources before the object is reclaimed by garbage collection.
         /// </summary>
-        ~ComponentResolver()
+        ~TypeResolver()
         {
             Dispose(false);
         }

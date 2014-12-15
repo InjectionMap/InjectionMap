@@ -7,7 +7,7 @@ using InjectionMap.Tracing;
 
 namespace InjectionMap.Composition
 {
-    internal class CompositionContainer : IDisposable
+    internal class ObjectComposer : IDisposable
     {
         internal Lazy<ILoggerFactory> LoggerFactory { get; private set; }
 
@@ -19,23 +19,33 @@ namespace InjectionMap.Composition
             }
         }
 
-        public CompositionContainer()
+        public ObjectComposer()
         {
             LoggerFactory = new Lazy<ILoggerFactory>(() => new LoggerFactory());
         }
 
         #region Compose Implementation
 
+        /// <summary>
+        /// Find a component with the type key and compose an instance of type from the component
+        /// </summary>
+        /// <typeparam name="T">The key type</typeparam>
+        /// <returns>A composed instance</returns>
         public T Compose<T>()
         {
             return (T)Compose(typeof(T));
         }
 
+        /// <summary>
+        /// Find a component with the type key and compose an instance of type from the component
+        /// </summary>
+        /// <param name="type">The key type</param>
+        /// <returns>A composed instance</returns>
         public object Compose(Type type)
         {
             Logger.Write(string.Format("InjectionMap - Compose Type {0}", type), "CompositionContainer", "Resolver");
 
-            // check if there is a constructor marked as InjectionConstructor
+            // check if there is a constructor that can be composed
             var ctor = GetComposeableConstructor(type);
             if (ctor != null)
             {
@@ -68,7 +78,7 @@ namespace InjectionMap.Composition
         {
             object instance = null;
 
-            // check if there is a constructor marked as InjectionConstructor
+            // check if there is a constructor that can be composed
             var ctor = GetComposeableConstructor(component);
             if (ctor != null)
             {
@@ -258,7 +268,10 @@ namespace InjectionMap.Composition
                     if (composed != null)
                     {
                         if (!info.PushArgument(composed))
+                        {
+                            Logger.Write(string.Format("InjectionMap - A error occured while trying to resolve the mappedd type {0}. Expected Argument of type {1} could not be resolved or is not mapped for injection. Provide the Argument {1} as mapping or as Argument for constructing {0}", component.KeyType.Name, param.ParameterType.Name), "CompositionContainer", "Resolver");
                             throw new ArgumentNotDefinedException(param.ParameterType, component.KeyType);
+                        }
                     }
                     else
                     {
@@ -291,7 +304,10 @@ namespace InjectionMap.Composition
                     if (composed != null)
                     {
                         if (!info.PushArgument(composed))
+                        {
+                            Logger.Write(string.Format("InjectionMap - A error occured while trying to resolve the mappedd type {0}. Expected Argument of type {1} could not be resolved or is not mapped for injection. Provide the Argument {1} as mapping or as Argument for constructing {0}", ctor.DeclaringType.Name, param.ParameterType.Name), "CompositionContainer", "Resolver");
                             throw new ArgumentNotDefinedException(param.ParameterType, ctor.DeclaringType);
+                        }
                     }
                     else
                     {
@@ -366,7 +382,7 @@ namespace InjectionMap.Composition
         /// <summary>
         /// Releases resources before the object is reclaimed by garbage collection.
         /// </summary>
-        ~CompositionContainer()
+        ~ObjectComposer()
         {
             Dispose(false);
         }
