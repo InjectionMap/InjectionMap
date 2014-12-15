@@ -43,7 +43,7 @@ namespace InjectionMap.Composition
         /// <returns>A composed instance</returns>
         public object Compose(Type type)
         {
-            Logger.Write(string.Format("InjectionMap - Compose Type {0}", type), "CompositionContainer", "Resolver");
+            Logger.Write(string.Format("InjectionMap - Compose Type {0}", type), LogLevel.Info, "CompositionContainer", "Resolver");
 
             // check if there is a constructor that can be composed
             var ctor = GetComposeableConstructor(type);
@@ -84,7 +84,7 @@ namespace InjectionMap.Composition
             {
                 instance = ctor.ConstructorInfo.Invoke(ctor.Parameters.Select(p => p.Value).ToArray());
 
-                Logger.Write(string.Format("InjectionMap - Create Instance of Type {0} through composed constructor", component.KeyType), "CompositionContainer", "Resolver");
+                Logger.Write(string.Format("InjectionMap - Create Instance of Type {0} through composed constructor", component.KeyType), LogLevel.Info, "CompositionContainer", "Resolver");
             }
 
             if (instance == null)
@@ -94,7 +94,7 @@ namespace InjectionMap.Composition
                 // default constructor
                 instance = Activator.CreateInstance(component.ValueType);
 
-                Logger.Write(string.Format("InjectionMap - Create Instance of Type {0} through default constructor", component.KeyType), "CompositionContainer", "Resolver");
+                Logger.Write(string.Format("InjectionMap - Create Instance of Type {0} through default constructor", component.KeyType), LogLevel.Info, "CompositionContainer", "Resolver");
             }
 
             InjectProperties(component, instance);
@@ -269,7 +269,7 @@ namespace InjectionMap.Composition
                     {
                         if (!info.PushArgument(composed))
                         {
-                            Logger.Write(string.Format("InjectionMap - A error occured while trying to resolve the mappedd type {0}. Expected Argument of type {1} could not be resolved or is not mapped for injection. Provide the Argument {1} as mapping or as Argument for constructing {0}", component.KeyType.Name, param.ParameterType.Name), "CompositionContainer", "Resolver");
+                            Logger.Write(string.Format("InjectionMap - A error occured while trying to resolve the mappedd type {0}. Expected Argument of type {1} could not be resolved or is not mapped for injection. Provide the Argument {1} as mapping or as Argument for constructing {0}", component.KeyType.Name, param.ParameterType.Name), LogLevel.Error, "CompositionContainer", "Resolver");
                             throw new ArgumentNotDefinedException(param.ParameterType, component.KeyType);
                         }
                     }
@@ -305,7 +305,7 @@ namespace InjectionMap.Composition
                     {
                         if (!info.PushArgument(composed))
                         {
-                            Logger.Write(string.Format("InjectionMap - A error occured while trying to resolve the mappedd type {0}. Expected Argument of type {1} could not be resolved or is not mapped for injection. Provide the Argument {1} as mapping or as Argument for constructing {0}", ctor.DeclaringType.Name, param.ParameterType.Name), "CompositionContainer", "Resolver");
+                            Logger.Write(string.Format("InjectionMap - A error occured while trying to resolve the mappedd type {0}. Expected Argument of type {1} could not be resolved or is not mapped for injection. Provide the Argument {1} as mapping or as Argument for constructing {0}", ctor.DeclaringType.Name, param.ParameterType.Name), LogLevel.Error, "CompositionContainer", "Resolver");
                             throw new ArgumentNotDefinedException(param.ParameterType, ctor.DeclaringType);
                         }
                     }
@@ -342,7 +342,7 @@ namespace InjectionMap.Composition
                     property.Setter(instance, value);
 
                     if (value == null)
-                        Logger.Write(string.Format("InjectionMap - Could not resolve value for Property {0}", property.Property.Name), "CompositionContainer", "Resolver");
+                        Logger.Write(string.Format("InjectionMap - Could not resolve value for Property {0}", property.Property.Name), LogLevel.Warning, "CompositionContainer", "Resolver");
                 }
             }
         }

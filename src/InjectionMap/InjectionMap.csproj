@@ -104,6 +104,7 @@
     <Compile Include="Tracing\ILoggerFactory.cs" />
     <Compile Include="Tracing\Logger.cs" />
     <Compile Include="Tracing\LoggerFactory.cs" />
+    <Compile Include="Tracing\LogLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\InjectionMap.snk">

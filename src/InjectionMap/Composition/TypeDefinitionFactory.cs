@@ -49,7 +49,7 @@ namespace InjectionMap.Composition
 
                 if (memberExpression == null)
                 {
-                    Logger.Write(string.Format("InjectionMap - Cannot extract Property from expression. Expression is not a MemberAccess Expression: {0}", propertyExpression), "TypeDefinitionFactory", "Mapping");
+                    Logger.Write(string.Format("InjectionMap - Cannot extract Property from expression. Expression is not a MemberAccess Expression: {0}", propertyExpression), LogLevel.Error, "TypeDefinitionFactory", "Mapping");
                     throw new ArgumentException(string.Format("Cannot extract Property from expression. Expression is not a MemberAccess Expression: {0}", propertyExpression), "propertyExpression");
                 }
             }
@@ -57,7 +57,7 @@ namespace InjectionMap.Composition
             var propertyInfo = memberExpression.Member as PropertyInfo;
             if (propertyInfo == null)
             {
-                Logger.Write(string.Format("InjectionMap - Cannot extract Property from expression. Expression is not a PropertyInfo: {0}", propertyExpression), "TypeDefinitionFactory", "Mapping");
+                Logger.Write(string.Format("InjectionMap - Cannot extract Property from expression. Expression is not a PropertyInfo: {0}", propertyExpression), LogLevel.Warning, "TypeDefinitionFactory", "Mapping");
             }
 
             return propertyInfo;
@@ -68,7 +68,7 @@ namespace InjectionMap.Composition
             var propertySetMethod = propertyInfo.GetSetMethod();
             if (propertySetMethod == null)
             {
-                Logger.Write(string.Format("InjectionMap - Property has no setter {0}", propertyInfo.Name), "TypeDefinitionFactory", "Mapping");
+                Logger.Write(string.Format("InjectionMap - Property has no setter {0}", propertyInfo.Name), LogLevel.Warning, "TypeDefinitionFactory", "Mapping");
                 return null;
             }
 

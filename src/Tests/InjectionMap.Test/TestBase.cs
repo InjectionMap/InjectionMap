@@ -1,8 +1,14 @@
 ﻿
+using InjectionMap.Tracing;
 namespace InjectionMap.Test
 {
     public class TestBase
     {
+        static TestBase()
+        {
+            LoggerFactory.LoggerCallback = () => new TraceLogger();
+        }
+
         InjectionMapper _mapper;
         protected InjectionMapper Mapper
         {
