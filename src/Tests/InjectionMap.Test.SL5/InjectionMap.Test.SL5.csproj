@@ -53,8 +53,12 @@
       <HintPath>..\..\..\packages\SilverlightToolkit-Testing.5.2011.12.1\lib\SL5\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="nunitlite">
-      <HintPath>..\..\..\packages\NUnitLite.1.0.0\lib\sl50\nunitlite.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\packages\NUnit.3.0.0-alpha-3\lib\sl50\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunitlite, Version=3.0.5446.25271, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\NUnitLite.3.0.0-alpha-3\lib\sl5\nunitlite.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />

@@ -35,28 +35,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="InjectionMap, Version=1.5.4.1, Culture=neutral, PublicKeyToken=73071bfdb2f56bce, processorArchitecture=MSIL">
+    <Reference Include="InjectionMap, Version=1.5.5.6, Culture=neutral, PublicKeyToken=73071bfdb2f56bce, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\InjectionMap.1.5.4\lib\net45\InjectionMap.dll</HintPath>
+      <HintPath>..\..\..\packages\InjectionMap.1.5.5-RC6\lib\net45\InjectionMap.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core">
-      <HintPath>..\..\..\packages\NUnitTestAdapter.1.1\lib\nunit.core.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnitTestAdapter.1.2\lib\nunit.core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="nunit.core.interfaces">
-      <HintPath>..\..\..\packages\NUnitTestAdapter.1.1\lib\nunit.core.interfaces.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnitTestAdapter.1.2\lib\nunit.core.interfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=3.0.5446.25267, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnit.3.0.0-alpha-3\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.util">
-      <HintPath>..\..\..\packages\NUnitTestAdapter.1.1\lib\nunit.util.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnitTestAdapter.1.2\lib\nunit.util.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="NUnit.VisualStudio.TestAdapter">
-      <HintPath>..\..\..\packages\NUnitTestAdapter.1.1\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnitTestAdapter.1.2\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

@@ -27,12 +27,11 @@ namespace InjectionMap.Test.Integration
 
         [Test]
         [Description("Creates a mapping to the default container with the Extenisonmethods that fails")]
-        [ExpectedException(typeof (MappingMismatchException))]
         public void MappingExpressionExtensionWithDefaultContainer_Fail()
         {
             // create map
             var obj = new NonMappingExpressionExtensionMock(1);
-            obj.MapTo<IMappingExpressionExtension>();
+            Assert.Throws<MappingMismatchException>(() => obj.MapTo<IMappingExpressionExtension>());
         }
 
         [Test]
@@ -58,14 +57,13 @@ namespace InjectionMap.Test.Integration
 
         [Test]
         [Description("Creates a mapping to a custom container with the Extenisonmethods that fails")]
-        [ExpectedException(typeof (MappingMismatchException))]
         public void MappingExpressionExtensionWithCustomContainer_Fail()
         {
             var container = new MappingContext();
 
             // create map
             var obj = new NonMappingExpressionExtensionMock(1);
-            obj.MapTo<IMappingExpressionExtension>(container);
+            Assert.Throws<MappingMismatchException>(() => obj.MapTo<IMappingExpressionExtension>(container));
         }
 
         #region Mocks

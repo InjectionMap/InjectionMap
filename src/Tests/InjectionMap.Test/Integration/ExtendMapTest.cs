@@ -97,12 +97,12 @@ namespace InjectionMap.Test.Integration
         }
 
         [Test]
-        [ExpectedException(typeof(ResolverException))]
         public void ExtendMapOnNonexistantMapWithInterface()
         {
-            var value = Resolver.ExtendMap<IExtendMap>().Resolve();
-            Assert.IsTrue(value.ID == 1);
-            Assert.IsTrue(value.Name == "test");
+            //var value = Resolver.ExtendMap<IExtendMap>().Resolve();
+            //Assert.IsTrue(value.ID == 1);
+            //Assert.IsTrue(value.Name == "test");
+            Assert.Throws<ResolverException>(() => Resolver.ExtendMap<IExtendMap>().Resolve());
         }
 
         [Test]

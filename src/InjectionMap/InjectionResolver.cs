@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using InjectionMap.Internal;
 using InjectionMap.Extensions;
+using System.Linq.Expressions;
 
 namespace InjectionMap
 {
@@ -44,7 +45,7 @@ namespace InjectionMap
         /// Resolves the first found occurance of T
         /// </summary>
         /// <typeparam name="T">Type to resolve</typeparam>
-        /// <returns>First found mapping of T</returns>
+        /// <returns>Instance of first found mapping of T</returns>
         public T Resolve<T>()
         {
             using (var resolver = ResolverFactory.GetResolver<T>(_context))
@@ -54,28 +55,44 @@ namespace InjectionMap
         }
 
         /// <summary>
+        /// Resolves the first found occurance of T and passes the arguments to the constructor
+        /// </summary>
+        /// <typeparam name="T">Type to resolve</typeparam>
+        /// <param name="arguments">The Arguments to be passed to the constructor</param>
+        /// <returns>Instance of first found mapping of T</returns>
+        public T Resolve<T>(params Expression<Func<object>>[] arguments)
+        {
+            // create a context to store the copy of the component
+            var copyContext = new MappingContext();
+
+            using (var resolver = ResolverFactory.GetResolver<T>(_context))
+            {
+                // create a copy of the component and add all arguments
+                var component = resolver.GetComponent<T>().CreateComponent();
+                var expression = component.CreateResolverExpression<T>(copyContext);
+                foreach (var argument in arguments)
+                {
+                    expression.WithArgument(argument);
+                }
+            }
+
+            // resolve from the new context
+            using (var resolver = ResolverFactory.GetResolver<T>(copyContext))
+            {
+                return resolver.Get<T>();
+            }
+        }
+
+        /// <summary>
         /// Resolves the first found occurance of the type
         /// </summary>
         /// <param name="type">the type to resolve</param>
-        /// <returns>First found mappinf of type</returns>
+        /// <returns>Instance of first found mapping of type</returns>
         public object Resolve(Type type)
         {
             using (var resolver = ResolverFactory.GetResolver(type, _context))
             {
                 return resolver.Get(type);
-            }
-        }
-
-        /// <summary>
-        /// Resolves all mappings of type T
-        /// </summary>
-        /// <typeparam name="T">Type to resolve</typeparam>
-        /// <returns>All mappings of T</returns>
-        public IEnumerable<T> ResolveMultiple<T>()
-        {
-            using (var resolver = ResolverFactory.GetResolver<T>(_context))
-            {
-                return resolver.GetAll<T>();
             }
         }
 
@@ -90,6 +107,49 @@ namespace InjectionMap
             using (var resolver = ResolverFactory.GetResolver<T>(context))
             {
                 return resolver.Get<T>();
+            }
+        }
+
+        /// <summary>
+        /// Resolves T from the given context and passes the arguments to the constructor
+        /// </summary>
+        /// <typeparam name="T">The type to resolve</typeparam>
+        /// <param name="context">The container to resolve from</param>
+        /// <param name="arguments">The arguments for the constructor</param>
+        /// <returns>A instance of T</returns>
+        public T Resolve<T>(IMappingContext context, params Expression<Func<object>>[] arguments)
+        {
+            // create a context to store the copy of the component
+            var copyContext = new MappingContext();
+
+            using (var resolver = ResolverFactory.GetResolver<T>(context))
+            {
+                // create a copy of the component and add all arguments
+                var component = resolver.GetComponent<T>().CreateComponent();
+                var expression = component.CreateResolverExpression<T>(copyContext);
+                foreach (var argument in arguments)
+                {
+                    expression.WithArgument(argument);
+                }
+            }
+
+            // resolve from the new context
+            using (var resolver = ResolverFactory.GetResolver<T>(copyContext))
+            {
+                return resolver.Get<T>();
+            }
+        }
+
+        /// <summary>
+        /// Resolves all mappings of type T
+        /// </summary>
+        /// <typeparam name="T">Type to resolve</typeparam>
+        /// <returns>All mappings of T</returns>
+        public IEnumerable<T> ResolveMultiple<T>()
+        {
+            using (var resolver = ResolverFactory.GetResolver<T>(_context))
+            {
+                return resolver.GetAll<T>();
             }
         }
 

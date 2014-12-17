@@ -14,5 +14,5 @@ using System.Reflection;
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
 
-[assembly: AssemblyVersion("1.5.5.6")]
-[assembly: AssemblyFileVersion("1.5.5.6")]
+[assembly: AssemblyVersion("1.5.5.7")]
+[assembly: AssemblyFileVersion("1.5.5.7")]

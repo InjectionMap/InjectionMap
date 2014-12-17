@@ -116,6 +116,8 @@ namespace InjectionMap.Extensions
             // create a copy of the component to leave the original as is
             var copy = component.CreateComponent();
 
+            container.AddOrReplace(copy);
+
             // create the ResolverExpression
             return new ResolverExpression<T>(container, copy);
         }
