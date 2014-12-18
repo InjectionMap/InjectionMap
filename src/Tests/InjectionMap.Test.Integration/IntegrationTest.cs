@@ -7,6 +7,11 @@ namespace InjectionMap.Test.Integration
     [TestFixture]
     public class IntegrationTest
     {
+        static IntegrationTest()
+        {
+            InjectionMap.Tracing.LoggerFactory.LoggerCallback = () => new TraceLogger();
+        }
+
         [SetUp]
         public void Initialize()
         {

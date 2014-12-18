@@ -52,6 +52,13 @@ namespace InjectionMap
         IResolverExpression<T> WithConstructor(Func<ConstructorCollection, ConstructorDefinition> selector);
 
         /// <summary>
+        /// Defines the constructor based on the type of arguments that are contained as parameters
+        /// </summary>
+        /// <param name="parameterTypes">The types of the parameters contained in the desired constructor</param>
+        /// <returns></returns>
+        IResolverExpression<T> WithConstructor(params Type[] parameterTypes);
+
+        /// <summary>
         /// Instructs InjectionMap to inject a property when resolving
         /// </summary>
         /// <param name="property">The property that will be injected</param>

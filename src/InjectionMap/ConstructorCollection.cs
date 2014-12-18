@@ -7,16 +7,21 @@ using System.Reflection;
 namespace InjectionMap
 {
     /// <summary>
-    /// Class that is used to define and select constructors when creating a map or resolving
+    /// Class that is used to define and select constructors when creating a map or resolving.
     /// </summary>
     public class ConstructorCollection : IEnumerable<ConstructorDefinition>
     {
-        readonly List<ConstructorDefinition> _items = new List<ConstructorDefinition>();
+        private readonly List<ConstructorDefinition> _items = new List<ConstructorDefinition>();
 
         public ConstructorCollection()
         {
         }
 
+        /// <summary>
+        /// Gets a constructordefinition by index
+        /// </summary>
+        /// <param name="id">The index of the constructor</param>
+        /// <returns>The constructordefinition of the constructor</returns>
         public ConstructorDefinition this[int id]
         {
             get
@@ -25,6 +30,10 @@ namespace InjectionMap
             }
         }
 
+        /// <summary>
+        /// Adds a constructordefinition to the collection
+        /// </summary>
+        /// <param name="definition">The constructordefinition</param>
         internal void Add(ConstructorDefinition definition)
         {
             _items.Add(definition);
@@ -41,20 +50,34 @@ namespace InjectionMap
         }
     }
 
+    /// <summary>
+    /// Represents a constructor with all arguments/parameters of a object
+    /// </summary>
     public interface IConstructorDefinition
     {
         // TODO: hide this? don't show to public?
+        /// <summary>
+        /// The Constructorinfo
+        /// </summary>
         ConstructorInfo ConstructorInfo { get; }
     }
 
+    /// <summary>
+    /// Represents a constructor with all arguments/parameters of a object
+    /// </summary>
     public class ConstructorDefinition : IEnumerable<ConstructorArgument>, IConstructorDefinition
     {
-        readonly List<ConstructorArgument> _items = new List<ConstructorArgument>();
+        private readonly List<ConstructorArgument> _items = new List<ConstructorArgument>();
 
         public ConstructorDefinition()
         {
         }
 
+        /// <summary>
+        /// Gets the arguments by index
+        /// </summary>
+        /// <param name="id">The index of the argument</param>
+        /// <returns>Constructorargument</returns>
         public ConstructorArgument this[int id]
         {
             get
@@ -63,6 +86,11 @@ namespace InjectionMap
             }
         }
 
+        /// <summary>
+        /// Gets the arguments by index
+        /// </summary>
+        /// <param name="name">The name of the parameter</param>
+        /// <returns>Constructorargument</returns>
         public ConstructorArgument this[string name]
         {
             get
@@ -71,12 +99,19 @@ namespace InjectionMap
             }
         }
 
+        /// <summary>
+        /// Adds a contstructorargument to the collection
+        /// </summary>
+        /// <param name="argument">The argument for the collection</param>
         internal void Add(ConstructorArgument argument)
         {
             _items.Add(argument);
         }
 
         // TODO: hide this? don't show to public?
+        /// <summary>
+        /// The Constructorinfo
+        /// </summary>
         public ConstructorInfo ConstructorInfo { get; set; }
 
         public IEnumerator<ConstructorArgument> GetEnumerator()
@@ -90,11 +125,21 @@ namespace InjectionMap
         }
     }
 
+    /// <summary>
+    /// Represents a argument/parameter of a constructor
+    /// </summary>
     public class ConstructorArgument : IArgument
     {
+        /// <summary>
+        /// The name of the parameter
+        /// </summary>
         public string Name { get; internal set; }
 
         object _value;
+
+        /// <summary>
+        /// The value that is passed to the constructor
+        /// </summary>
         public object Value
         {
             get
@@ -109,6 +154,9 @@ namespace InjectionMap
             }
         }
 
+        /// <summary>
+        /// The type of the parameter
+        /// </summary>
         public Type Type { get; internal set; }
     }
 }

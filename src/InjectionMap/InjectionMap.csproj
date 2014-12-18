@@ -54,6 +54,7 @@
     <Compile Include="ConstructorCollection.cs" />
     <Compile Include="Enums\InjectionFlags.cs" />
     <Compile Include="Exceptions\ArgumentNotDefinedException.cs" />
+    <Compile Include="Exceptions\InvalidConstructorException.cs" />
     <Compile Include="Exceptions\ResolverException.cs" />
     <Compile Include="Extensions\EnsureExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />

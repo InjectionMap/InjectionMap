@@ -153,6 +153,55 @@ namespace InjectionMap.Test.Integration
             Assert.AreEqual(map.ID, 4);
         }
 
+        [Test]
+        public void MappingConstructorSelectionWithTypeDefinition()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
+                .WithConstructor(typeof(IConstuctorParameter), typeof(int))
+                .WithArgument(() => 5);
+
+            var map = Resolver.Resolve<IMixedConstuctor>();
+
+            Assert.AreEqual(map.ID, 7);
+        }
+
+        [Test]
+        public void MappingConstructorSelectionWithTypeDefinition_WrongOrder()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
+                .WithConstructor(typeof(int), typeof(IConstuctorParameter))
+                .WithArgument(() => 5);
+
+            var map = Resolver.Resolve<IMixedConstuctor>();
+
+            Assert.AreEqual(map.ID, 7);
+        }
+
+        [Test]
+        public void MappingConstructorSelectionWithTypeDefinition_WrongOrderAndTooMany()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+
+            Assert.Throws<InvalidConstructorException>(() => Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
+                .WithConstructor(typeof(int), typeof(string), typeof(DataAttribute), typeof(IConstuctorParameter))
+                .WithArgument(() => 5)
+                .Resolve());
+        }
+
+        [Test]
+        public void MappingConstructorSelectionWithTypeDefinition_WrongOrderAndNotEnough()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+
+            Assert.Throws<InvalidConstructorException>(() => Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>()
+                .WithConstructor(typeof(IConstuctorParameter))
+                .WithArgument(() => 5)
+                .Resolve());
+        }
+
+
 
 
         [Test]
@@ -226,7 +275,72 @@ namespace InjectionMap.Test.Integration
             Assert.AreEqual(map.ID, 4);
         }
 
+        [Test]
+        public void ResolvingConstructorSelectionWithoutEditingArguments()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
 
+            var map = Resolver.For<IMixedConstuctor>()
+                .WithConstructor(cc => cc[2])
+                .WithArgument(() => 2)
+                .WithArgument(() => 3)
+                .Resolve();
+
+            Assert.AreEqual(map.ID, 4);
+        }
+
+        [Test]
+        public void ResolvingConstructorSelectionWithTypeDefinition()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
+
+            var map = Resolver.For<IMixedConstuctor>()
+                .WithConstructor(typeof(IConstuctorParameter), typeof(int))
+                .WithArgument(() => 5)
+                .Resolve();
+
+            Assert.AreEqual(map.ID, 7);
+        }
+
+        [Test]
+        public void ResolvingConstructorSelectionWithTypeDefinition_WrongOrder()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
+
+            var map = Resolver.For<IMixedConstuctor>()
+                .WithConstructor(typeof(int), typeof(IConstuctorParameter))
+                .WithArgument(() => 5)
+                .Resolve();
+
+            Assert.AreEqual(map.ID, 7);
+        }
+
+        [Test]
+        public void ResolvingConstructorSelectionWithTypeDefinition_WrongOrderAndTooMany()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
+
+            Assert.Throws<InvalidConstructorException>(() => Resolver.For<IMixedConstuctor>()
+                .WithConstructor(typeof(int), typeof(string), typeof(DataAttribute), typeof(IConstuctorParameter))
+                .WithArgument(() => 5)
+                .Resolve());
+        }
+
+        [Test]
+        public void ResolvingConstructorSelectionWithTypeDefinition_WrongOrderAndNotEnough()
+        {
+            Mapper.Map<IConstuctorParameter, ConstructorParameter>();
+            Mapper.Map<IMixedConstuctor, MixedWitDefaultConstuctor>();
+
+            Assert.Throws<InvalidConstructorException>(() => Resolver.For<IMixedConstuctor>()
+                .WithConstructor(typeof(IConstuctorParameter))
+                .WithArgument(() => 5)
+                .Resolve());
+        }
 
         #region Mocks
 
@@ -292,6 +406,11 @@ namespace InjectionMap.Test.Integration
             public MixedWitDefaultConstuctor(IConstuctorParameter cp, int value)
             {
                 ID = cp.ID + value;
+            }
+
+            public MixedWitDefaultConstuctor(IConstuctorParameter cp, int value, int value2)
+            {
+                ID = cp.ID + value + value2;
             }
 
             public int ID { get; private set; }

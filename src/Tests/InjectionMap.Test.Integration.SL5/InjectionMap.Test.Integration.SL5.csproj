@@ -77,6 +77,9 @@
     <Compile Include="..\InjectionMap.Test.Integration\IntegrationTest.cs">
       <Link>IntegrationTest.cs</Link>
     </Compile>
+    <Compile Include="..\InjectionMap.Test.Integration\TraceLogger.cs">
+      <Link>TraceLogger.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

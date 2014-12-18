@@ -4,6 +4,8 @@ using System.Linq.Expressions;
 using InjectionMap.Composition;
 using InjectionMap.Extensions;
 using System.Collections.Generic;
+using System.Text;
+using InjectionMap.Tracing;
 
 namespace InjectionMap.Internal
 {
@@ -13,9 +15,20 @@ namespace InjectionMap.Internal
     /// <typeparam name="T">Key type</typeparam>
     internal class ResolverExpression<T> : ComponentExpression, IResolverExpression<T>, IComponentExpression
     {
+        internal Lazy<ILoggerFactory> LoggerFactory { get; private set; }
+
+        internal ILogger Logger
+        {
+            get
+            {
+                return LoggerFactory.Value.CreateLogger();
+            }
+        }
+
         public ResolverExpression(IComponentCollection context, IMappingComponent component)
             : base(context, component)
         {
+            LoggerFactory = new Lazy<ILoggerFactory>(() => new LoggerFactory());
         }
 
         /// <summary>
@@ -79,9 +92,100 @@ namespace InjectionMap.Internal
             foreach (var item in definition.Where(c => c.Value != null))
             {
                 // add all arguments that were added in the mapping
+                // this means that the value was set in the selector
                 AddArgument(item.Name, item.Value, null);
             }
             
+            // create a copy of the component because the ConstructorDefinition has no setter in the interface
+            var component = Component.CreateComponent();
+            Context.AddOrReplace(component);
+
+            // mark the constructor to be selected
+            component.ConstructorDefinition = definition;
+
+            return new ResolverExpression<T>(Context, component);
+        }
+
+        /// <summary>
+        /// Defines the constructor based on the type of arguments that are contained as parameters
+        /// </summary>
+        /// <param name="parameterTypes">The types of the parameters contained in the desired constructor</param>
+        /// <returns></returns>
+        public IResolverExpression<T> WithConstructor(params Type[] parameterTypes)
+        {
+            IConstructorDefinition definition = null;
+
+            // try to find the constructor that matches the parameter types
+            if (parameterTypes.Any())
+            {
+                var constructors = Component.ValueType.GetConststructorCollection();
+                foreach (var ctor in constructors)
+                {
+                    var ctorParameters = ctor.ConstructorInfo.GetParameters();
+                    if (ctorParameters.Count() != parameterTypes.Count())
+                        continue;
+
+                    definition = ctor;
+
+                    // check if parameters in corect order
+                    // create a copy
+                    var parameterTypeCopy = parameterTypes.ToList();
+                    foreach (var ctorParam in ctorParameters)
+                    {
+                        var tmpParam = parameterTypeCopy.FirstOrDefault();
+                        if (tmpParam == null || tmpParam != ctorParam.ParameterType)
+                        {
+                            definition = null;
+                            break;
+                        }
+
+                        parameterTypeCopy.RemoveAt(0);
+                    }
+
+                    if (!parameterTypeCopy.Any())
+                    {
+                        // all parameters were matched in the correct order
+                        break;
+                    }
+
+                    definition = ctor;
+
+                    // check if parameters are in incorect order
+                    // create a copy
+                    parameterTypeCopy = parameterTypes/*.Select(p => p.Invoke())*/.ToList();
+                    foreach (var ctorParam in ctorParameters)
+                    {
+                        var tmpParam = parameterTypeCopy.FirstOrDefault(p => p == ctorParam.ParameterType);
+                        if (tmpParam == null)
+                        {
+                            definition = null;
+                            break;
+                        }
+
+                        parameterTypeCopy.Remove(tmpParam);
+                    }
+
+                    if (!parameterTypeCopy.Any())
+                    {
+                        // all parameters were matched in the correct order
+                        break;
+                    }
+                }
+
+                if (definition == null)
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendLine("Could not find a constructor that can be accessed based on the arguments passed");
+                    foreach (var param in parameterTypes)
+                    {
+                        sb.AppendLine(string.Format("Parameter type: {0}", param.Name));
+                    }
+
+                    Logger.Write(string.Format("InjectionMap - {0}", sb.ToString()), LogLevel.Error, "ResolverExpression", "Resolver", DateTime.Now);
+                    throw new InvalidConstructorException(sb.ToString());
+                }
+            }
+
             // create a copy of the component because the ConstructorDefinition has no setter in the interface
             var component = Component.CreateComponent();
             Context.AddOrReplace(component);
