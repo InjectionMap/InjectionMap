@@ -65,9 +65,9 @@ namespace InjectionMap
     /// <summary>
     /// Represents a constructor with all arguments/parameters of a object
     /// </summary>
-    public class ConstructorDefinition : IEnumerable<ConstructorArgument>, IConstructorDefinition
+    public class ConstructorDefinition : IEnumerable<Argument>, IConstructorDefinition
     {
-        private readonly List<ConstructorArgument> _items = new List<ConstructorArgument>();
+        private readonly List<Argument> _items = new List<Argument>();
 
         public ConstructorDefinition()
         {
@@ -78,7 +78,7 @@ namespace InjectionMap
         /// </summary>
         /// <param name="id">The index of the argument</param>
         /// <returns>Constructorargument</returns>
-        public ConstructorArgument this[int id]
+        public Argument this[int id]
         {
             get
             {
@@ -91,7 +91,7 @@ namespace InjectionMap
         /// </summary>
         /// <param name="name">The name of the parameter</param>
         /// <returns>Constructorargument</returns>
-        public ConstructorArgument this[string name]
+        public Argument this[string name]
         {
             get
             {
@@ -103,7 +103,7 @@ namespace InjectionMap
         /// Adds a contstructorargument to the collection
         /// </summary>
         /// <param name="argument">The argument for the collection</param>
-        internal void Add(ConstructorArgument argument)
+        internal void Add(Argument argument)
         {
             _items.Add(argument);
         }
@@ -114,7 +114,7 @@ namespace InjectionMap
         /// </summary>
         public ConstructorInfo ConstructorInfo { get; set; }
 
-        public IEnumerator<ConstructorArgument> GetEnumerator()
+        public IEnumerator<Argument> GetEnumerator()
         {
             return _items.GetEnumerator();
         }
@@ -128,8 +128,36 @@ namespace InjectionMap
     /// <summary>
     /// Represents a argument/parameter of a constructor
     /// </summary>
-    public class ConstructorArgument : IArgument
+    public class Argument : IArgument
     {
+        public Argument()
+        {
+        }
+
+        public Argument(object value)
+        {
+            Value = value;
+            Type = value.GetType();
+        }
+
+        public Argument(string name, object value)
+        {
+            Name = name;
+            Value = value;
+            Type = value.GetType();
+        }
+
+        public Argument(Type type)
+        {
+            Type = type;
+        }
+
+        public Argument(string name, Type type)
+        {
+            Name = name;
+            Type = type;
+        }
+
         /// <summary>
         /// The name of the parameter
         /// </summary>
@@ -149,7 +177,7 @@ namespace InjectionMap
             set
             {
                 _value = value;
-                if (value != null && value.GetType() != Type)
+                if (value != null && Type != null && value.GetType() != Type)
                     throw new ArgumentException(string.Format("Value passed to the constructor argument does not match the type defined in the constructor. Value is of type {0} but expected was Type {1}", value.GetType(), Type));
             }
         }

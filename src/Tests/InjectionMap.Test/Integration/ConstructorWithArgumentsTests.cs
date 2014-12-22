@@ -111,8 +111,30 @@ namespace InjectionMap.Test.Integration
             map = Resolver.Resolve<IConstructorArgumentMock>(() => "Number", () => 3);
             Assert.IsTrue(map.ID == "Number 3");
 
-            map = Resolver.Resolve<IConstructorArgumentMock>(() => "Number", () => 4, () => "test", () => new ConstructorArgument());
+            map = Resolver.Resolve<IConstructorArgumentMock>(() => "Number", () => 4, () => "test", () => new Argument());
             Assert.IsTrue(map.ID == "Number 4");
+        }
+
+        [Test]
+        public void ConstructorWithArgumentsInResolver()
+        {
+            Mapper.Clean<IConstructorArgumentMock>();
+            Mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>();
+            
+            var map = Resolver.Resolve<IConstructorArgumentMock>(new Argument(2), new Argument("Number"));
+            Assert.IsTrue(map.ID == "Number 2");
+
+            map = Resolver.Resolve<IConstructorArgumentMock>(new Argument("Number"), new Argument(3));
+            Assert.IsTrue(map.ID == "Number 3");
+
+            map = Resolver.Resolve<IConstructorArgumentMock>(new Argument("Number"), new Argument(4), new Argument("test"), new Argument(new Argument()));
+            Assert.IsTrue(map.ID == "Number 4");
+
+            map = Resolver.Resolve<IConstructorArgumentMock>(new Argument("id", 2), new Argument("message", "Number"));
+            Assert.IsTrue(map.ID == "Number 2");
+            
+            map = Resolver.Resolve<IConstructorArgumentMock>(new Argument("message", "Number"), new Argument("id", 3));
+            Assert.IsTrue(map.ID == "Number 3");
         }
 
         [Test]
@@ -132,8 +154,35 @@ namespace InjectionMap.Test.Integration
             map = Resolver.Resolve<IConstructorArgumentMock>(context, () => "Number", () => 3);
             Assert.IsTrue(map.ID == "Number 3");
 
-            map = Resolver.Resolve<IConstructorArgumentMock>(context, () => "Number", () => 4, () => "test", () => new ConstructorArgument());
+            map = Resolver.Resolve<IConstructorArgumentMock>(context, () => "Number", () => 4, () => "test", () => new Argument());
             Assert.IsTrue(map.ID == "Number 4");
+        }
+
+        [Test]
+        public void ConstructorWithArgumentInResolverWithCustomContext()
+        {
+            var context = new MappingContext();
+
+            using (var mapper = new InjectionMapper(context))
+            {
+                mapper.Clean<IConstructorArgumentMock>();
+                mapper.Map<IConstructorArgumentMock, ConstructorArgumentMock>();
+            }
+
+            var map = Resolver.Resolve<IConstructorArgumentMock>(context, new Argument(2), new Argument("Number"));
+            Assert.IsTrue(map.ID == "Number 2");
+
+            map = Resolver.Resolve<IConstructorArgumentMock>(context, new Argument("Number"), new Argument(3));
+            Assert.IsTrue(map.ID == "Number 3");
+
+            map = Resolver.Resolve<IConstructorArgumentMock>(context, new Argument("Number"), new Argument(4), new Argument("test"), new Argument(new Argument()));
+            Assert.IsTrue(map.ID == "Number 4");
+
+            map = Resolver.Resolve<IConstructorArgumentMock>(context, new Argument("id", 2), new Argument("message", "Number"));
+            Assert.IsTrue(map.ID == "Number 2");
+
+            map = Resolver.Resolve<IConstructorArgumentMock>(context, new Argument("message", "Number"), new Argument("id", 3));
+            Assert.IsTrue(map.ID == "Number 3");
         }
     }
 }

@@ -84,6 +84,35 @@ namespace InjectionMap
         }
 
         /// <summary>
+        /// Resolves the first found occurance of T and passes the arguments to the constructor
+        /// </summary>
+        /// <typeparam name="T">Type to resolve</typeparam>
+        /// <param name="arguments">The Arguments to be passed to the constructor</param>
+        /// <returns>Instance of first found mapping of T</returns>
+        public T Resolve<T>(params Argument[] arguments)
+        {
+            // create a context to store the copy of the component
+            var copyContext = new MappingContext();
+
+            using (var resolver = ResolverFactory.GetResolver<T>(_context))
+            {
+                // create a copy of the component and add all arguments
+                var component = resolver.GetComponent<T>().CreateComponent();
+                var expression = component.CreateResolverExpression<T>(copyContext);
+                foreach (var argument in arguments)
+                {
+                    expression.WithArgument(argument.Name, argument.Value);
+                }
+            }
+
+            // resolve from the new context
+            using (var resolver = ResolverFactory.GetResolver<T>(copyContext))
+            {
+                return resolver.Get<T>();
+            }
+        }
+
+        /// <summary>
         /// Resolves the first found occurance of the type
         /// </summary>
         /// <param name="type">the type to resolve</param>
@@ -130,6 +159,36 @@ namespace InjectionMap
                 foreach (var argument in arguments)
                 {
                     expression.WithArgument(argument);
+                }
+            }
+
+            // resolve from the new context
+            using (var resolver = ResolverFactory.GetResolver<T>(copyContext))
+            {
+                return resolver.Get<T>();
+            }
+        }
+
+        /// <summary>
+        /// Resolves T from the given context and passes the arguments to the constructor
+        /// </summary>
+        /// <typeparam name="T">The type to resolve</typeparam>
+        /// <param name="context">The container to resolve from</param>
+        /// <param name="arguments">The arguments for the constructor</param>
+        /// <returns>A instance of T</returns>
+        public T Resolve<T>(IMappingContext context, params Argument[] arguments)
+        {
+            // create a context to store the copy of the component
+            var copyContext = new MappingContext();
+
+            using (var resolver = ResolverFactory.GetResolver<T>(context))
+            {
+                // create a copy of the component and add all arguments
+                var component = resolver.GetComponent<T>().CreateComponent();
+                var expression = component.CreateResolverExpression<T>(copyContext);
+                foreach (var argument in arguments)
+                {
+                    expression.WithArgument(argument.Name, argument.Value);
                 }
             }
 

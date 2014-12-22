@@ -23,7 +23,7 @@ namespace InjectionMap.Extensions
 
                 foreach (var argument in arguments)
                 {
-                    definition.Add(new ConstructorArgument
+                    definition.Add(new Argument
                     {
                         Name = argument.Name,
                         Type = argument.ParameterType

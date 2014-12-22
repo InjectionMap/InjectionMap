@@ -152,7 +152,7 @@ namespace InjectionMap.Internal
 
                     // check if parameters are in incorect order
                     // create a copy
-                    parameterTypeCopy = parameterTypes/*.Select(p => p.Invoke())*/.ToList();
+                    parameterTypeCopy = parameterTypes.ToList();
                     foreach (var ctorParam in ctorParameters)
                     {
                         var tmpParam = parameterTypeCopy.FirstOrDefault(p => p == ctorParam.ParameterType);
