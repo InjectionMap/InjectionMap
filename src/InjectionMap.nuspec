@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>InjectionMap</id>
-        <version>1.5.5-RC7</version>
+        <version>1.5.5-RC9</version>
         <title>InjectionMap</title>
         <authors>Christian Walpen</authors>
         <owners>Christian Walpen</owners>
@@ -27,6 +27,8 @@ Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/
 1.5.5
 - Added: PropertyInjection
 - Added: Pass arguments for constructors directly in resolver method
+- Added: Select constructor based on the type of the parameters needed
+- Added: Pass InjectionMap.Argument as arguments instances to resolver
 - Added: Logging/Tracing
 - Refactored: Moved Expression Interfaces to default namespace
 - Refactored: ComponentMapper - Allow access to Context from public

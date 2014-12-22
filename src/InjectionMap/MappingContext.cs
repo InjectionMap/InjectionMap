@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using InjectionMap.Internal;
 using InjectionMap.Extensions;
+using System.Linq.Expressions;
 
 namespace InjectionMap
 {
@@ -170,6 +171,17 @@ namespace InjectionMap
         public IBindingExpression<TMap> Map<TKey, TMap>() where TMap : TKey
         {
             return MappingContext.MapInternal<TKey>(this).For<TMap>();
+        }
+
+        /// <summary>
+        /// Creates a mapping to TKey with TMap
+        /// </summary>
+        /// <typeparam name="TKey">The key type to map</typeparam>
+        /// <param name="mappedValue"></param>
+        /// <returns>The expression for the mapping</returns>
+        public IBindingExpression<TKey> Map<TKey>(Expression<Func<TKey>> mappedValue)
+        {
+            return MappingContext.MapInternal<TKey>(this).For<TKey>(mappedValue);
         }
 
         /// <summary>

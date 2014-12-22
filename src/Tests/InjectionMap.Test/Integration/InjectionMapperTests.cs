@@ -1,9 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InjectionMap.Test.Integration
 {
@@ -138,6 +134,26 @@ namespace InjectionMap.Test.Integration
                 mapper.Clean<ICustomMock>();
 
                 mapper.Map<ICustomMock>().For(() => new CustomMock());
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                // resolve
+                var map1 = resolver.ResolveMultiple<ICustomMock>();
+
+                Assert.IsTrue(map1.Count() == 1);
+            }
+        }
+
+        [Test]
+        public void InjectionMapperWithValueCallbackInMapTest()
+        {
+            using (var mapper = new InjectionMapper())
+            {
+                // clean all previous mappings to ensure test
+                mapper.Clean<ICustomMock>();
+
+                mapper.Map<ICustomMock>(() => new CustomMock());
             }
 
             using (var resolver = new InjectionResolver())

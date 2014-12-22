@@ -207,6 +207,23 @@ namespace InjectionMap.Test.Integration
                 Assert.AreEqual(mapp2.ID, 2);
             }
         }
+
+        [Test]
+        public void MapInitializerWithValueAsPredicateTest()
+        {
+            var container = new MappingContext();
+            var initializer = new MapInitializer(container);
+            initializer.Initialize(new MapInitializerWithValueAsPredicateMock());
+
+            // get mappings from custom container
+            using (var resolver = new InjectionResolver(container))
+            {
+                // create multiple instances
+                var mapp1 = resolver.Resolve<ICustomMock>();
+                var mapp2 = resolver.Resolve<ICustomMock>();
+                Assert.AreSame(mapp2, mapp1);
+            }
+        }
         
         #region Mocks
 
@@ -231,6 +248,14 @@ namespace InjectionMap.Test.Integration
             {
                 container.Map<IInjectionMapperMock1, InjectionMapperMock1>();
                 container.Map<IInjectionMapperMock2>().For<InjectionMapperMock2>();
+            }
+        }
+
+        private class MapInitializerWithValueAsPredicateMock : IMapInitializer
+        {
+            public void InitializeMap(IMappingProvider container)
+            {
+                container.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.AsConstant);
             }
         }
 

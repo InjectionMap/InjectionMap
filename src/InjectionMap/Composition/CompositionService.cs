@@ -20,6 +20,10 @@ namespace InjectionMap.Composition
                 // return callback if provided
                 var value = (T)component.ValueCallback.Compile().Invoke();
 
+                // make sure the composed value is reused next time when mapped as constant
+                if (component.MappingConfiguration.AsConstant)
+                    component.ValueCallback = () => value;
+
                 if (component.OnResolvedCallback != null)
                     component.OnResolvedCallback(value);
 
@@ -52,6 +56,10 @@ namespace InjectionMap.Composition
             {
                 // return callback if provided
                 var value = component.ValueCallback.Compile().Invoke();
+
+                // make sure the composed value is reused next time when mapped as constant
+                if (component.MappingConfiguration.AsConstant)
+                    component.ValueCallback = () => value;
 
                 if (component.OnResolvedCallback != null)
                     component.OnResolvedCallback(value);
