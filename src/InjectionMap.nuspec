@@ -29,9 +29,13 @@ Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/
 - Added: Pass arguments for constructors directly in resolver method
 - Added: Select constructor based on the type of the parameters needed
 - Added: Pass InjectionMap.Argument as arguments instances to resolver
+- Added: Set delegate providing resolved value directly in Map
 - Added: Logging/Tracing
+- Fixed: AsConstant didn't allways return same value
 - Refactored: Moved Expression Interfaces to default namespace
 - Refactored: ComponentMapper - Allow access to Context from public
+- Refactored: Renamed InjectionFlags.AsConstant to InjectionFlags.Singleton
+- Refactored: Renamed InjectionFlags.AsSingleton to InjectionFlags.OverrideAllExisting
 1.5.4
 - Map to and reslove from a named context
 - Add delegate or instance directly to Map&lt;T&gt;()

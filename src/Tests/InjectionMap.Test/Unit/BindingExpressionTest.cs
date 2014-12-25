@@ -114,7 +114,7 @@ namespace InjectionMap.Test.Unit
         public void BindingExpressionWithConfigurationAsConstant()
         {
             var be = GetMap();
-            var bound = be.WithConfiguration(InjectionFlags.AsConstant);
+            var bound = be.WithConfiguration(InjectionFlags.Singleton);
             var ce = bound as IComponentExpression;
 
             Assert.IsNotNull(ce);
@@ -128,7 +128,7 @@ namespace InjectionMap.Test.Unit
         public void BindingExpressionWithConfigurationAsSingleton()
         {
             var be = GetMap();
-            var bound = be.WithConfiguration(InjectionFlags.AsSingleton);
+            var bound = be.WithConfiguration(InjectionFlags.OverrideAllExisting);
             var ce = bound as IComponentExpression;
 
             Assert.IsNotNull(ce);

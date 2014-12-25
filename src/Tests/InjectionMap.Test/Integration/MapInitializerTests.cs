@@ -255,7 +255,7 @@ namespace InjectionMap.Test.Integration
         {
             public void InitializeMap(IMappingProvider container)
             {
-                container.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.AsConstant);
+                container.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.Singleton);
             }
         }
 

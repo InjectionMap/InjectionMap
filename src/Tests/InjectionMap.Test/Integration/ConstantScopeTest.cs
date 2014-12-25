@@ -15,7 +15,7 @@ namespace InjectionMap.Test.Integration
         public void ChangeValueInConstantScope()
         {
             // mapping
-            Mapper.Map<IConstantScope, ConstantScopeMock>().WithArgument("id", () => 2).WithConfiguration(InjectionFlags.AsConstant);
+            Mapper.Map<IConstantScope, ConstantScopeMock>().WithArgument("id", () => 2).WithConfiguration(InjectionFlags.Singleton);
 
             // resolve
             var map = Resolver.Resolve<IConstantScope>();

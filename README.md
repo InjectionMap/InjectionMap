@@ -47,7 +47,7 @@ This example demonstrates the simplest form of mapping. An interface and a class
 interface IInjectionMappingTest { }
 class InjectionMappingTestMock : IInjectionMappingTest { }
 
-// IInjectionMapping implementation that is used 
+// IMapInitializer implementation that is used 
 // to register objects/mappings in InjectionMap
 class InjectionMapperMock : IMapInitializer
 {
@@ -58,7 +58,7 @@ class InjectionMapperMock : IMapInitializer
     }
 }
 ```
-#### Initialization
+#### Initialization with convention based late binding
 In the application startup you only create an instance of _MapInitializer_ and call _initializer.Initialize(...)_ with the Assembly that contains _IInjectionMapping_ implementations.
 All classes that implement _IMapInitializer_ will automaticaly be created and called after _Initialize()_ on _MapInitializer_ gets executed. 
 ##### Map to the default MappingContainer

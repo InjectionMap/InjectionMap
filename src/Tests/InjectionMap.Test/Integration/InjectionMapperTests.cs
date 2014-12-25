@@ -68,7 +68,7 @@ namespace InjectionMap.Test.Integration
 
                 //InjectionMapper.Map<ITestMock1, TestMock1>(m => m.For(new TestMock1(), o => o.WithOptions(InjectionOption.WithoutOverwrite)));
                 mapper.Map<ICustomMock>().For(() => new CustomMock());
-                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.AsSingleton);
+                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.OverrideAllExisting);
             }
 
             using (var resolver = new InjectionResolver())
@@ -174,7 +174,7 @@ namespace InjectionMap.Test.Integration
                 mapper.Clean<ICustomMock>();
 
                 //InjectionMapper.Map<ITestMock1>().For(() => new TestMock1(), o => o.WithOptions(InjectionOption.WithOverwrite).WithOptions(InjectionOption.ResolveInstanceOnMapping));
-                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.AsSingleton | InjectionFlags.ResolveValueOnMapping);
+                mapper.Map<ICustomMock>().For(() => new CustomMock()).WithConfiguration(InjectionFlags.OverrideAllExisting | InjectionFlags.ResolveValueOnMapping);
             }
 
             using (var resolver = new InjectionResolver())

@@ -17,7 +17,7 @@ namespace InjectionMap.Test.Integration
         public void SingletonScopeWithTryOverrideExistingSingleton()
         {
             // create singleton map
-            Mapper.Map<ISingletonScope, SingletonScopeMock>().WithArgument("id", () => 1).WithConfiguration(InjectionFlags.AsSingleton);
+            Mapper.Map<ISingletonScope, SingletonScopeMock>().WithArgument("id", () => 1).WithConfiguration(InjectionFlags.OverrideAllExisting);
 
             // try create second map
             Mapper.Map<ISingletonScope, SingletonScopeMock>().WithArgument("id", () => 2);
@@ -42,7 +42,7 @@ namespace InjectionMap.Test.Integration
             Assert.IsTrue(maps.Count() == 2);
 
             // override with singleton map
-            Mapper.Map<ISingletonScope, SingletonScopeMock>().WithArgument("id", () => 1).WithConfiguration(InjectionFlags.AsSingleton);
+            Mapper.Map<ISingletonScope, SingletonScopeMock>().WithArgument("id", () => 1).WithConfiguration(InjectionFlags.OverrideAllExisting);
 
             // resolve
             maps = Resolver.ResolveMultiple<ISingletonScope>();

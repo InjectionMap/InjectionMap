@@ -92,8 +92,8 @@ namespace InjectionMap.Internal
         public IBoundExpression<T> WithConfiguration(InjectionFlags option)
         {
             var resolveValueOnMapping = (option & InjectionFlags.ResolveValueOnMapping) == InjectionFlags.ResolveValueOnMapping;
-            var asConstant = (option & InjectionFlags.AsConstant) == InjectionFlags.AsConstant;
-            var asSingleton = (option & InjectionFlags.AsSingleton) == InjectionFlags.AsSingleton;
+            var asConstant = (option & InjectionFlags.Singleton) == InjectionFlags.Singleton;
+            var asSingleton = (option & InjectionFlags.OverrideAllExisting) == InjectionFlags.OverrideAllExisting;
 
             if (resolveValueOnMapping && !asConstant)
                 asConstant = true;
