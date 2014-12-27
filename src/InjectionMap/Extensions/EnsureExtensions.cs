@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace InjectionMap.Extensions
 {
@@ -45,7 +46,29 @@ namespace InjectionMap.Extensions
                 throw new TypeCompositionException(type, string.Format("The Type {0} cannot be instantiated because {0} is a abstract class", type.Name));
 
             if (type.GetConstructor(new Type[0]) == null)
-                throw new TypeCompositionException(type, string.Format("Could not find a default constructor for the Type {0}", type.Name));
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine(string.Format("Could not find a default constructor for the Type {0}", type.Name));
+                sb.AppendLine();
+                sb.AppendLine("Possible construcotrs that could not be resolved due to lack of injected arguments/types are:");
+                foreach (var ctx in type.GetConstructors())
+                {
+                    var ctxSb = new StringBuilder();
+                    ctxSb.AppendFormat("{0}(", type.Name);
+                    bool first = true;
+                    foreach (var param in ctx.GetParameters())
+                    {
+                        ctxSb.AppendFormat("{0}{1}", first ? "" : ", ", param.ParameterType.Name);
+                        first = false;
+                    }
+
+                    ctxSb.Append(")");
+
+                    sb.AppendLine(ctxSb.ToString());
+                }
+
+                throw new TypeCompositionException(type, sb.ToString());
+            }
         }
     }
 }
