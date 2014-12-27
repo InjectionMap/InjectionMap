@@ -27,7 +27,7 @@ namespace InjectionMap.Internal
 
             // if the key is not mapped and is a class/struct resolve by creating an instance of the key
             if (!typeof(T).IsInterface)
-                return new TypeResolver();
+                return new TypeResolver(context);
 
             return new ComponentResolver(context);
         }
@@ -50,7 +50,7 @@ namespace InjectionMap.Internal
 
             // if the key is not mapped and is a class/struct resolve by creating an instance of the key
             if (!type.IsInterface)
-                return new TypeResolver();
+                return new TypeResolver(context);
 
             return new ComponentResolver(context);
         }

@@ -14,7 +14,7 @@ namespace InjectionMap.Internal
         }
 
         readonly IComponentCollection _context;
-        public IComponentCollection Context
+        public virtual IComponentCollection Context
         {
             get
             {

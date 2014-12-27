@@ -9,7 +9,21 @@ namespace InjectionMap.Internal
     /// </summary>
     internal class TypeResolver : IResolver, IDisposable
     {
+        public TypeResolver(IComponentProvider context)
+        {
+            _context = context;
+        }
+
         #region Implementation
+
+        readonly IComponentProvider _context;
+        public IComponentProvider Context
+        {
+            get
+            {
+                return _context;
+            }
+        }
 
         /// <summary>
         /// Creates an instance of T
@@ -18,7 +32,7 @@ namespace InjectionMap.Internal
         /// <returns>A new instance of T</returns>
         public T Get<T>()
         {
-            return CompositionService.Compose<T>();
+            return CompositionService.Compose<T>(_context);
         }
 
         /// <summary>
@@ -28,7 +42,7 @@ namespace InjectionMap.Internal
         /// <returns>A new instance of T</returns>
         public object Get(Type type)
         {
-            return CompositionService.Compose(type);
+            return CompositionService.Compose(type, _context);
         }
 
         /// <summary>
@@ -38,7 +52,7 @@ namespace InjectionMap.Internal
         /// <returns>A new instance of T</returns>
         public IEnumerable<T> GetAll<T>()
         {
-            yield return CompositionService.Compose<T>();
+            yield return CompositionService.Compose<T>(_context);
         }
 
         /// <summary>

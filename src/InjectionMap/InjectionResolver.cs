@@ -68,7 +68,7 @@ namespace InjectionMap
             using (var resolver = ResolverFactory.GetResolver<T>(_context))
             {
                 // create a copy of the component and add all arguments
-                var component = resolver.GetComponent<T>().CreateComponent();
+                var component = resolver.GetComponent<T>().CopyComponent();
                 var expression = component.CreateResolverExpression<T>(copyContext);
                 foreach (var argument in arguments)
                 {
@@ -97,7 +97,7 @@ namespace InjectionMap
             using (var resolver = ResolverFactory.GetResolver<T>(_context))
             {
                 // create a copy of the component and add all arguments
-                var component = resolver.GetComponent<T>().CreateComponent();
+                var component = resolver.GetComponent<T>().CopyComponent();
                 var expression = component.CreateResolverExpression<T>(copyContext);
                 foreach (var argument in arguments)
                 {
@@ -154,7 +154,7 @@ namespace InjectionMap
             using (var resolver = ResolverFactory.GetResolver<T>(context))
             {
                 // create a copy of the component and add all arguments
-                var component = resolver.GetComponent<T>().CreateComponent();
+                var component = resolver.GetComponent<T>().CopyComponent();
                 var expression = component.CreateResolverExpression<T>(copyContext);
                 foreach (var argument in arguments)
                 {
@@ -184,7 +184,7 @@ namespace InjectionMap
             using (var resolver = ResolverFactory.GetResolver<T>(context))
             {
                 // create a copy of the component and add all arguments
-                var component = resolver.GetComponent<T>().CreateComponent();
+                var component = resolver.GetComponent<T>().CopyComponent();
                 var expression = component.CreateResolverExpression<T>(copyContext);
                 foreach (var argument in arguments)
                 {
@@ -306,8 +306,9 @@ namespace InjectionMap
                 if (map == null)
                     throw new ResolverException(typeof(T));
 
-                // map to new context
-                return map.CreateResolverExpression<T>(new MappingContext());
+                // map to new context so that the original mapping will not be affected
+                var copyContext = new MappingContext(resolver.Context);
+                return map.CreateResolverExpression<T>(copyContext);
             }
         }
 

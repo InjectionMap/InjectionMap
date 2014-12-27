@@ -25,10 +25,28 @@ namespace InjectionMap.Internal
             }
         }
 
+        //IComponentCollection IComponentExpression.Context
+        //{
+        //    get
+        //    {
+        //        return _context;
+        //    }
+        //}
+
+        //readonly IResolverComponentProvider _context;
+        //public IResolverComponentProvider Context
+        //{
+        //    get
+        //    {
+        //        return _context;
+        //    }
+        //}
+
         public ResolverExpression(IComponentCollection context, IMappingComponent component)
             : base(context, component)
         {
             LoggerFactory = new Lazy<ILoggerFactory>(() => new LoggerFactory());
+            //_context = context;
         }
 
         /// <summary>
@@ -97,7 +115,7 @@ namespace InjectionMap.Internal
             }
             
             // create a copy of the component because the ConstructorDefinition has no setter in the interface
-            var component = Component.CreateComponent();
+            var component = Component.CopyComponent();
             Context.AddOrReplace(component);
 
             // mark the constructor to be selected
@@ -187,7 +205,7 @@ namespace InjectionMap.Internal
             }
 
             // create a copy of the component because the ConstructorDefinition has no setter in the interface
-            var component = Component.CreateComponent();
+            var component = Component.CopyComponent();
             Context.AddOrReplace(component);
 
             // mark the constructor to be selected
@@ -216,7 +234,7 @@ namespace InjectionMap.Internal
                 Setter = setter
             };
 
-            var component = Component.CreateComponent();
+            var component = Component.CopyComponent();
             component.Properies.Add(definition);
             Context.AddOrReplace(component);
 
@@ -229,7 +247,7 @@ namespace InjectionMap.Internal
         /// <returns>The resolved value</returns>
         public T Resolve()
         {
-            return (T)CompositionService.Compose(Component);
+            return (T)CompositionService.Compose(Component, Context as IComponentProvider);
         }
 
         #region Private Implementation

@@ -19,7 +19,7 @@ namespace InjectionMap.Internal
         {
             Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
-            var component = Component.CreateComponent<T>();
+            var component = Component.CopyComponent<T>();
             component.OnResolvedCallback = callback;
 
             return component.CreateBoundExpression<T>(Context);

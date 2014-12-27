@@ -29,17 +29,23 @@ namespace InjectionMap.Extensions
 
         public static void EnsureTypeCanBeInstantiated(this Type type)
         {
-            if (type.IsAbstract || type.IsInterface)
-                throw new TypeCompositionException(type);
+            if (type.IsInterface)
+                throw new TypeCompositionException(type, string.Format("The Type {0} cannot be instantiated because {0} is a interface", type.Name));
+
+            if (type.IsAbstract)
+                throw new TypeCompositionException(type, string.Format("The Type {0} cannot be instantiated because {0} is a abstract class", type.Name));
         }
 
         public static void EnsureTypeCanBeDefaultInstantiated(this Type type)
         {
-            if (type.IsAbstract || type.IsInterface)
-                throw new TypeCompositionException(type);
+            if (type.IsInterface)
+                throw new TypeCompositionException(type, string.Format("The Type {0} cannot be instantiated because {0} is a interface", type.Name));
+
+            if (type.IsAbstract)
+                throw new TypeCompositionException(type, string.Format("The Type {0} cannot be instantiated because {0} is a abstract class", type.Name));
 
             if (type.GetConstructor(new Type[0]) == null)
-                throw new TypeCompositionException(type);
+                throw new TypeCompositionException(type, string.Format("Could not find a default constructor for the Type {0}", type.Name));
         }
     }
 }

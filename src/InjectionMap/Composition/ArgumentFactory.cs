@@ -9,17 +9,18 @@ namespace InjectionMap.Composition
     {
         ArgumentContainer _argumentContainer;
         IMappingComponent _component;
+        IComponentProvider _context;
 
-        public ArgumentFactory(ArgumentContainer ctx)
+        public ArgumentFactory(ArgumentContainer ctx, IComponentProvider context)
+            : this(new MappingComponent(), ctx, context)
         {
-            _argumentContainer = ctx;
-            _component = new MappingComponent();
         }
 
-        public ArgumentFactory(IMappingComponent component, ArgumentContainer ctx)
+        public ArgumentFactory(IMappingComponent component, ArgumentContainer ctx, IComponentProvider context)
         {
             _argumentContainer = ctx;
             _component = component;
+            _context = context;
         }
 
         public void Dispose()
@@ -62,7 +63,7 @@ namespace InjectionMap.Composition
             // 3. try use injecitonresolver to resolve parameter
             if (argument.Value == null)
             {
-                using (var resolver = new ComponentResolver())
+                using (var resolver = new ComponentResolver(_context))
                 {
                     var composed = resolver.Get(param.ParameterType);
                     if (composed != null)

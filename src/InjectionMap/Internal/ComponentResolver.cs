@@ -10,8 +10,6 @@ namespace InjectionMap.Internal
     /// </summary>
     internal class ComponentResolver : IResolver, IDisposable
     {
-        IComponentProvider _context;
-
         /// <summary>
         /// Creates a componentresolver
         /// </summary>
@@ -34,6 +32,15 @@ namespace InjectionMap.Internal
 
         #region Implementation
 
+        IComponentProvider _context;
+        public IComponentProvider Context
+        {
+            get
+            {
+                return _context;
+            }
+        }
+
         /// <summary>
         /// Gets the first occurance of T
         /// </summary>
@@ -41,7 +48,7 @@ namespace InjectionMap.Internal
         /// <returns>The first occurance of T</returns>
         public T Get<T>()
         {
-            return _context.Get<T>().Select(c => CompositionService.Compose<T>(c)).FirstOrDefault();
+            return _context.Get<T>().Select(c => CompositionService.Compose<T>(c, _context)).FirstOrDefault();
         }
 
         /// <summary>
@@ -51,7 +58,7 @@ namespace InjectionMap.Internal
         /// <returns>The first occurance of the mapped type</returns>
         public object Get(Type type)
         {
-            return _context.Get(type).Select(c => CompositionService.Compose(c)).FirstOrDefault();
+            return _context.Get(type).Select(c => CompositionService.Compose(c, _context)).FirstOrDefault();
         }
 
         /// <summary>
@@ -61,7 +68,7 @@ namespace InjectionMap.Internal
         /// <returns>All T</returns>
         public IEnumerable<T> GetAll<T>()
         {
-            return _context.Get<T>().Select(c => CompositionService.Compose<T>(c));
+            return _context.Get<T>().Select(c => CompositionService.Compose<T>(c, _context));
         }
 
         /// <summary>

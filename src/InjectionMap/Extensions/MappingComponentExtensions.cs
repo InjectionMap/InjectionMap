@@ -4,7 +4,7 @@ namespace InjectionMap.Extensions
 {
     public static class MappingComponentExtensions
     {
-        internal static MappingComponent<T> CreateComponent<T>(this IMappingComponent component)
+        internal static MappingComponent<T> CopyComponent<T>(this IMappingComponent component)
         {
             var copy = new MappingComponent<T>(component.ID)
             {
@@ -37,7 +37,7 @@ namespace InjectionMap.Extensions
             return copy;
         }
 
-        internal static MappingComponent CreateComponent(this IMappingComponent component)
+        internal static MappingComponent CopyComponent(this IMappingComponent component)
         {
             var copy = new MappingComponent(component.ID)
             {
@@ -114,7 +114,7 @@ namespace InjectionMap.Extensions
             typeof(T).EnsureMappingTypeMatches(component.KeyType);
 
             // create a copy of the component to leave the original as is
-            var copy = component.CreateComponent();
+            var copy = component.CopyComponent();
 
             container.AddOrReplace(copy);
 

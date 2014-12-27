@@ -98,7 +98,7 @@ namespace InjectionMap.Internal
             if (resolveValueOnMapping && !asConstant)
                 asConstant = true;
 
-            var component = Component.CreateComponent<T>();
+            var component = Component.CopyComponent<T>();
             component.MappingConfiguration = new MappingConfiguration
             {
                 ResolveValueOnMapping = resolveValueOnMapping,
@@ -138,7 +138,7 @@ namespace InjectionMap.Internal
         {
             Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
-            var component = Component.CreateComponent<T>();
+            var component = Component.CopyComponent<T>();
             component.OnResolvedCallback = callback;
 
             return component.CreateBindingExpression<T>(Context);
@@ -163,7 +163,7 @@ namespace InjectionMap.Internal
             }
 
             // mark the constructor to be selected
-            var component = Component.CreateComponent<T>();
+            var component = Component.CopyComponent<T>();
             component.ConstructorDefinition = definition;
             Context.AddOrReplace(component);
 
@@ -251,7 +251,7 @@ namespace InjectionMap.Internal
             }
 
             // create a copy of the component because the ConstructorDefinition has no setter in the interface
-            var component = Component.CreateComponent();
+            var component = Component.CopyComponent();
             Context.AddOrReplace(component);
 
             // mark the constructor to be selected
@@ -280,7 +280,7 @@ namespace InjectionMap.Internal
                 Setter = setter
             };
 
-            var component = Component.CreateComponent<T>();
+            var component = Component.CopyComponent<T>();
             component.Properies.Add(definition);
             Context.AddOrReplace(component);
 

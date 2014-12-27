@@ -5,6 +5,8 @@ namespace InjectionMap.Internal
 {
     interface IResolver : IDisposable
     {
+        IComponentProvider Context { get; }
+
         /// <summary>
         /// Gets the first occurance of T
         /// </summary>

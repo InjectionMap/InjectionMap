@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>InjectionMap</id>
-        <version>1.5.5-RC9</version>
+        <version>1.5.5-RC11</version>
         <title>InjectionMap</title>
         <authors>Christian Walpen</authors>
         <owners>Christian Walpen</owners>
@@ -32,6 +32,7 @@ Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/
 - Added: Set delegate providing resolved value directly in Map
 - Added: Logging/Tracing
 - Fixed: AsConstant didn't allways return same value
+- Fixed: Resolving now gets all mapped values from the same context
 - Refactored: Moved Expression Interfaces to default namespace
 - Refactored: ComponentMapper - Allow access to Context from public
 - Refactored: Renamed InjectionFlags.AsConstant to InjectionFlags.Singleton

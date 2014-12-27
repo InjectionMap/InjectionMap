@@ -12,8 +12,9 @@ namespace InjectionMap.Composition
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="component"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        internal static T Compose<T>(IMappingComponent component)
+        internal static T Compose<T>(IMappingComponent component, IComponentProvider context)
         {
             if (component.ValueCallback != null)
             {
@@ -30,7 +31,7 @@ namespace InjectionMap.Composition
                 return value;
             }
 
-            using (var composition = new ObjectComposer())
+            using (var composition = new ObjectComposer(context))
             {
                 // compose instance
                 var value = composition.Compose<T>(component);
@@ -49,8 +50,9 @@ namespace InjectionMap.Composition
         /// Compose the value from a component
         /// </summary>
         /// <param name="component"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        internal static object Compose(IMappingComponent component)
+        internal static object Compose(IMappingComponent component, IComponentProvider context)
         {
             if (component.ValueCallback != null)
             {
@@ -67,7 +69,7 @@ namespace InjectionMap.Composition
                 return value;
             }
 
-            using (var composition = new ObjectComposer())
+            using (var composition = new ObjectComposer(context))
             {
                 // compose instance
                 var value = composition.Compose(component);
@@ -86,10 +88,11 @@ namespace InjectionMap.Composition
         /// Compose the value from a type
         /// </summary>
         /// <typeparam name="T">The type to compose</typeparam>
+        /// <param name="context"></param>
         /// <returns></returns>
-        internal static T Compose<T>()
+        internal static T Compose<T>(IComponentProvider context)
         {
-            using (var composition = new ObjectComposer())
+            using (var composition = new ObjectComposer(context))
             {
                 // compose instance
                 return composition.Compose<T>();
@@ -100,10 +103,11 @@ namespace InjectionMap.Composition
         /// Compose the value from a type
         /// </summary>
         /// <param name="type">The type to compose</param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        internal static object Compose(Type type)
+        internal static object Compose(Type type, IComponentProvider context)
         {
-            using (var composition = new ObjectComposer())
+            using (var composition = new ObjectComposer(context))
             {
                 // compose instance
                 return composition.Compose(type);

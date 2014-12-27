@@ -98,6 +98,25 @@ namespace InjectionMap.Test.Integration
             Assert.IsInstanceOf(typeof (CustomContainerMapMock), map);
         }
 
+        [Test]
+        public void ResolveFromCustomContainerWithConstructorInjection()
+        {
+            // create contaienrs and mappers
+            var context = new MappingContext("context");
+            var mapper = new InjectionMapper(context);
+
+            // mapping
+            mapper.Map<ICustomContainer, CustomContainerMapMock>();
+            mapper.Map<IObjectWithConstructor, ObjectWithConstructor>();
+
+            var resolver = new InjectionResolver("context");
+
+            // resolve
+            var map = resolver.Resolve<IObjectWithConstructor>();
+
+            Assert.IsNotNull(map.CustomContainer);
+        }
+
         #region Mocks
 
         public interface ICustomContainer
@@ -110,6 +129,21 @@ namespace InjectionMap.Test.Integration
 
         public class DefaultContainerMapMock : ICustomContainer
         {
+        }
+
+        public interface IObjectWithConstructor
+        {
+            ICustomContainer CustomContainer { get; set; }
+        }
+
+        public class ObjectWithConstructor : IObjectWithConstructor
+        {
+            public ObjectWithConstructor(ICustomContainer customContainer)
+            {
+                CustomContainer = customContainer;
+            }
+
+            public ICustomContainer CustomContainer { get; set; }
         }
 
         #endregion

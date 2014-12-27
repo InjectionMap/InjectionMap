@@ -16,7 +16,13 @@ namespace InjectionMap
         /// Gets all mappings of the type
         /// </summary>
         /// <param name="type">Key type of the mapping</param>
-        /// <returns>A list of all maoppings to the given type</returns>
+        /// <returns>A list of all mappings to the given type</returns>
         IEnumerable<IMappingComponent> Get(Type type);
+
+        /// <summary>
+        /// Gets all mappings
+        /// </summary>
+        /// <returns>A list of all mappings</returns>
+        IEnumerable<IMappingComponent> GetAll();
     }
 }

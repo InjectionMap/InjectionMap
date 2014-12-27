@@ -5,7 +5,13 @@ namespace InjectionMap
     public class TypeCompositionException : Exception
     {
         public TypeCompositionException(Type type)
-            : base(string.Format("Instance can not be composed of Type {0}", type.Name))
+            : this(type, null)
+        {
+            CompositionType = type;
+        }
+
+        public TypeCompositionException(Type type, string message)
+            : base(string.Format("Instance can not be composed of Type {0}\n{1}", type.Name, message))
         {
             CompositionType = type;
         }

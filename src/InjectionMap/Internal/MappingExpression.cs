@@ -61,7 +61,7 @@ namespace InjectionMap.Internal
         /// <returns>A IMappingExpression of T</returns>
         public IMappingExpression<T> OnResolved(Action<T> callback)
         {
-            var component = Component.CreateComponent<T>();
+            var component = Component.CopyComponent<T>();
             component.OnResolvedCallback = callback;
 
             return component.CreateMappingExpression<T>(Context);
@@ -76,7 +76,7 @@ namespace InjectionMap.Internal
         {
             Component.KeyType.EnsureMappingTypeMatches(typeof(TMap));
 
-            var component = Component.CreateComponent<TMap>();
+            var component = Component.CopyComponent<TMap>();
             component.IsSubstitute = true;
 
             return component.CreateBindingExpression<TMap>(Context);
@@ -92,7 +92,7 @@ namespace InjectionMap.Internal
         {
             Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
-            var component = Component.CreateComponent<T>();
+            var component = Component.CopyComponent<T>();
             component.IsSubstitute = true;
             component.ValueCallback = predicate;
 
@@ -108,7 +108,7 @@ namespace InjectionMap.Internal
         {
             Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
-            var component = Component.CreateComponent<TMap>();
+            var component = Component.CopyComponent<TMap>();
             component.ValueCallback = predicate;
             return component.CreateBindingExpression<TMap>(Context);
         }
@@ -117,7 +117,7 @@ namespace InjectionMap.Internal
         {
             Component.KeyType.EnsureMappingTypeMatches(typeof(T));
 
-            var component = Component.CreateComponent<T>();
+            var component = Component.CopyComponent<T>();
             return component.CreateBindingExpression<T>(Context);
         }
 

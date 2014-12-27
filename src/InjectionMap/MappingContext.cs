@@ -23,6 +23,14 @@ namespace InjectionMap
             _components = MappingContextManager.GetComponents(context).Components;
         }
 
+        public MappingContext(IComponentProvider context)
+        {
+            foreach (var map in context.GetAll())
+            {
+                Components.Add(map);
+            }
+        }
+
         #region IComponentContainer Implementation
 
         IList<IMappingComponent> _components;
@@ -135,7 +143,7 @@ namespace InjectionMap
         /// Gets all mappings of the type
         /// </summary>
         /// <param name="type">Key type of the mapping</param>
-        /// <returns>A list of all maoppings to the given type</returns>
+        /// <returns>A list of all mappings to the given type</returns>
         public IEnumerable<IMappingComponent> Get(Type type)
         {
             var components = Components.Where(c => c.KeyType == type);
@@ -146,6 +154,16 @@ namespace InjectionMap
 
             // return all components
             return components;
+        }
+
+        /// <summary>
+        /// Gets all mappings
+        /// </summary>
+        /// <returns>A list of all mappings</returns>
+        public IEnumerable<IMappingComponent> GetAll()
+        {
+            // return all components
+            return Components;
         }
         
         #endregion

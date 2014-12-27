@@ -9,6 +9,8 @@ namespace InjectionMap.Composition
 {
     internal class ObjectComposer : IDisposable
     {
+        readonly IComponentProvider _context;
+
         internal Lazy<ILoggerFactory> LoggerFactory { get; private set; }
 
         internal ILogger Logger
@@ -19,9 +21,10 @@ namespace InjectionMap.Composition
             }
         }
 
-        public ObjectComposer()
+        public ObjectComposer(IComponentProvider context)
         {
             LoggerFactory = new Lazy<ILoggerFactory>(() => new LoggerFactory());
+            _context = context;
         }
 
         #region Compose Implementation
@@ -259,7 +262,7 @@ namespace InjectionMap.Composition
             bool ok = true;
             var info = new ArgumentContainer(ctor);
 
-            using (var factory = new ArgumentFactory(component, info))
+            using (var factory = new ArgumentFactory(component, info, _context))
             {
                 foreach (var param in ctor.GetParameters())
                 {
@@ -295,7 +298,7 @@ namespace InjectionMap.Composition
             bool ok = true;
             var info = new ArgumentContainer(ctor);
 
-            using (var factory = new ArgumentFactory(info))
+            using (var factory = new ArgumentFactory(info, _context))
             {
                 foreach (var param in ctor.GetParameters())
                 {
