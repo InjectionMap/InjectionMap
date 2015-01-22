@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>InjectionMap</id>
-        <version>1.5.5-RD13</version>
+        <version>1.5.5</version>
         <title>InjectionMap</title>
         <authors>Christian Walpen</authors>
         <owners>Christian Walpen</owners>
