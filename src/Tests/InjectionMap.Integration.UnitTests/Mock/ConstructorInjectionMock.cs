@@ -1,5 +1,5 @@
 ﻿
-namespace InjectionMap.Test.Mock
+namespace InjectionMap.Integration.UnitTests.Mock
 {
     #region InjectionConstructor
 

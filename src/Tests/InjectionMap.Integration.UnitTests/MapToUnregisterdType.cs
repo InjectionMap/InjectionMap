@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 
-namespace InjectionMap.Test.Integration
+namespace InjectionMap.Integration.UnitTests
 {
     [TestFixture]
     public class MapToUnregisterdType : TestBase

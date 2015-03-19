@@ -7,7 +7,7 @@ using System.Reflection;
 namespace InjectionMap
 {
     /// <summary>
-    /// Bootstrapper class to help initializ configured mappings
+    /// Bootstrapper class to help initialize configured mappings
     /// </summary>
     public class MapInitializer : IDisposable
     {

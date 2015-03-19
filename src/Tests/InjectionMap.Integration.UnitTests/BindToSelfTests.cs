@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace InjectionMap.Test.Integration
+namespace InjectionMap.Integration.UnitTests
 {
     [TestFixture]
     public class BindToSelfTests : TestBase

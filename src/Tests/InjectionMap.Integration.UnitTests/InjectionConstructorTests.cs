@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using InjectionMap.Test.Mock;
+using InjectionMap.Integration.UnitTests.Mock;
 
-namespace InjectionMap.Test.Integration
+namespace InjectionMap.Integration.UnitTests
 {
     [TestFixture]
     public class InjectionConstructorTests

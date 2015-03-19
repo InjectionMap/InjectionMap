@@ -108,6 +108,28 @@ namespace InjectionMap.Test.Integration
             }
         }
 
+        [Test]
+        public void MapMultipleHyrarchies()
+        {
+            using (var mapper = new InjectionMapper())
+            {
+                mapper.Map<TypeOne>().ToSelf();
+                mapper.Map<TypeTwo>().ToSelf();
+                mapper.Map<TypeThree>().ToSelf();
+                mapper.Map<TypeFour>().ToSelf();
+            }
+
+            using (var resolver = new InjectionResolver())
+            {
+                var four = resolver.Resolve<TypeFour>();
+
+                Assert.IsNotNull(four);
+                Assert.IsNotNull(four.TypeThree);
+                Assert.IsNotNull(four.TypeThree.TypeTwo);
+                Assert.IsNotNull(four.TypeThree.TypeTwo.TypeOne);
+            }
+        }
+
         #region Mocks
 
         internal interface IInjectionMappingTest
@@ -167,6 +189,40 @@ namespace InjectionMap.Test.Integration
             }
 
             public int ID { get; set; }
+        }
+
+        internal class TypeOne
+        {
+        }
+
+        internal class TypeTwo
+        {
+            public TypeTwo(TypeOne typeOne)
+            {
+                TypeOne = typeOne;
+            }
+
+            public TypeOne TypeOne { get; set; }
+        }
+
+        internal class TypeThree
+        {
+            public TypeThree(TypeTwo typeTwo)
+            {
+                TypeTwo = typeTwo;
+            }
+
+            public TypeTwo TypeTwo { get; set; }
+        }
+
+        internal class TypeFour
+        {
+            public TypeFour(TypeThree typeThree)
+            {
+                TypeThree = typeThree;
+            }
+
+            public TypeThree TypeThree { get; set; }
         }
 
         #endregion

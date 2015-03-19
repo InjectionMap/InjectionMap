@@ -13,7 +13,7 @@ namespace InjectionMap
         ResolveValueOnMapping = 1,
 
         /// <summary>
-        /// Stores the value of the mapping and reuses the same value with every resolving
+        /// Keeps a reference to the value after the first resolver and reuses the same value with every further resolving
         /// </summary>
         Singleton = 2,
 

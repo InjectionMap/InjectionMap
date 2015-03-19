@@ -36,6 +36,7 @@ namespace InjectionMap.Composition
         
         public bool IsArgumentInUse(object value)
         {
+            // TODO: Check if this is correct! If a.Value contains 1 and is compared to 1 false is returned!
             return Parameters.Any(a => a.Value == value);
         }
     }
