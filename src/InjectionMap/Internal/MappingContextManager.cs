@@ -36,16 +36,19 @@ namespace InjectionMap.Internal
 
         public static ComponentContainer GetComponents(string context)
         {
-            if (!Components.Keys.Contains(context))
+            lock (Components)
             {
-                Components.Add(context, new ComponentContainer
+                if (!Components.Keys.Contains(context))
                 {
-                    Components = new List<IMappingComponent>(),
-                    Context = context
-                });
-            }
+                    Components.Add(context, new ComponentContainer
+                    {
+                        Components = new List<IMappingComponent>(),
+                        Context = context
+                    });
+                }
 
-            return Components[context];
+                return Components[context];
+            }
         }
     }
 }
