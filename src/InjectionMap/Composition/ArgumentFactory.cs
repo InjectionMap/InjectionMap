@@ -9,7 +9,7 @@ namespace InjectionMap.Composition
     {
         ArgumentContainer _argumentContainer;
         IMappingComponent _component;
-        IComponentProvider _context;
+        readonly IComponentProvider _context;
 
         public ArgumentFactory(ArgumentContainer ctx, IComponentProvider context)
             : this(new MappingComponent(), ctx, context)

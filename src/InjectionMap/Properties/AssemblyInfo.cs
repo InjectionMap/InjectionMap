@@ -15,8 +15,8 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
 
-[assembly: AssemblyVersion("1.5.5.14")]
-[assembly: AssemblyFileVersion("1.5.5.14")]
+[assembly: AssemblyVersion("1.5.6.0")]
+[assembly: AssemblyFileVersion("1.5.6.2")]
 
 [assembly: InternalsVisibleTo("InjectionMap.UnitTests,PublicKey=00240000048000009400000006020000002400005253413100040000010001000dc50c18b12563"+
 "a5843fee960cdc5a71e3d5ae5a1ca8a137871ebfb0e626c92295399c29181823d559da2f428419"+

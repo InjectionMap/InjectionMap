@@ -4,6 +4,7 @@ using System.Linq;
 using InjectionMap.Internal;
 using InjectionMap.Extensions;
 using System.Linq.Expressions;
+using InjectionMap.Tracing;
 
 namespace InjectionMap
 {
@@ -16,18 +17,37 @@ namespace InjectionMap
     {
         public MappingContext()
         {
+            LoggerFactory = new Lazy<ILoggerFactory>(() => new LoggerFactory());
         }
 
         public MappingContext(string context)
+            : this()
         {
+            if (context == null)
+            {
+                Logger.Write("InjectionMap - Failed to create MappingContext with null context name.\r\nCould not resolve context from null.\r\nInitializing MappingContext with empty ComponentsList.", LogLevel.Warning, GetType().Name);
+                return;
+            }
+
             _components = MappingContextManager.GetComponents(context).Components;
         }
 
         public MappingContext(IComponentProvider context)
+            : this()
         {
             foreach (var map in context.GetAll())
             {
                 Components.Add(map);
+            }
+        }
+
+        internal Lazy<ILoggerFactory> LoggerFactory { get; private set; }
+
+        internal ILogger Logger
+        {
+            get
+            {
+                return LoggerFactory.Value.CreateLogger();
             }
         }
 

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>InjectionMap</id>
-        <version>1.5.5</version>
+        <version>1.5.6-RC02</version>
         <title>InjectionMap</title>
         <authors>Christian Walpen</authors>
         <owners>Christian Walpen</owners>
@@ -25,7 +25,7 @@ Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/
         <summary>A small and lightweight IoC/DI container for .NET.</summary>
         <releaseNotes>
 1.5.6
-- 
+- Fixed: Possible Deadlock when using container in multiple threads
 1.5.5
 - Added: PropertyInjection
 - Added: Pass arguments for constructors directly in resolver method
