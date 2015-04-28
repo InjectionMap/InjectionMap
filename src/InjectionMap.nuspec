@@ -27,6 +27,7 @@ Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/
 1.5.6
 - Ensured that InjectionMap is Mutithread tolerant
 - Fixed: Possible Deadlock when using container in multiple threads
+- Fixed: Resolving from a MappingContext with a null name creates a empty Componets map
 1.5.5
 - Added: PropertyInjection
 - Added: Pass arguments for constructors directly in resolver method
