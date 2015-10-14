@@ -63,7 +63,7 @@ namespace InjectionMap.Composition
             // 3. try use injecitonresolver to resolve parameter
             if (argument.Value == null)
             {
-                using (var resolver = new ComponentResolver(_context))
+                using (var resolver = ResolverFactory.GetResolver(param.ParameterType, _context))
                 {
                     var composed = resolver.Get(param.ParameterType);
                     if (composed != null)

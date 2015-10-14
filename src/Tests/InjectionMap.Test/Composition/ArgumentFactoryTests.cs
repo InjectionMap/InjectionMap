@@ -67,9 +67,12 @@ namespace InjectionMap.UnitTests.Composition
             var arguments = typeof(ArgumentFactoryTestItem).GetConstructors().First().GetParameters();
 
             // Act
-            var argument = factory.CreateArgument(arguments.FirstOrDefault(a => a.Name == "parameter2"));
+            //var argument = factory.CreateArgument(arguments.FirstOrDefault(a => a.Name == "parameter2"));
 
-            Assert.IsNull(argument);
+            //Assert.IsNull(argument);
+
+            // the type string can not be constructed/instantiated
+            Assert.Throws<TypeCompositionException>(() => factory.CreateArgument(arguments.FirstOrDefault(a => a.Name == "parameter2")));
         }
 
         [Test]
