@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Linq;
 
 namespace InjectionMap.Integration.UnitTests
 {
@@ -59,7 +60,39 @@ namespace InjectionMap.Integration.UnitTests
         [Test]
         public void MapArgumentToUnregisteredClassWithDefaultConstructor()
         {
-            var map = Resolver.Resolve<UnregisteredMapDefaultConstructor>();
+            // class containes a defaultconstructor and a ctor marked mit resolverattribute
+            Assert.Throws<TypeCompositionException>(() => Resolver.Resolve<UnregisteredMapDefaultConstructor>());
+        }
+
+        [Test]
+        public void MapArgumentToUnregisteredClassWithResolverDefinitionForDefaultConstructor()
+        {
+            var map = Resolver.For<UnregisteredMapDefaultConstructor>().WithConstructor(ctor => ctor[0]).Resolve();
+
+            // the defaultconstructor is taken
+            Assert.IsTrue(map.ID == 1);
+
+            Assert.Throws<TypeCompositionException>(() => Resolver.Resolve<UnregisteredMapDefaultConstructor>());
+
+            Resolver.For<UnregisteredMapDefaultConstructor>().WithConstructor(ctor => ctor.First(f => f.Count() == 0)).Resolve();
+
+            // the defaultconstructor is taken
+            Assert.IsTrue(map.ID == 1);
+        }
+
+        [Test]
+        public void MapArgumentToUnregisteredClassWithVoidResolverDefinitionForDefaultConstructor()
+        {
+            var map = Resolver.For<UnregisteredMapDefaultConstructor>().WithConstructor(typeof(void)).Resolve();
+
+            // the defaultconstructor is taken
+            Assert.IsTrue(map.ID == 1);
+        }
+
+        [Test]
+        public void MapArgumentToUnregisteredClassWithNoResolverDefinitionForDefaultConstructor()
+        {
+            var map = Resolver.For<UnregisteredMapDefaultConstructor>().WithConstructor().Resolve();
 
             // the defaultconstructor is taken
             Assert.IsTrue(map.ID == 1);

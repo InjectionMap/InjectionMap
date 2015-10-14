@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="BindToSelfTests.cs" />
     <Compile Include="ConstantScopeTest.cs" />
+    <Compile Include="ResolveArgumentTests.cs" />
     <Compile Include="ConstructorParameterTest.cs" />
     <Compile Include="ConstructorWithArgumentsTests.cs" />
     <Compile Include="CustomContainerMappingTests.cs" />

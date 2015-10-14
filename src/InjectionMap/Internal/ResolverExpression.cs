@@ -134,74 +134,71 @@ namespace InjectionMap.Internal
             IConstructorDefinition definition = null;
 
             // try to find the constructor that matches the parameter types
-            if (parameterTypes.Any())
+            var constructors = Component.ValueType.GetConststructorCollection();
+            foreach (var ctor in constructors)
             {
-                var constructors = Component.ValueType.GetConststructorCollection();
-                foreach (var ctor in constructors)
+                var ctorParameters = ctor.ConstructorInfo.GetParameters();
+                if (ctorParameters.Count() != parameterTypes.Where(prm => prm != typeof(void)).Count())
+                    continue;
+
+                definition = ctor;
+
+                // check if parameters in corect order
+                // create a copy
+                var parameterTypeCopy = parameterTypes.ToList();
+                foreach (var ctorParam in ctorParameters)
                 {
-                    var ctorParameters = ctor.ConstructorInfo.GetParameters();
-                    if (ctorParameters.Count() != parameterTypes.Count())
-                        continue;
-
-                    definition = ctor;
-
-                    // check if parameters in corect order
-                    // create a copy
-                    var parameterTypeCopy = parameterTypes.ToList();
-                    foreach (var ctorParam in ctorParameters)
+                    var tmpParam = parameterTypeCopy.FirstOrDefault();
+                    if (tmpParam == null || tmpParam != ctorParam.ParameterType)
                     {
-                        var tmpParam = parameterTypeCopy.FirstOrDefault();
-                        if (tmpParam == null || tmpParam != ctorParam.ParameterType)
-                        {
-                            definition = null;
-                            break;
-                        }
-
-                        parameterTypeCopy.RemoveAt(0);
-                    }
-
-                    if (!parameterTypeCopy.Any())
-                    {
-                        // all parameters were matched in the correct order
+                        definition = null;
                         break;
                     }
 
-                    definition = ctor;
+                    parameterTypeCopy.RemoveAt(0);
+                }
 
-                    // check if parameters are in incorect order
-                    // create a copy
-                    parameterTypeCopy = parameterTypes.ToList();
-                    foreach (var ctorParam in ctorParameters)
+                if (!parameterTypeCopy.Any())
+                {
+                    // all parameters were matched in the correct order
+                    break;
+                }
+
+                definition = ctor;
+
+                // check if parameters are in incorect order
+                // create a copy
+                parameterTypeCopy = parameterTypes.ToList();
+                foreach (var ctorParam in ctorParameters)
+                {
+                    var tmpParam = parameterTypeCopy.FirstOrDefault(p => p == ctorParam.ParameterType);
+                    if (tmpParam == null)
                     {
-                        var tmpParam = parameterTypeCopy.FirstOrDefault(p => p == ctorParam.ParameterType);
-                        if (tmpParam == null)
-                        {
-                            definition = null;
-                            break;
-                        }
-
-                        parameterTypeCopy.Remove(tmpParam);
-                    }
-
-                    if (!parameterTypeCopy.Any())
-                    {
-                        // all parameters were matched in the correct order
+                        definition = null;
                         break;
                     }
+
+                    parameterTypeCopy.Remove(tmpParam);
                 }
 
-                if (definition == null)
+                if (!parameterTypeCopy.Any())
                 {
-                    var sb = new StringBuilder();
-                    sb.AppendLine("Could not find a constructor that can be accessed based on the arguments passed");
-                    foreach (var param in parameterTypes)
-                    {
-                        sb.AppendLine(string.Format("Parameter type: {0}", param.Name));
-                    }
-
-                    Logger.Write(string.Format("InjectionMap - {0}", sb.ToString()), LogLevel.Error, "ResolverExpression", "Resolver", DateTime.Now);
-                    throw new InvalidConstructorException(sb.ToString());
+                    // all parameters were matched in the correct order
+                    break;
                 }
+            }
+
+            if (definition == null)
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("Could not find a constructor that can be accessed based on the arguments passed");
+                foreach (var param in parameterTypes)
+                {
+                    sb.AppendLine(string.Format("Parameter type: {0}", param.Name));
+                }
+
+                Logger.Write(string.Format("InjectionMap - {0}", sb.ToString()), LogLevel.Error, "ResolverExpression", "Resolver", DateTime.Now);
+                throw new InvalidConstructorException(sb.ToString());
             }
 
             // create a copy of the component because the ConstructorDefinition has no setter in the interface
