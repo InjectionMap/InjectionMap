@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>InjectionMap</id>
-        <version>1.5.6-RC02</version>
+        <version>1.5.6</version>
         <title>InjectionMap</title>
         <authors>Christian Walpen</authors>
         <owners>Christian Walpen</owners>
@@ -26,8 +26,11 @@ Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/
         <releaseNotes>
 1.5.6
 - Ensured that InjectionMap is Mutithread tolerant
+- Make Defaultconstrucor selectable with .WithConstructor() or .WithConstructor(typeof(void))
 - Fixed: Possible Deadlock when using container in multiple threads
 - Fixed: Resolving from a MappingContext with a null name creates a empty Componets map
+- Fixed: Resolve unmapped types that are deeper in the Dependencytree caused ResolverException
+
 1.5.5
 - Added: PropertyInjection
 - Added: Pass arguments for constructors directly in resolver method
@@ -41,16 +44,20 @@ Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/
 - Refactored: ComponentMapper - Allow access to Context from public
 - Refactored: Renamed InjectionFlags.AsConstant to InjectionFlags.Singleton
 - Refactored: Renamed InjectionFlags.AsSingleton to InjectionFlags.OverrideAllExisting
+
 1.5.4
 - Map to and reslove from a named context
 - Add delegate or instance directly to Map&lt;T&gt;()
 - Moved Initializer methods from InjectionMapper to MapInitializer
+
 1.5.1
 - Rename MappingContainer to MappingContext
 - Added public accessor to MappingContext in InjectionMap
+
 1.5.0
 - Allow to pass a MappingContainer to InjectionMapper.Initialize(...)
 - Constructors that have to be used can be defined when creating the map or when resolving.
+
 1.4.8
 - Renamed IInjectionMapper to IMapInitializer
 - Moved Exceptions to base namespace
