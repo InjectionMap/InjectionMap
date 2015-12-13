@@ -7,13 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap", "src\Injecti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{26358A6E-0241-4C1C-A961-94B3ABF8A332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.UnitTests", "src\Tests\InjectionMap.Test\InjectionMap.UnitTests.csproj", "{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.UnitTests", "src\Tests\InjectionMap.UnitTests\InjectionMap.UnitTests.csproj", "{F2FF5FB5-753C-4A8C-AE94-79BA29CC691F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectionMap.Test.Integration", "src\Tests\InjectionMap.Test.Integration\InjectionMap.Test.Integration.csproj", "{932E8A96-09D6-4B14-8969-F4BCDE96F650}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A22F770C-052C-449D-88BA-871CB38406F6}"
 	ProjectSection(SolutionItems) = preProject
 		src\InjectionMap.nuspec = src\InjectionMap.nuspec
+		src\InjectionMap.snk = src\InjectionMap.snk
 		License.txt = License.txt
 		README.md = README.md
 	EndProjectSection

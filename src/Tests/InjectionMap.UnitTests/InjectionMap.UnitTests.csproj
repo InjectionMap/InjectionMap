@@ -37,7 +37,7 @@
     </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\..\InjectionMap.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\InjectionMap.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -102,7 +102,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\InjectionMap.snk">
+    <None Include="..\..\InjectionMap.snk">
       <Link>Properties\InjectionMap.snk</Link>
     </None>
   </ItemGroup>

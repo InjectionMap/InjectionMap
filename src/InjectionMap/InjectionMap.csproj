@@ -42,7 +42,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\InjectionMap.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\InjectionMap.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
