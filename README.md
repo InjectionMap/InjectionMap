@@ -2,6 +2,7 @@
 
 InjectionMap
 ==============
+[![Build Status](https://travis-ci.org/InjectionMap/InjectionMap.svg?branch=master)](https://travis-ci.org/InjectionMap/InjectionMap)
 [![Build status](https://ci.appveyor.com/api/projects/status/05lcimyirojaw01l/branch/master?svg=true)](https://ci.appveyor.com/project/chriswalpen/injectionmap/branch/master)
 
 InjectionMap is a very small and extremely lightweight IoC/DI container for .NET. 
