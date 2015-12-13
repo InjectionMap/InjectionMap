@@ -17,6 +17,6 @@ install:
  
 script:
   - xbuild /p:Configuration=Release InjectionMap.sln
-  - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.Integration.UnitTests/bin/Release/InjectionMap.Integration.UnitTests.Test.dll
+  - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.Integration.UnitTests/bin/Release/InjectionMap.Integration.UnitTests.dll
   - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.Test.Integration/bin/Release/InjectionMap.Test.Integration.dll
-  - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.UnitTest/bin/Release/InjectionMap.UnitTest.dll
+  - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.UnitTests/bin/Release/InjectionMap.UnitTests.dll
