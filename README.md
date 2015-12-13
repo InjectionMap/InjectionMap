@@ -1,6 +1,6 @@
 ![wickedflame injectionmap](assets/wickedflame injectionmap - black.png)
 
-# InjectionMap
+InjectionMap
 ==============
 [![Build status](https://ci.appveyor.com/api/projects/status/05lcimyirojaw01l/branch/master?svg=true)](https://ci.appveyor.com/project/chriswalpen/injectionmap/branch/master)
 
