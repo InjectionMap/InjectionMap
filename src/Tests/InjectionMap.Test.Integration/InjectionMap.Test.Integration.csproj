@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="InjectionMap, Version=1.5.6.0, Culture=neutral, PublicKeyToken=73071bfdb2f56bce, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\InjectionMap.1.5.6-RC03\lib\net45\InjectionMap.dll</HintPath>
+      <HintPath>..\..\..\packages\InjectionMap.1.5.6\lib\net45\InjectionMap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.core">
