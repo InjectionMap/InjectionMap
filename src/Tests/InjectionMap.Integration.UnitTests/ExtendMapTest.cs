@@ -5,6 +5,10 @@ using System.Linq;
 
 namespace InjectionMap.Integration.UnitTests
 {
+    /// <summary>
+    /// Maps can be extended when resolving
+    /// These Tests tr to extend arguments in maps when resolving
+    /// </summary>
     [TestFixture]
     public class ExtendMapTest : TestBase
     {
