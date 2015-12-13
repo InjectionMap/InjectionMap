@@ -13,10 +13,10 @@ notifications:
     
 install:
   - nuget restore InjectionMap.sln
-  - nuget install NUnit.Runners -Version 3.0.1 -OutputDirectory testrunner
+  - nuget install NUnit.Console -Version 3.0.1 -OutputDirectory testrunner
  
 script:
   - xbuild /p:Configuration=Release InjectionMap.sln
-  - mono ./testrunner/NUnit.Runners.3.0.1/tools/nunit-console.exe ./src/Tests/InjectionMap.Integration.UnitTests/bin/Release/InjectionMap.Integration.UnitTests.Test.dll
-  - mono ./testrunner/NUnit.Runners.3.0.1/tools/nunit-console.exe ./src/Tests/InjectionMap.Test.Integration/bin/Release/InjectionMap.Test.Integration.dll
-  - mono ./testrunner/NUnit.Runners.3.0.1/tools/nunit-console.exe ./src/Tests/InjectionMap.UnitTest/bin/Release/InjectionMap.UnitTest.dll
+  - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.Integration.UnitTests/bin/Release/InjectionMap.Integration.UnitTests.Test.dll
+  - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.Test.Integration/bin/Release/InjectionMap.Test.Integration.dll
+  - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.UnitTest/bin/Release/InjectionMap.UnitTest.dll
