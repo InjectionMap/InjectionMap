@@ -1,7 +1,9 @@
 ![wickedflame injectionmap](assets/wickedflame injectionmap - black.png)
 
 # InjectionMap
-------------------------------
+==============
+[![Build status](https://ci.appveyor.com/api/projects/status/05lcimyirojaw01l/branch/master?svg=true)](https://ci.appveyor.com/project/chriswalpen/injectionmap/branch/master)
+
 InjectionMap is a very small and extremely lightweight IoC/DI container for .NET. 
 InjectionMap allows loose coupling betweeen a client's dependencies and its own behaviour. InjectionMap promotes reusability, testability and maintainability of any part of an application.
 
