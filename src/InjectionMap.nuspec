@@ -24,6 +24,9 @@ InjectionMap supports .Net 4.5, Silverlight 5, Windows Phone 8 or higher and Win
 Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/InjectionMap on the issues page or feel free to fork the project and send a pull request.</description>
         <summary>A small and lightweight IoC/DI container for .NET.</summary>
         <releaseNotes>
+2.0.0
+- Removed: Support for WP and SL
+- Added: Support for Windows 10 Apps
 1.5.6
 - Ensured that InjectionMap is Mutithread tolerant
 - Make Defaultconstrucor selectable with .WithConstructor() or .WithConstructor(typeof(void))
@@ -79,11 +82,11 @@ Bugs, issues or feature wishes can submitted on https://github.com/InjectionMap/
         <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\net45\InjectionMap.XML" />
         <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\netcore45\InjectionMap.dll" />
         <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\netcore45\InjectionMap.XML" />
-        <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\sl50\InjectionMap.dll" />
+        <!--<file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\sl50\InjectionMap.dll" />
         <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\sl50\InjectionMap.XML" />
         <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\wp8\InjectionMap.dll" />
         <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\wp8\InjectionMap.XML" />
         <file src="InjectionMap\bin\Release\InjectionMap.dll" target="lib\wpa81\InjectionMap.dll" />
-        <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\wpa81\InjectionMap.XML" />
+        <file src="InjectionMap\bin\Release\InjectionMap.XML" target="lib\wpa81\InjectionMap.XML" />-->
     </files>
 </package>
