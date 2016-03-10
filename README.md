@@ -6,6 +6,7 @@ InjectionMap
 [![Build status](https://ci.appveyor.com/api/projects/status/05lcimyirojaw01l/branch/master?svg=true)](https://ci.appveyor.com/project/chriswalpen/injectionmap/branch/master)
 [![NuGet Version](https://img.shields.io/nuget/v/injectionmap.svg?style=flat)](https://www.nuget.org/packages/injectionmap/)
 [![Documentation Status](https://readthedocs.org/projects/injectionmap/badge/?version=latest)](http://injectionmap.readthedocs.org/en/latest/?badge=latest)
+[![Join the chat at https://gitter.im/InjectionMap](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/InjectionMap?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 InjectionMap is a very small and extremely lightweight IoC/DI container for .NET. 
 InjectionMap allows loose coupling betweeen a client's dependencies and its own behaviour. InjectionMap promotes reusability, testability and maintainability of any part of an application.
