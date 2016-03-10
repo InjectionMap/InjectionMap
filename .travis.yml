@@ -20,3 +20,12 @@ script:
   - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.Integration.UnitTests/bin/Release/InjectionMap.Integration.UnitTests.dll
   - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.Test.Integration/bin/Release/InjectionMap.Test.Integration.dll
   - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.UnitTests/bin/Release/InjectionMap.UnitTests.dll
+  
+  
+ notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/cc33137dd79c87a710ec
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never     # options: [always|never|change] default: always
