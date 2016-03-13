@@ -22,7 +22,7 @@ script:
   - mono ./testrunner/NUnit.Console.3.0.1/tools/nunit3-console.exe ./src/Tests/InjectionMap.UnitTests/bin/Release/InjectionMap.UnitTests.dll
   
   
- notifications:
+notifications:
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/cc33137dd79c87a710ec
